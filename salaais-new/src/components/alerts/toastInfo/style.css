@@ -1,0 +1,67 @@
+.custom-toast-info {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary) !important;
+  color: var(--txt-secondary) !important;
+  white-space: pre-line;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 0.5rem 1rem 1rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Container do topo com ícone e botão fechar */
+.custom-toast-info > .Toastify__toast-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Linha do topo: ícone e botão fechar alinhados */
+.custom-toast-info > .Toastify__toast-body > :first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Ícone do toast */
+.custom-toast-info .Toastify__toast-icon {
+  color: var(--txt-secondary);
+  font-size: 1.4rem;
+  margin: 0; /* Remove margens padrão */
+}
+
+/* Botão fechar */
+.custom-toast-info .Toastify__close-button {
+  color: var(--txt-secondary);
+  font-size: 1.2rem;
+  opacity: 1;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Ícone SVG do botão fechar (se houver) */
+.custom-toast-info .Toastify__close-button > svg {
+  fill: var(--txt-secondary) !important;
+}
+
+.custom-toast-info p {
+  margin: 0 0 15px 0; /* margem inferior padrão para parágrafos fora da div */
+  white-space: normal;
+}
+
+.custom-toast-info div {
+  margin-bottom: 15px; /* espaçamento entre blocos/divs */
+}
+
+.custom-toast-info div p {
+  margin: 0; /* remove margem entre os <p> dentro da div */
+  white-space: normal;
+}
