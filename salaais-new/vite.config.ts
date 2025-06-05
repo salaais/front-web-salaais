@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
-import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/', // ajuste se for hospedado em subdiretório
+  base: '/',
   build: {
     outDir: 'dist',
   },
@@ -15,15 +14,10 @@ export default defineConfig({
       svgrOptions: {
         exportType: 'default',
         ref: true,
-        svgo: false, // ou true se quiser otimização
+        svgo: false,
         titleProp: true,
       },
       include: '**/*.svg',
     }),
-  ],
-  resolve: {
-    alias: {
-      '@env': path.resolve(__dirname, 'src/global/index.ts'),
-    },
-  },
+  ]
 });

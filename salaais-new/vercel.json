@@ -1,5 +1,13 @@
 {
+  "devCommand": "vite --port 5173",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "salaais-web/api/(.*)",
+      "destination": "salaais-web/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "salaais-web/index.html"
+    }
   ]
 }

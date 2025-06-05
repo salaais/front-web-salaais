@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["@vercel/node", "node"],
     "baseUrl": "src",
     "paths": {
       "@env": ["global/index"]
