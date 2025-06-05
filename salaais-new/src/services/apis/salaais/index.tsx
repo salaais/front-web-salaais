@@ -142,17 +142,14 @@ export const loginWithApple = async ({
 }: LoginAppleParams) => {
   try {
     setIsLoading(true);
-    const clientId = import.meta.env.VITE_APPLE_CLIENT_ID;
-    const redirectUri = import.meta.env.VITE_APPLE_REDIRECT_URL;
     const state = crypto.randomUUID();
-    const scope = "name email";
 
     const authUrl = `https://appleid.apple.com/auth/authorize?` +
-      `client_id=${clientId}&` +
-      `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+      `client_id=${import.meta.env.VITE_APPLE_CLIENT_ID}&` +
+      `redirect_uri=${encodeURIComponent(import.meta.env.VITE_APPLE_REDIRECT_URL)}&` +
       `response_type=code&` +
       `response_mode=form_post&` +
-      `scope=${scope}&` +
+      `scope=name email&` +
       `state=${state}`;
 
     window.location.href = authUrl;
