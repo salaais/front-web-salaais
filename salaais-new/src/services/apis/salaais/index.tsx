@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoginResponse, LoginWithGoogleParams, RegisterRequest } from "./models";
+import { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleResponse } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, setCookie } from "../../../global";
 
@@ -41,7 +41,6 @@ export const loginAction = async (
     if (response.status === 200) {
       toast.success("Bem-vindo!")
       setCookie("access_token", response.data.access_token, 7)
-      console.log(getCookie("access_token"))
       navigate("/profile")
     }
   } catch (error) {
@@ -80,11 +79,11 @@ export const registerAction = async (
   }
 }
 
-export const loginWithGoogle = ({
+export const loginWithGoogle = async ({
   setIsLoading,
   setError,
   navigate,
-}: LoginWithGoogleParams) => {
+}: LoginGoogleParams) => {
   if (!window.google?.accounts?.oauth2) {
     console.error("Google OAuth não está carregado.");
     return;
@@ -132,5 +131,26 @@ export const loginWithGoogle = ({
 
   client.requestAccessToken();
 };
+
+export const loginWithApple = () => {
+  const clientId = import.meta.env.VITE_APPLE_CLIENT_ID
+  const redirectUri = import.meta.env.VITE_APPLE_REDIRECT_URL
+  const state = crypto.randomUUID() // ou algum identificador seu
+  const scope = "name email"
+  const responseType = "code"
+  const responseMode = "form_post"
+
+  const appleAuthUrl = `https://appleid.apple.com/auth/authorize?` +
+    `client_id=${clientId}&` +
+    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+    `response_type=${responseType}&` +
+    `scope=${scope}&` +
+    `response_mode=${responseMode}&` +
+    `state=${state}`
+
+  window.location.href = appleAuthUrl
+}
+
+
 
 

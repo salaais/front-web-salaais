@@ -15,8 +15,13 @@ export interface RegisterRequest {
     password: string
 }
 
-export interface LoginWithGoogleParams {
+export interface LoginGoogleParams {
     setIsLoading: (loading: boolean) => void;
     setError: (message: string | null) => void;
     navigate: (path: string) => void;
 }
+
+export interface LoginAppleResponse {
+    access_token: string
+}
+
