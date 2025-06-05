@@ -5,6 +5,8 @@ import type { ButtonProps } from "./interfaces"
 import { Icon } from "./icon"
 import { JustifyType } from "../../align/interfaces"
 import { Size, ThemeType } from "../../../global"
+import { useNavigate } from "react-router-dom";
+import { loginWithApple, loginWithGoogle } from "../../../services"
 
 
 export function ButtonApple({
@@ -19,36 +21,18 @@ export function ButtonApple({
   const [, setError] = useState<string | null>(null)
 
   const handleClick = async () => {
-    if (!onClick) return // Se `onClick` não estiver definido, não faça nada.
-
+    if (isLoading) return; // bloqueia cliques múltiplos
     setIsLoading(true)
-    setError(null)
-    let timer: ReturnType<typeof setTimeout> | undefined
-
     try {
-      const result = onClick()
-      if (result instanceof Promise) {
-        await result
-      }
-    } catch (err) {
-      setButtonType(ThemeType.Error)
-      timer = setTimeout(() => {
-        setButtonType(ThemeType.Error)
-      }, 2000)
+      await loginWithApple({
+        setIsLoading,
+      });
+    } catch (error) {
+      setError('Erro ao fazer login com Apple')
     } finally {
       setIsLoading(false)
-      if (response && (response < 200 || response >= 300)) {
-        setButtonType(ThemeType.Error)
-        timer = setTimeout(() => {
-          setButtonType(ThemeType.Error)
-        }, 2000)
-      }
     }
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-  }
+  };
 
   return (
     <Styles.Button

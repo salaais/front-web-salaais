@@ -17,8 +17,10 @@ export interface RegisterRequest {
 
 export interface LoginGoogleParams {
     setIsLoading: (loading: boolean) => void;
-    setError: (message: string | null) => void;
     navigate: (path: string) => void;
+}
+export interface LoginAppleParams {
+    setIsLoading: (loading: boolean) => void;
 }
 
 export interface LoginAppleResponse {

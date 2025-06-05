@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import type { LoginResponse, LoginGoogleParams, RegisterRequest } from "./models";
+import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams } from "./models";
 import { toast } from "react-toastify";
 import { setCookie } from "../../../global";
 
@@ -87,7 +87,6 @@ export const registerAction = async (
 
 export const loginWithGoogle = async ({
   setIsLoading,
-  setError,
   navigate,
 }: LoginGoogleParams) => {
 
@@ -102,17 +101,15 @@ export const loginWithGoogle = async ({
     callback: async (googleResponse: any) => {
       const apiSalaAis = getApiSalaAis();
       if (!googleResponse?.access_token) {
-        setError("Falha ao obter token do Google.");
+        toast.error("Falha ao obter token do Google.");
         return;
       }
 
       try {
         setIsLoading(true);
-
-        // Enviar token para a API usando axios (apiSalaAis)
         const apiResponse = await apiSalaAis.post(
           "auth/login-google-web",
-          {}, // corpo vazio se necessário
+          {},
           {
             headers: {
               Authorization: `Bearer ${googleResponse.access_token}`,
@@ -128,7 +125,7 @@ export const loginWithGoogle = async ({
         setCookie("access_token", data.access_token, 7);
 
       } catch (error) {
-        setError("Erro ao fazer login com Google.");
+        toast.error("Erro ao fazer login com Google.");
         console.error(error);
       } finally {
         setIsLoading(false);
@@ -140,25 +137,34 @@ export const loginWithGoogle = async ({
   client.requestAccessToken();
 };
 
-export const loginWithApple = () => {
+export const loginWithApple = async ({
+  setIsLoading,
+}: LoginAppleParams) => {
+  try {
+    setIsLoading(true);
+    const clientId = import.meta.env.VITE_APPLE_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_APPLE_REDIRECT_URL;
+    const state = crypto.randomUUID();
+    const scope = "name email";
 
-  const clientId = import.meta.env.VITE_APPLE_CLIENT_ID
-  const redirectUri = import.meta.env.VITE_APPLE_REDIRECT_URL
-  const state = crypto.randomUUID() // ou algum identificador seu
-  const scope = "name email"
-  const responseType = "code"
-  const responseMode = "form_post"
+    const authUrl = `https://appleid.apple.com/auth/authorize?` +
+      `client_id=${clientId}&` +
+      `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+      `response_type=code&` +
+      `response_mode=form_post&` +
+      `scope=${scope}&` +
+      `state=${state}`;
 
-  const appleAuthUrl = `https://appleid.apple.com/auth/authorize?` +
-    `client_id=${clientId}&` +
-    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
-    `response_type=${responseType}&` +
-    `scope=${scope}&` +
-    `response_mode=${responseMode}&` +
-    `state=${state}`
+    window.location.href = authUrl;
+  } catch (err) {
+    toast.error("Erro ao redirecionar para Apple.");
+    console.error(err);
+  } finally {
+    setIsLoading(false); // essa linha nunca será executada por causa do redirect
+  }
+};
 
-  window.location.href = appleAuthUrl
-}
+
 
 
 

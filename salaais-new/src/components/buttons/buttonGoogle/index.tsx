@@ -17,18 +17,25 @@ export function ButtonGoogle({
   const [, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    loginWithGoogle({
-      setIsLoading,
-      setError,
-      navigate,
-    });
+  const handleClick = async () => {
+    if (isLoading) return; // bloqueia cliques múltiplos
+    setIsLoading(true)
+    try {
+      await loginWithGoogle({
+        setIsLoading,
+        navigate,
+      });
+    } catch (error) {
+      setError('Erro ao fazer login com Apple')
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   return (
     <Styles.Button
       size={size}
-      onClick={isLoading ? () => { } : handleClick}
+      onClick={handleClick}
       disabled={isLoading}
       htmlFor={htmlFor}
     >
