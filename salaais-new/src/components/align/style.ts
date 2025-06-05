@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import type { AlignProps } from "./interfaces"
+import type { AlignProps, } from "./interfaces"
 import { JustifyType } from "./interfaces"
 
 export const Align = styled.div<AlignProps>`

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { InputProps, LabelProps } from "./interfaces"
+import type { InputProps, LabelProps } from "./interfaces"
 import { Color } from "../../../global"
 
 // Define a interface para as props usadas nos componentes

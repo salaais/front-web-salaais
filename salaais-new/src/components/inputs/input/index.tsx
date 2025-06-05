@@ -1,10 +1,9 @@
-import {
-  useState,
-  useEffect,
-  FocusEvent,
-} from "react"
+import { useState, useEffect } from "react"
+import type { FocusEvent } from "react"
+
 import * as Styled from "./style"
-import { InputComponentProps, InputType } from "./interfaces"
+import { InputType } from "./interfaces"
+import type { InputComponentProps } from "./interfaces"
 import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
 import { Color } from "../../../global"
@@ -96,9 +95,9 @@ export function Input({
           {isPassword && (
             <Styled.TogglePassword onClick={() => setShowPassword(!showPassword)}>
               {showPassword ?
-                <Icon iconType={IconType.Eye} color={Color.TxtPrimary}/>
+                <Icon iconType={IconType.Eye} color={Color.TxtPrimary} />
                 :
-                <Icon iconType={IconType.EyeOff} color={Color.TxtPrimary}/>
+                <Icon iconType={IconType.EyeOff} color={Color.TxtPrimary} />
               }
 
             </Styled.TogglePassword>

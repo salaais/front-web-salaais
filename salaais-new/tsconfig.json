@@ -1,4 +1,10 @@
 {
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@env": ["global/index"]
+    }
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

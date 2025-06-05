@@ -1,4 +1,3 @@
-// import {Logo} from './assets/index'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css'
 import { LoginPage } from './pages/login'

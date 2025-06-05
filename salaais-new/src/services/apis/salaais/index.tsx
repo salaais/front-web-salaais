@@ -1,22 +1,24 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoginResponse, LoginGoogleParams, RegisterRequest } from "./models";
+import type { LoginResponse, LoginGoogleParams, RegisterRequest } from "./models";
 import { toast } from "react-toastify";
 import { setCookie, getEnv } from "../../../global";
 
-const env = getEnv();
-
-export const apiSalaAis = axios.create({
-  baseURL: env.SALA_AIS_API,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+export function getApiSalaAis() {
+  const env = getEnv();
+  return axios.create({
+    baseURL: env.SALA_AIS_API,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
 
 export const paymentPlan = async (
   accessToken: string,
   priceId: string) => {
   try {
+    const apiSalaAis = getApiSalaAis();
     const { data } = await apiSalaAis.get(
       `stripe/pagamento-web?price_id=${encodeURIComponent(priceId)}`,
       {
@@ -38,6 +40,7 @@ export const loginAction = async (
   navigate: ReturnType<typeof useNavigate>
 ) => {
   try {
+    const apiSalaAis = getApiSalaAis();
     const requestData = { email, password }
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
@@ -55,6 +58,7 @@ export const registerAction = async (
   registerRequest: RegisterRequest,
   onSwitchForm: () => void) => {
   try {
+    const apiSalaAis = getApiSalaAis();
     const requestData = {
       ...registerRequest,
       bio: "Olá, estou usando SalaAis!",
@@ -86,6 +90,7 @@ export const loginWithGoogle = async ({
   setError,
   navigate,
 }: LoginGoogleParams) => {
+  const env = getEnv();
   if (!window.google?.accounts?.oauth2) {
     console.error("Google OAuth não está carregado.");
     return;
@@ -95,6 +100,7 @@ export const loginWithGoogle = async ({
     client_id: env.GOOGLE_CLIENT_ID_WEB,
     scope: env.GOOGLE_URL_LOGIN,
     callback: async (googleResponse: any) => {
+      const apiSalaAis = getApiSalaAis();
       if (!googleResponse?.access_token) {
         setError("Falha ao obter token do Google.");
         return;
@@ -135,6 +141,7 @@ export const loginWithGoogle = async ({
 };
 
 export const loginWithApple = () => {
+  const env = getEnv();
   const clientId = env.APPLE_CLIENT_ID
   const redirectUri = env.APPLE_REDIRECT_URL
   const state = crypto.randomUUID() // ou algum identificador seu

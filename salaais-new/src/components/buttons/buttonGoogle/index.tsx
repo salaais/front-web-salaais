@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Align } from "../../align";
-import { ButtonProps } from "./interfaces";
+import type { ButtonProps } from "./interfaces";
 import { Icon } from "./icon";
 import { JustifyType } from "../../align/interfaces";
 import { Size } from "../../../global";

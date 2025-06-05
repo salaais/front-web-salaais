@@ -5,7 +5,7 @@ import { Align, Button, ButtonApple, ButtonGoogle, Hr, Input, ToastInfo } from "
 import { InputType } from "../inputs/input/interfaces"
 import { JustifyType } from "../align/interfaces"
 import * as Styled from "./style"
-import { RegisterRequest } from "../../services/apis/salaais/models"
+import type { RegisterRequest } from "../../services/apis/salaais/models"
 import { registerAction } from "../../services"
 
 // Import React Toastify
