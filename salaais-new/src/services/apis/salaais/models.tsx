@@ -22,6 +22,8 @@ export interface LoginGoogleParams {
 }
 
 export interface LoginAppleResponse {
-    access_token: string
+    nome: string,
+    email: string,
+    access_token: string,
 }
 

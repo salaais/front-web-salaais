@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleResponse } from "./models";
 import { toast } from "react-toastify";
-import { getCookie, setCookie } from "../../../global";
+import { setCookie } from "../../../global";
 
 export const apiSalaAis = axios.create({
   baseURL: import.meta.env.VITE_SALA_AIS_API,
@@ -103,7 +103,7 @@ export const loginWithGoogle = async ({
 
         // Enviar token para a API usando axios (apiSalaAis)
         const apiResponse = await apiSalaAis.post(
-          "auth/login-web",
+          "auth/login-google-web",
           {}, // corpo vazio se necessário
           {
             headers: {
