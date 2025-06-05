@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { LoginResponse, LoginWithGoogleParams, RegisterRequest } from "./models";
 import { toast } from "react-toastify";
-import { getCookie, setCookie, ThemeType } from "../../../global";
+import { getCookie, setCookie } from "../../../global";
 
 export const apiSalaAis = axios.create({
   baseURL: import.meta.env.VITE_SALA_AIS_API,
