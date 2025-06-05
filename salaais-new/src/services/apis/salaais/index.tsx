@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleResponse } from "./models";
+import { LoginResponse, LoginGoogleParams, RegisterRequest } from "./models";
 import { toast } from "react-toastify";
-import { setCookie } from "../../../global";
+import { setCookie, getEnv } from "../../../global";
+
+const env = getEnv();
 
 export const apiSalaAis = axios.create({
-  baseURL: import.meta.env.VITE_SALA_AIS_API,
+  baseURL: env.SALA_AIS_API,
   headers: {
     "Content-Type": "application/json",
   },
@@ -90,8 +92,8 @@ export const loginWithGoogle = async ({
   }
 
   const client = window.google.accounts.oauth2.initTokenClient({
-    client_id: import.meta.env.VITE_CLIENT_ID_GOOGLE_WEB,
-    scope: import.meta.env.VITE_URL_LOGIN_GOOGLE,
+    client_id: env.GOOGLE_CLIENT_ID_WEB,
+    scope: env.GOOGLE_URL_LOGIN,
     callback: async (googleResponse: any) => {
       if (!googleResponse?.access_token) {
         setError("Falha ao obter token do Google.");
@@ -133,8 +135,8 @@ export const loginWithGoogle = async ({
 };
 
 export const loginWithApple = () => {
-  const clientId = import.meta.env.VITE_APPLE_CLIENT_ID
-  const redirectUri = import.meta.env.VITE_APPLE_REDIRECT_URL
+  const clientId = env.APPLE_CLIENT_ID
+  const redirectUri = env.APPLE_REDIRECT_URL
   const state = crypto.randomUUID() // ou algum identificador seu
   const scope = "name email"
   const responseType = "code"

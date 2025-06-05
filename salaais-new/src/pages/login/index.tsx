@@ -3,6 +3,7 @@ import { Login, Register } from "../../components"
 import * as Styled from './style'
 
 export function LoginPage() {
+
   const [isRegistering, setIsRegistering] = useState(false)
 
   const handleSwitchForm = () => {
