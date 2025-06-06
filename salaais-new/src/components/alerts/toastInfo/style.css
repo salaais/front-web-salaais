@@ -1,4 +1,6 @@
 .custom-toast-info {
+  -webkit-overflow-scrolling: touch; /* suaviza o scroll no iOS */
+  overscroll-behavior: contain; /* evita scroll da página enquanto scrolla o toast */
   display: flex;
   flex-direction: column;
   background-color: var(--bg-secondary) !important;
@@ -64,4 +66,17 @@
 .custom-toast-info div p {
   margin: 0; /* remove margem entre os <p> dentro da div */
   white-space: normal;
+}
+
+@media (max-width: 768px) {
+  .custom-toast-info {
+    max-height: 100vh; /* altura total da tela */
+    height: 100%;
+    padding: 1rem; /* mantém o padding */
+    border-radius: 8px; /* opcional: remover bordas arredondadas no mobile */
+    overflow-y: auto; /* scroll vertical ativado */
+    -webkit-overflow-scrolling: touch; /* suaviza scroll no iOS */
+    touch-action: pan-y; /* deixa o scroll vertical funcionar no mobile */
+    overscroll-behavior: contain;
+  }
 }
