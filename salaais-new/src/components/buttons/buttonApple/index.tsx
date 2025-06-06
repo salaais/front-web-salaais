@@ -5,8 +5,7 @@ import type { ButtonProps } from "./interfaces"
 import { Icon } from "./icon"
 import { JustifyType } from "../../align/interfaces"
 import { Size, ThemeType } from "../../../global"
-import { useNavigate } from "react-router-dom";
-import { loginWithApple, loginWithGoogle } from "../../../services"
+import { loginWithApple } from "../../../services"
 
 
 export function ButtonApple({

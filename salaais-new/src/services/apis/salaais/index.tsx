@@ -153,6 +153,7 @@ export const loginWithApple = async ({
       `state=${state}`;
 
     window.location.href = authUrl;
+    toast.success("Bem vindo!")
   } catch (err) {
     toast.error("Erro ao redirecionar para Apple.");
     console.error(err);

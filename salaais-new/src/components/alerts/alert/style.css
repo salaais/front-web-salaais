@@ -1,12 +1,18 @@
 .custom-toast {
   border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: 1rem;
 }
 
-.custom-toast {
-  border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: 1rem;
-  /* estilos comuns */
+@media (max-width: 600px) {
+  .custom-toast {
+    border-radius: 8px !important;
+    margin-bottom: 1rem;
+  }
+
+  .Toastify__toast-container {
+    border-radius: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
 }
