@@ -194,6 +194,8 @@ export const loginWithAppleValidateAccessToken = async (
 
     setCookie("access_token", access_token, '7d'); // 7 dias de validade
     toast.success("Bem vindo!");
+    // Limpar a URL (remove os parâmetros da query)
+    window.history.replaceState({}, document.title, "/login");
     navigate("/profile")
 
   } catch (error) {
