@@ -23,6 +23,12 @@ export interface LoginAppleParams {
     setIsLoading: (loading: boolean) => void;
 }
 
+export interface LoginAppleSessionTokenParams {
+    sessionToken: string;
+    setIsLoading: (loading: boolean) => void;
+    navigate: (path: string) => void;
+}
+
 export interface LoginAppleResponse {
     nome: string,
     email: string,

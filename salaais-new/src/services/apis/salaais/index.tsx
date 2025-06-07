@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams } from "./models";
+import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams, LoginAppleSessionTokenParams } from "./models";
 import { toast } from "react-toastify";
-import { setCookie } from "../../../global";
+import { setCookie, setLocalStorage } from "../../../global";
 
 export function getApiSalaAis() {
 
@@ -45,7 +45,7 @@ export const loginAction = async (
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
       toast.success("Bem-vindo!")
-      setCookie("access_token", response.data.access_token, 7)
+      setCookie("access_token", response.data.access_token, 60 * 24 * 7)
       navigate("/profile")
     }
   } catch (error) {
@@ -122,7 +122,7 @@ export const loginWithGoogle = async ({
           toast.success("Bem-vindo!")
           navigate("/profile")
         }
-        setCookie("access_token", data.access_token, 7);
+        setCookie("access_token", data.access_token, 60 * 24 * 7);
 
       } catch (error) {
         toast.error("Erro ao fazer login com Google.");
@@ -143,6 +143,8 @@ export const loginWithApple = async ({
   try {
     setIsLoading(true);
     const state = crypto.randomUUID();
+    //5 minutos
+    setCookie("login_state_apple", state, 60 * 24 * 7);
 
     const authUrl = `https://appleid.apple.com/auth/authorize?` +
       `client_id=${import.meta.env.VITE_APPLE_CLIENT_ID}&` +
@@ -161,6 +163,42 @@ export const loginWithApple = async ({
   }
 };
 
+export const loginWithAppleValidateAccessToken = async (
+  params: LoginAppleSessionTokenParams
+) => {
+  //http://localhost:5173/login?session_token=mskssoiam
+  const { sessionToken, navigate, setIsLoading } = params;
+  const apiSalaAis = getApiSalaAis();
+
+  setIsLoading(true);
+  try {
+
+    if (!sessionToken) {
+      toast.error("O login apple falhou");
+      console.log("Token de sessão ausente inválido.");
+      return;
+    }
+
+    const response = await apiSalaAis.post("/auth/login-apple-web/validate-session-code", {
+      sessionToken,
+    });
+
+    const { access_token } = response.data;
+    if (!access_token) {
+      toast.error("O login apple falhou");
+      console.log("Token de acesso não retornado.");
+      return;
+    }
+
+    setCookie("access_token", access_token, 60 * 24 * 7); // 7 dias de validade
+    toast.success("Bem vindo!");
+    navigate("/profile")
+
+  } catch (error) {
+    console.error("Erro ao validar token de sessão da Apple:", error);
+    toast.error("Erro ao fazer login Apple.");
+  }
+};
 
 
 

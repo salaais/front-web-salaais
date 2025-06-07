@@ -13,12 +13,21 @@ export function getCookie(name: string): string | null {
   return null
 }
 
-export function setCookie(name: string, value: string, days: number): void {
-  const expirationDate = new Date()
-  expirationDate.setTime(expirationDate.getTime() + days * 24 * 60 * 60 * 1000)
-  const expires = `expires=${expirationDate.toUTCString()}`
-  document.cookie = `${name}=${value}; ${expires}; path=/`
+//setCookie("login_state_apple", state, 5); -> expira em 5 minutos
+//setCookie("theme", "dark", 60 * 24 * 7); -> expira em 7 dias
+export function setCookie(name: string, value: string, minutes: number): void {
+  const maxAgeSeconds = Math.floor(minutes * 60);
+  const isSecure = location.protocol === "https:";
+
+  let cookie = `${name}=${value}; max-age=${maxAgeSeconds}; path=/; SameSite=Lax`;
+
+  if (isSecure) {
+    cookie += "; Secure";
+  }
+
+  document.cookie = cookie;
 }
+
 
 export function deleteCookie(name: string): void {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
