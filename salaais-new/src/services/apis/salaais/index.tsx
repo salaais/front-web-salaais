@@ -180,7 +180,7 @@ export const loginWithAppleValidateAccessToken = async (
     }
 
     const response = await apiSalaAis.post("/auth/login-apple-web/validate-session-code", {
-      sessionToken,
+      session_token: sessionToken,
     });
 
     const { access_token } = response.data;
