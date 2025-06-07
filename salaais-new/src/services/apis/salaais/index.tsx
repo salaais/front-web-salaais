@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams, LoginAppleSessionTokenParams } from "./models";
 import { toast } from "react-toastify";
-import { setCookie, setLocalStorage } from "../../../global";
+import { setCookie } from "../../../global";
 
 export function getApiSalaAis() {
 
@@ -45,7 +45,7 @@ export const loginAction = async (
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
       toast.success("Bem-vindo!")
-      setCookie("access_token", response.data.access_token, 60 * 24 * 7)
+      setCookie("access_token", response.data.access_token, '7d')
       navigate("/profile")
     }
   } catch (error) {
@@ -122,7 +122,7 @@ export const loginWithGoogle = async ({
           toast.success("Bem-vindo!")
           navigate("/profile")
         }
-        setCookie("access_token", data.access_token, 60 * 24 * 7);
+        setCookie("access_token", data.access_token, '7d');
 
       } catch (error) {
         toast.error("Erro ao fazer login com Google.");
@@ -144,7 +144,9 @@ export const loginWithApple = async ({
     setIsLoading(true);
     const state = crypto.randomUUID();
     //5 minutos
-    setCookie("login_state_apple", state, 60 * 24 * 7);
+    setCookie("login_state_apple", state, '2m');
+
+    //ADICIONAR REQUEST para minha api salvar login_state_apple
 
     const authUrl = `https://appleid.apple.com/auth/authorize?` +
       `client_id=${import.meta.env.VITE_APPLE_CLIENT_ID}&` +
@@ -190,7 +192,7 @@ export const loginWithAppleValidateAccessToken = async (
       return;
     }
 
-    setCookie("access_token", access_token, 60 * 24 * 7); // 7 dias de validade
+    setCookie("access_token", access_token, '7d'); // 7 dias de validade
     toast.success("Bem vindo!");
     navigate("/profile")
 

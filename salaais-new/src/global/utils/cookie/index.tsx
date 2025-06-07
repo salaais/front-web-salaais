@@ -1,5 +1,7 @@
 // utils/cookies.ts
 
+import { timeDuration } from "../time";
+
 export function getCookie(name: string): string | null {
   const cookies = document.cookie.split(";")
 
@@ -13,9 +15,9 @@ export function getCookie(name: string): string | null {
   return null
 }
 
-//setCookie("login_state_apple", state, 5); -> expira em 5 minutos
-//setCookie("theme", "dark", 60 * 24 * 7); -> expira em 7 dias
-export function setCookie(name: string, value: string, minutes: number): void {
+//setCookie("theme", "dark", 2m); -> 2 minutos
+export function setCookie(name: string, value: string, durationStr: string): void {
+  const minutes = timeDuration(durationStr);
   const maxAgeSeconds = Math.floor(minutes * 60);
   const isSecure = location.protocol === "https:";
 
