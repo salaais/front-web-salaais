@@ -1,9 +1,10 @@
-export const Size = {
+import { makeEnum } from "../utils/enum";
+
+export const Size = makeEnum({
   Xs: "xs",
   S: "sm",
   M: "md",
   L: "lg",
   Xl: "xl",
   Full: "full",
-} as const
-export type Size = typeof Size[keyof typeof Size];
+})

@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "types": ["@vercel/node", "node"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "exactOptionalPropertyTypes": true,
     "baseUrl": "src",
     "paths": {
       "@env": ["global/index"]

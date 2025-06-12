@@ -1,12 +1,6 @@
 import styled, { css, keyframes } from "styled-components"
-import {
-  iconMap,
-  IconType,
-  AnimationType,
-  StartAnimation,
-} from "./models"
 import type { IconContentProps, IconProps } from "./models"
-import { Size } from "../../global"
+import { AnimationType, iconMap, IconType, Size, StartAnimation, type EnumType } from "../../global"
 
 // Define keyframes for animations
 const bounce = keyframes`
@@ -73,7 +67,7 @@ const rotateMiddle = keyframes`
 `
 
 // Function to get styled icon component
-export function getStyledIcon(iconType: IconType) {
+export function getStyledIcon(iconType: EnumType<typeof IconType>) {
   const IconComponent = iconMap[iconType];
 
   if (!IconComponent) {

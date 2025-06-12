@@ -1,3 +1,5 @@
+import { makeEnum, type EnumType } from "../../global"
+
 export interface AlignProps {
   gap?: string
   width?: string
@@ -5,17 +7,15 @@ export interface AlignProps {
   column?: boolean
   alignEnd?: boolean
   alignCenter?: boolean
-  justify?: JustifyType
+  justify?: EnumType<typeof JustifyType>
   children?: any
   reponsive?: boolean
   padding?: string
 }
 
-export const JustifyType = {
+export const JustifyType = makeEnum({
   Between: "between",
   Around: "around",
   Center: "center",
   Evenly: "evenly",
-} as const
-
-export type JustifyType = typeof JustifyType[keyof typeof JustifyType];
+})

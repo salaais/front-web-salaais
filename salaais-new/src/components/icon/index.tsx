@@ -1,11 +1,8 @@
 import { useState, useCallback } from "react"
-import {
-  IconType,
-  StartAnimation,
-} from "./models"
 import type {IconContentProps} from "./models"
 import * as Styled from "./style"
-import { Size, ThemeType } from "../../global"
+import { Size, StartAnimation, ThemeType } from "../../global"
+import { IconType } from "../../global"
 
 export function Icon({
   themeType = ThemeType.Primary,

@@ -4,7 +4,7 @@ import { Align } from '../../align'
 import type { ButtonProps } from "./interfaces"
 import { Icon } from "./icon"
 import { JustifyType } from "../../align/interfaces"
-import { Size, ThemeType } from "../../../global"
+import { type EnumType, Size, ThemeType } from "../../../global"
 import { loginWithApple } from "../../../services"
 
 
@@ -16,7 +16,7 @@ export function ButtonApple({
   htmlFor,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [buttonType, setButtonType] = useState<ThemeType>(ThemeType.Primary)
+  const [buttonType, setButtonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
   const [, setError] = useState<string | null>(null)
 
   const handleClick = async () => {

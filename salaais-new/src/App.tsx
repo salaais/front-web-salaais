@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css'
 import { LoginPage } from './pages/login'
 import { Alert } from "./components";
+import { MeuPerfil } from "./pages/meuPerfil";
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/meu-perfil" element={<MeuPerfil/>} />
         </Routes>
       </BrowserRouter>
     </>

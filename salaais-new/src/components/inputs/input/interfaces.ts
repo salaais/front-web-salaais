@@ -1,18 +1,17 @@
-import { ChangeEvent, KeyboardEvent } from "react"
-import { Color, Size } from "../../../global"
+import { type ChangeEvent, type KeyboardEvent } from "react"
+import { Color, makeEnum, Size, type EnumType } from "../../../global"
 
-export const InputType = {
-  Text:"text",
-  Textarea:"textarea",
-  Date:"date",
-  Password:"password",
-} as const
-export type InputType = typeof InputType[keyof typeof InputType];
+export const InputType = makeEnum({
+  Text: "text",
+  Textarea: "textarea",
+  Date: "date",
+  Password: "password",
+})
 
 export interface InputComponentProps {
   text?: string
-  type?: InputType // Optional, defaults to 'text'
-  size?: Size
+  type?: EnumType<typeof InputType>
+  size?: EnumType<typeof Size>
   value?: string
   onChange?: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,16 +22,16 @@ export interface InputComponentProps {
     event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void
   error?: boolean
-  name?:string
+  name?: string
   isFocus?: boolean // Optional
-  background?: Color
+  background?: EnumType<typeof Color>
 }
 
 export interface InputProps {
-  size?: Size
+  size?: EnumType<typeof Size>
   error?: boolean
   isFocus?: boolean
-  background?: Color
+  background?: EnumType<typeof Color>
 }
 
 export interface LabelProps {

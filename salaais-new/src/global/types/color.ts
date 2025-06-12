@@ -1,4 +1,6 @@
-export const Color = {
+import { makeEnum } from "../utils/enum";
+
+export const Color = makeEnum({
     TxtPrimary: "var(--txt-primary)",
     TxtSecondary: "var(--txt-secondary)",
     TxtTertiary: "var(--txt-tertiary)",
@@ -35,6 +37,4 @@ export const Color = {
     Orange: "var(--orange)",
 
     MsgSend: "var(--msg-send)",
-} as const
-
-export type Color = typeof Color[keyof typeof Color]
+})

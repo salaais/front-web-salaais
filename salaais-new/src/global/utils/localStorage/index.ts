@@ -1,5 +1,8 @@
-// Função para definir um item no localStorage
-export const setLocalStorage = (key: string, value: string) => {
+import { makeEnum } from "../enum"
+
+// Armazena qualquer tipo de valor (T) no localStorage
+// setLocalStorage<boolean>(LocaStorage.isMenuOpen, true)
+export function setLocalStorage<T>(key: string, value: T): void {
   try {
     localStorage.setItem(key, JSON.stringify(value))
   } catch (error) {
@@ -7,13 +10,18 @@ export const setLocalStorage = (key: string, value: string) => {
   }
 }
 
-// Função para obter um item do localStorage
-export const getLocalStorage = (key: string) => {
+// Recupera e infere o tipo correto do valor salvo
+//getLocalStorage<boolean>(LocaStorage.isMenuOpen)
+export function getLocalStorage<T>(key: string): T | null {
   try {
     const storedValue = localStorage.getItem(key)
-    return storedValue ? JSON.parse(storedValue) : null
+    return storedValue ? JSON.parse(storedValue) as T : null
   } catch (error) {
     console.error("Erro ao obter item do localStorage:", error)
     return null
   }
 }
+
+export const LocaStorage = makeEnum({
+  isMenuOpen: "isMenuOpen"
+})
