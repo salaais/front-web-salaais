@@ -124,8 +124,8 @@ export function Menu(props: MenuProps) {
         {items.filter(item => item.is_handle).map((item, index) => {
           const isActive = location.pathname === item.link;
           return (
-            <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen}>
-              <Styled.MenuLink onClick={() => navigate(item.link)}>
+            <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => { navigate(item.link) }}>
+              <Styled.MenuLink>
                 <Styled.IconWrapper>
                   <Icon iconType={item.icone} color={isActive ? Color.Primary : item.color} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} />
                 </Styled.IconWrapper>

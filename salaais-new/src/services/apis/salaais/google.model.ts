@@ -1,3 +1,4 @@
+//apenas para tirar os erros de tipagem ESlint
 declare global {
   interface Window {
     google: {
