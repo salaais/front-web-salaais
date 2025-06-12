@@ -11,12 +11,10 @@ import { loginWithApple } from "../../../services"
 export function ButtonApple({
   text,
   size = Size.M,
-  onClick,
-  response,
   htmlFor,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [buttonType, setButtonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
+  const [buttonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
   const [, setError] = useState<string | null>(null)
 
   const handleClick = async () => {
@@ -27,6 +25,7 @@ export function ButtonApple({
         setIsLoading,
       });
     } catch (error) {
+      console.log(error)
       setError('Erro ao fazer login com Apple')
     } finally {
       setIsLoading(false)

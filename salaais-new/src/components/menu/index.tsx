@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimationType, Color, getLocalStorage, IconType, LocaStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
+import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
 import { Icon } from "../icon"
 import * as Styled from "./style"
 import { useNavigate, useLocation } from "react-router-dom";
@@ -66,8 +66,6 @@ const defaultItems: MenuItem[] = [
 ]
 
 type MenuProps = {
-  isOpen: boolean
-  onClick?: () => void
   items?: MenuItem[]
 }
 
@@ -96,14 +94,14 @@ export function Menu(props: MenuProps) {
   const sizeIcons = useResponsiveIconSize()
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(() => {
-    const saved = getLocalStorage<boolean>("isMenuOpen")
-    return saved !== null ? saved : props.isOpen
+    const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen)
+    return saved !== null ? saved : false
   })
 
   const toggleIsOpen = () => {
     setIsOpen(prev => {
       const next = !prev
-      setLocalStorage<boolean>(LocaStorage.isMenuOpen, next)
+      setLocalStorage<boolean>(LocalStorage.isMenuOpen, next)
       return next
     })
   }
@@ -116,7 +114,7 @@ export function Menu(props: MenuProps) {
       </Styled.MenuMobileButton>
 
       <Styled.MenuList isOpen={isOpen}>
-        <Styled.MenuItem key={'closeOpen'} color={Color.TxtPrimary} onClick={toggleIsOpen}>
+        <Styled.MenuItem key={'closeOpen'} color={Color.TxtPrimary} onClick={toggleIsOpen} isOpenMenu={isOpen}>
           <Styled.MenuLink>
             <Styled.IconWrapper>
               <Icon iconType={IconType.ArrowLeft} color={Color.TxtPrimary} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} />

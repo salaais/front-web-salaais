@@ -4,7 +4,7 @@ import { Align } from '../../align'
 import type { ButtonProps } from "./interfaces"
 import { Icon } from "./icon"
 import { JustifyType } from "../../align/interfaces"
-import { ThemeType } from "../../../global"
+import { ThemeType, type EnumType } from "../../../global"
 
 
 export function Button({
@@ -21,23 +21,29 @@ export function Button({
   htmlFor,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [buttonType, setButtonType] = useState<ThemeType>(ThemeType.Primary)
+  const [buttonType, setButtonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
   const [, setError] = useState<string | null>(null)
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!onClick) return // Se `onClick` não estiver definido, não faça nada.
+    if (!e) return;
 
+    if (isLoading) {
+      e.preventDefault();
+      return;
+    }
     setIsLoading(true)
     setError(null)
     let timer: ReturnType<typeof setTimeout> | undefined
 
     try {
-      const result = onClick()
+      const result = onClick(e)
       if (result instanceof Promise) {
         await result
       }
     } catch (err) {
       setButtonType(ThemeType.Error)
+      console.log(err)
       timer = setTimeout(() => {
         setButtonType(ThemeType.Error)
       }, 2000)
@@ -62,7 +68,7 @@ export function Button({
       background={background}
       borderColor={borderColor}
       size={size}
-      onClick={isLoading ? () => {} : handleClick}
+      onClick={isLoading ? undefined : handleClick}//bloquear totalmente o clique sem fazer nada
       disabled={isLoading}
       type={type}
       color={color}

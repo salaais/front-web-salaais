@@ -1,11 +1,10 @@
-import { Icon, Menu } from "../../components";
-import { AnimationType, Color, IconType, StartAnimation } from "../../global";
+import { Menu } from "../../components";
 
 export function MeuPerfil() {
 
   return (
     <>
-      <Menu isOpen={true} onClick={() => { }} />
+      <Menu />
       {/* <Icon iconType={IconType.ArrowLeft} color={Color.TxtPrimary} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} /> */}
       <a>Meu Perfil, Configuraçoes, editar perfil, Planos</a>
     </>

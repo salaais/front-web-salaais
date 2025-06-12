@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { Size, Color, ThemeType, makeEnum, type EnumType } from "../../global"
+import { Size, Color, ThemeType, type EnumType } from "../../global"
 import type { AnimationType, IconType, StartAnimation } from "../../global/types/icon"
 
 export interface IconContentProps {
@@ -13,7 +13,7 @@ export interface IconContentProps {
   background?: EnumType<typeof Color>
   color?: EnumType<typeof Color> | string
   padding?: string
-  onClick?: any
+  onClick?: React.MouseEventHandler
 }
 
 export interface IconProps {

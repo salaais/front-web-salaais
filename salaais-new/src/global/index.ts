@@ -1,6 +1,6 @@
 
 export { getCookie, setCookie } from './utils/cookie'
-export { getLocalStorage, setLocalStorage, LocaStorage } from './utils/localStorage'
+export { getLocalStorage, setLocalStorage, LocalStorage } from './utils/localStorage'
 export { ThemeType } from './types/componentTheme'
 export { Color } from './types/color'
 export { Size } from './types/size'

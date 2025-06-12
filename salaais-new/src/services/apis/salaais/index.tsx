@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams, LoginAppleSessionTokenParams } from "./models";
+import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams, LoginAppleSessionTokenParams, ErrorRegisterResponse, loginWithGoogleResponse } from "./models";
 import { toast } from "react-toastify";
 import { setCookie } from "../../../global";
+import './google.d.ts';
 
 export function getApiSalaAis() {
 
@@ -46,7 +47,7 @@ export const loginAction = async (
     if (response.status === 200) {
       toast.success("Bem-vindo!")
       setCookie("access_token", response.data.access_token, '7d')
-      navigate("/profile")
+      navigate("/meu-perfil")
     }
   } catch (error) {
     console.error("Erro ao fazer login:", error)
@@ -72,16 +73,19 @@ export const registerAction = async (
       onSwitchForm()
     }
 
-  } catch (error: any) {
-    const errorMessage = error?.response?.data?.errors_description[0]
+  } catch (error: unknown) {
+    if (axios.isAxiosError<ErrorRegisterResponse>(error)) {
+      const axiosError = error as AxiosError<ErrorRegisterResponse>;
+      const message = axiosError.response?.data?.errors_description?.[0];
 
-    if (errorMessage) {
-      toast.error(errorMessage)
+      if (message) {
+        toast.error(message);
+      } else {
+        toast.error("Erro ao fazer cadastro");
+      }
     } else {
-      toast.error(errorMessage || "Erro ao fazer cadastro")
+      toast.error("Erro inesperado");
     }
-
-    console.error("Erro ao fazer cadastro:", error)
   }
 }
 
@@ -98,7 +102,7 @@ export const loginWithGoogle = async ({
   const client = window.google.accounts.oauth2.initTokenClient({
     client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID_WEB,
     scope: import.meta.env.VITE_GOOGLE_URL_LOGIN,
-    callback: async (googleResponse: any) => {
+    callback: async (googleResponse: loginWithGoogleResponse) => {
       const apiSalaAis = getApiSalaAis();
       if (!googleResponse?.access_token) {
         toast.error("Falha ao obter token do Google.");
@@ -120,7 +124,7 @@ export const loginWithGoogle = async ({
         const data = apiResponse.data;
         if (apiResponse.status === 200) {
           toast.success("Bem-vindo!")
-          navigate("/profile")
+          navigate("/meu-perfil")
         }
         setCookie("access_token", data.access_token, '7d');
 
@@ -196,7 +200,7 @@ export const loginWithAppleValidateAccessToken = async (
     toast.success("Bem vindo!");
     // Limpar a URL (remove os parâmetros da query)
     window.history.replaceState({}, document.title, "/login");
-    navigate("/profile")
+    navigate("/meu-perfil")
 
   } catch (error) {
     console.error("Erro ao validar token de sessão da Apple:", error);

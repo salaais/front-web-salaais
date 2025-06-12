@@ -6,7 +6,7 @@ import { loginWithAppleValidateAccessToken } from "../../services";
 
 export function LoginPage() {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const didRun = useRef(false);// evitar a duplicidade do stricmode
 

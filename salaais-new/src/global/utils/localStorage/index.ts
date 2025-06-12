@@ -22,6 +22,6 @@ export function getLocalStorage<T>(key: string): T | null {
   }
 }
 
-export const LocaStorage = makeEnum({
+export const LocalStorage = makeEnum({
   isMenuOpen: "isMenuOpen"
 })

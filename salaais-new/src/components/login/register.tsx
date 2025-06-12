@@ -217,7 +217,7 @@ export function Register({ onSwitchForm }: RegisterProps) {
           <Button
             text="Cadasdro"
             type={ThemeType.Primary}
-            onClick={() => registerAction(formData, onSwitchForm  )}
+            onClick={() => registerAction(formData, onSwitchForm )}
           />
 
           <Hr bg="var(--bg-tartiary)" height="3px" width="100%" margin="10px 0" />

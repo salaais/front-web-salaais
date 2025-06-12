@@ -26,6 +26,7 @@ export function ButtonGoogle({
         navigate,
       });
     } catch (error) {
+      console.log(error)
       setError('Erro ao fazer login com Apple')
     } finally {
       setIsLoading(false)

@@ -1,9 +1,3 @@
-declare global {
-    interface Window {
-        google: any;
-    }
-}
-
 export interface LoginResponse {
     access_token: string
 }
@@ -34,4 +28,10 @@ export interface LoginAppleResponse {
     email: string,
     access_token: string,
 }
+export interface loginWithGoogleResponse {
+    access_token: string,
+}
 
+export interface ErrorRegisterResponse {
+    errors_description?: string[];
+}

@@ -8,7 +8,7 @@ export interface AlignProps {
   alignEnd?: boolean
   alignCenter?: boolean
   justify?: EnumType<typeof JustifyType>
-  children?: any
+  children?: React.ReactNode
   reponsive?: boolean
   padding?: string
 }

@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "dev": "npm run lint && vite",
+    "build": "npm run lint && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,6 +20,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/google-one-tap": "^1.2.6",
+    "@types/google.accounts": "^0.0.16",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
