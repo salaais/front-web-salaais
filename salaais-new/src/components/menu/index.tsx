@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
 import { Icon } from "../icon"
 import * as Styled from "./style"
@@ -105,6 +105,7 @@ export function Menu(props: MenuProps) {
       return next
     })
   }
+
   return (
     <Styled.MenuContainer>
       <Styled.MenuMobileButton id={isOpen ? "iMenuOpen" : "iMenuClose"} onClick={toggleIsOpen}>
