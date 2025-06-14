@@ -2,7 +2,7 @@ import React, { useEffect, useState, type ReactNode } from "react";
 import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
 import { Icon } from "../icon"
 import * as Styled from "./style"
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 type MenuItem = {
