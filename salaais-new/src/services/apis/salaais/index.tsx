@@ -47,7 +47,7 @@ export const loginAction = async (
     if (response.status === 200) {
       toast.success("Bem-vindo!")
       setCookie("access_token", response.data.access_token, '7d')
-      navigate("/meu-perfil")
+      navigate("/home")
     }
   } catch (error) {
     console.error("Erro ao fazer login:", error)
@@ -124,7 +124,7 @@ export const loginWithGoogle = async ({
         const data = apiResponse.data;
         if (apiResponse.status === 200) {
           toast.success("Bem-vindo!")
-          navigate("/meu-perfil")
+          navigate("/home")
         }
         setCookie("access_token", data.access_token, '7d');
 
@@ -200,7 +200,7 @@ export const loginWithAppleValidateAccessToken = async (
     toast.success("Bem vindo!");
     // Limpar a URL (remove os parâmetros da query)
     window.history.replaceState({}, document.title, "/login");
-    navigate("/meu-perfil")
+    navigate("/home")
 
   } catch (error) {
     console.error("Erro ao validar token de sessão da Apple:", error);

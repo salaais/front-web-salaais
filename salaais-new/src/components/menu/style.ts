@@ -1,6 +1,50 @@
 import styled, { css } from "styled-components"
 import { Color, cssVarToRgba } from "../../global";
 
+// Novo contêiner geral
+export const MenuWrapper = styled.div<{ isOpen: boolean }>`
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  transition: margin-left 0.4s ease;
+
+  @media (min-width: 768px) {
+    margin-left: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
+  }
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    padding: 10px;
+    flex-direction: column;
+  }
+`;
+
+export const Global = styled.div`
+padding: 10px;
+`
+
+export const PageTitle = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--txt-primary);
+  cursor:pointer;
+  user-select: none;
+  & a, p{
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--txt-primary);
+    &:hover{
+      opacity:.8;
+    }
+  }
+`
+
 // Container do menu inteiro
 export const MenuContainer = styled.div``
 
@@ -75,11 +119,13 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
   flex-direction: column;
   padding: 5px;
   gap: 10px;
-  width: ${({ isOpen }) => (isOpen ? "200px" : "53px")};
-  & ${MenuLink} span {
+  width: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
+  /* & ${MenuLink} span {
     color: ${({ isOpen }) => (isOpen ? "inherit" : Color.BgSecondary)};
+  } */
+  span{
+    margin-left:10px;
   }
-
   @media (max-width: 767px) {
     width: ${({ isOpen }) => (isOpen ? "320px" : "0")};
     height: 100%;
