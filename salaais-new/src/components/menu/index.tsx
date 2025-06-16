@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type ReactNode } from "react";
+import React, { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
 import { Icon } from "../icon"
 import * as Styled from "./style"
@@ -142,6 +142,7 @@ export function Menu(props: MenuProps) {
   const sizeIcons = useResponsiveIconSize()
   const location = useLocation();
 
+  const menuRef = useRef<HTMLUListElement>(null)
 
   const [isOpen, setIsOpen] = useState(() => {
     const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen)
@@ -156,6 +157,23 @@ export function Menu(props: MenuProps) {
     })
   }
 
+  // 🔽 Detecta clique fora do menu no mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const isMobile = window.innerWidth < 768
+      if (!isMobile || !isOpen) return
+
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+        setLocalStorage<boolean>(LocalStorage.isMenuOpen, false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpen])
 
   return (
     <>
@@ -166,7 +184,7 @@ export function Menu(props: MenuProps) {
           </Styled.MenuMobileButtonIcon>
         </Styled.MenuMobileButton>
 
-        <Styled.MenuList isOpen={isOpen}>
+        <Styled.MenuList isOpen={isOpen} ref={menuRef}>
           <Styled.MenuItem key={'closeOpen'} color={Color.TxtPrimary} onClick={toggleIsOpen} isOpenMenu={isOpen}>
             <Styled.MenuLink>
               <Styled.IconWrapper>
@@ -204,8 +222,6 @@ export function Menu(props: MenuProps) {
           </>
         </FooterContentMenu>
       </Styled.PageContent>
-
     </>
   )
 }
-

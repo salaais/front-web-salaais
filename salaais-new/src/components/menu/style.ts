@@ -60,7 +60,7 @@ export const PageTitle = styled.div`
   cursor:pointer;
   user-select: none;
   @media (max-width: 768px) {
-    margin: 0 0 0 40px;
+    margin: 0 0 0 60px;
   }
   & a, p{
     text-decoration: none;
