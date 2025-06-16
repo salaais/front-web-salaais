@@ -20,6 +20,7 @@ export const Color = makeEnum({
     AdminSecondary: "var(--admin-secondary-color)",
     Light: "var(--light-color)",
     Dark: "var(--dark-color)",
+    FollowButtonColor: "var(--follow-button-color)",
 
     BgPrimary: "var(--bg-primary)",
     BgSecondary: "var(--bg-secondary)",

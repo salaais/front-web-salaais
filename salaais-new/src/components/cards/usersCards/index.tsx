@@ -173,7 +173,7 @@ export function UsersCards({ cards = defaultCards }: UserCardProps) {
                 <Button
                   text={loadingFollow[card.id] ? "..." : "Seguir"}
                   type={ThemeType.Outlined}
-                  color={Color.Blue}
+                  color={Color.FollowButtonColor}
                   background={Color.Blue}
                   textColor={Color.BgPrimary}
                   onClick={() => startToFollow(card.id)}
