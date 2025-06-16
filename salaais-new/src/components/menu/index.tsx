@@ -3,6 +3,7 @@ import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocal
 import { Icon } from "../icon"
 import * as Styled from "./style"
 import { useNavigate, useLocation } from "react-router-dom";
+import { FooterContentMenu } from "../footerContentMenu";
 
 
 type MenuItem = {
@@ -29,6 +30,20 @@ const defaultItems: MenuItem[] = [
     is_handle: true,
   },
   {
+    nome: "Planos",
+    link: "/planos",
+    icone: IconType.Medal,
+    color: Color.TxtPrimary,
+    is_handle: true,
+  },
+  {
+    nome: "Ranking",
+    link: "/ranking",
+    icone: IconType.Trophy,
+    color: Color.TxtPrimary,
+    is_handle: true,
+  },
+  {
     nome: "Estudos",
     link: "/estudos",
     icone: IconType.Formation,
@@ -42,6 +57,14 @@ const defaultItems: MenuItem[] = [
     color: Color.TxtPrimary,
     is_handle: true,
   },
+    {
+    nome: "Conquistas",
+    link: "/conquistas",
+    icone: IconType.Checklist,
+    color: Color.TxtPrimary,
+    is_handle: true,
+  },
+  
   {
     nome: "Configurações",
     link: "/configuracoes",
@@ -82,11 +105,43 @@ export function useResponsiveIconSize() {
   return size
 }
 
+export function PageTitle() {
+  const location = useLocation()
+  const pathParts = location.pathname.split("/").filter(Boolean)
+
+  const formatLabel = (part: string, isFirst: boolean) => {
+    return isFirst
+      ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+      : part.toLowerCase()
+  }
+
+  const buildHref = (index: number) => {
+    const partialPath = pathParts.slice(0, index + 1).join("/")
+    return `/${partialPath}`
+  }
+
+  return (
+    <Styled.PageTitle>
+      {pathParts.map((part, index) => (
+        <React.Fragment key={index}>
+          {index > 0 && <span>/</span>}
+          <a href={buildHref(index)}>{formatLabel(part, index === 0)}</a>
+        </React.Fragment>
+      ))}
+    </Styled.PageTitle>
+  )
+}
+
+export function getActiveColor(isActive: boolean | undefined, color: string) {
+  return isActive && color === Color.TxtPrimary ? Color.Primary : color
+}
+
 export function Menu(props: MenuProps) {
   const navigate = useNavigate()
   const items = props.items ?? defaultItems
   const sizeIcons = useResponsiveIconSize()
   const location = useLocation();
+
 
   const [isOpen, setIsOpen] = useState(() => {
     const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen)
@@ -103,7 +158,7 @@ export function Menu(props: MenuProps) {
 
 
   return (
-    <Styled.Global>
+    <>
       <Styled.MenuContainer>
         <Styled.MenuMobileButton id={isOpen ? "iMenuOpen" : "iMenuClose"} onClick={toggleIsOpen}>
           <Styled.MenuMobileButtonIcon isOpen={isOpen}>
@@ -126,7 +181,7 @@ export function Menu(props: MenuProps) {
               <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => { navigate(item.link) }}>
                 <Styled.MenuLink>
                   <Styled.IconWrapper>
-                    <Icon iconType={item.icone} color={isActive ? Color.Primary : item.color} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
+                    <Icon iconType={item.icone} color={getActiveColor(isActive, item.color)} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
                   </Styled.IconWrapper>
                   <span>{item.nome}</span>
                 </Styled.MenuLink>
@@ -136,37 +191,21 @@ export function Menu(props: MenuProps) {
         </Styled.MenuList>
       </Styled.MenuContainer>
 
-      <Styled.MenuWrapper isOpen={isOpen}>
-        <div style={{ width: "100%" }}>
+      <Styled.PageContent isOpen={isOpen}>
+        <Styled.ContentWrapper>
           <PageTitle />
-          {props.children}
-        </div>
-      </Styled.MenuWrapper>
-    </Styled.Global>
-  )
-}
+          <Styled.PageContentWithOutTitle>
+            {props.children}
+          </Styled.PageContentWithOutTitle>
+        </Styled.ContentWrapper>
+        <FooterContentMenu>
+          <>
+            {`© ${new Date().getFullYear()} SalaAis, All Rights Reserved.`}
+          </>
+        </FooterContentMenu>
+      </Styled.PageContent>
 
-
-export function PageTitle() {
-  const location = useLocation()
-  const pathParts = location.pathname.split("/").filter(Boolean)
-
-  const formatLabel = (part: string, isFirst: boolean) => {
-    const formatted = part.replace(/-/g, " ")
-    return isFirst
-      ? formatted.charAt(0).toUpperCase() + formatted.slice(1).toLowerCase()
-      : formatted.toLowerCase()
-  }
-
-  return (
-    <Styled.PageTitle>
-      {pathParts.map((part, index) => (
-        <React.Fragment key={index}>
-          {index > 0 && <span>/</span>}
-          <a>{formatLabel(part, index === 0)}</a>
-        </React.Fragment>
-      ))}
-    </Styled.PageTitle>
+    </>
   )
 }
 

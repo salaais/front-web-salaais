@@ -58,11 +58,8 @@ const rotateMiddle = keyframes`
   0% {
     transform: rotate(0deg);
   }
-  50% {
-    transform: rotate(180deg);
-  }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(180deg);
   }
 `
 
@@ -119,10 +116,10 @@ export const ContentIcon = styled.div<IconContentProps>`
   color: white;
   font-size: 20px;
   padding: ${({ padding }) => padding || '10px'};
-  /* height: fit-content;
-  width: fit-content; */
+  height: fit-content;
+  width: ${props => props.width};
   background-color: ${({ background }) => background || 'transparent'};
-  border-radius: 100%;
+  border-radius: ${({ borderRadius }) => `${borderRadius}%` || '100%'};
 
   ${({ startAnimation, animationType, interval }) => {
     const animationDuration = interval ? `${interval}ms` : "1s"

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import type { ThemeType } from "../../../global/types/componentTheme"
-import type { EnumType } from "../../../global"
+import { Color, type EnumType } from "../../../global"
 
 export interface ButtonProps {
   background?: string
@@ -11,9 +11,10 @@ export interface ButtonProps {
   secondary?: boolean
   icon?: ReactNode
   type?: EnumType<typeof ThemeType>
-  color?: string
+  color?: EnumType< typeof Color>
   response?: number
   htmlFor?: string
+  textColor?: EnumType< typeof Color>
 }
 
 export interface IconProps {

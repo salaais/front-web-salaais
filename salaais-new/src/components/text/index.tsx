@@ -1,3 +1,5 @@
+import { useState } from "react";
+import type { EnumType } from "../../global";
 import { Color } from "../../global/types/color";
 import { Size } from "../../global/types/size";
 import * as Styled from "./style"
@@ -6,19 +8,20 @@ import * as Styled from "./style"
 export interface TextProps {
   id?: string
   text?: string
-  size?: Size
+  size?: EnumType<typeof Size>
   title?: boolean
   space?: number
   bold?: boolean
   link?: boolean
   href?: string
   center?: boolean
-  color?: Color
+  color?: EnumType<typeof Color>
   maxW?: string
   responsive?: boolean
   responsiveW?: string
   textLimit?: number
-  coloredParts?: { text: string; color: Color }[]
+  showMore?: boolean,
+  coloredParts?: { text: string; color: EnumType<typeof Color> }[]
 }
 
 export function Text({
@@ -26,7 +29,7 @@ export function Text({
   text = "text",
   size,
   title = false,
-  bold,
+  bold = false,
   link = false,
   href,
   center = false,
@@ -34,18 +37,43 @@ export function Text({
   maxW,
   responsive,
   textLimit,
-  coloredParts = [], // Recebe as partes coloridas
+  showMore = false,
+  coloredParts = [],
 }: TextProps) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const handleToggle = () => setIsExpanded(prev => !prev)
+
   const truncateText = (text: string, limit: number | undefined) => {
-    if (limit && text.length > limit) {
-      return `${text.substring(0, limit)}...`
-    }
-    return text
+    if (!limit || isExpanded || text.length <= limit) return text
+    return `${text.substring(0, limit)}`
   }
 
   const displayText = truncateText(text, textLimit)
 
   const renderTextWithColors = () => {
+    if (!coloredParts.length) {
+      return (
+        <>
+          {displayText}
+          {showMore && textLimit && text.length > textLimit && (
+            <span
+              style={{
+                cursor: "pointer",
+                color: color ?? Color.Blue,
+                marginLeft: "5px",
+                fontWeight: "600",
+              }}
+              onClick={handleToggle}
+            >
+              {isExpanded ? "menos" : "mais..."}
+            </span>
+          )}
+        </>
+      )
+    }
+
+    // Se tiver partes coloridas (não recomendado para truncado + showMore), renderize com cores:
     let lastIndex = 0
     return (
       <>
@@ -68,6 +96,7 @@ export function Text({
     )
   }
 
+  // Estilizações iguais às anteriores
   if (title) {
     return (
       <Styled.Title id={id} size={size} center={center} color={color}>

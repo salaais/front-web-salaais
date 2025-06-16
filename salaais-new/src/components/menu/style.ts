@@ -1,27 +1,53 @@
 import styled, { css } from "styled-components"
 import { Color, cssVarToRgba } from "../../global";
+import { getActiveColor } from ".";
+
+
+const backgroundColorItem = (isActive?: boolean, color?: string, isHover = false) => {
+  if (!color) return "transparent"
+
+  // Regra especial: hover em item ativo com TxtPrimary
+  if (isHover && isActive && color === Color.TxtPrimary) {
+    return cssVarToRgba(Color.Primary, 0.3)
+  }
+
+  if (isActive) {
+    const finalColor = color === Color.TxtPrimary ? Color.Primary : color
+    return cssVarToRgba(finalColor, 0.3)
+  }
+
+  // Hover inativo ou geral
+  if (isHover) {
+    return cssVarToRgba(color, 0.3)
+  }
+
+  return "transparent"
+}
+
+export const ContentWrapper = styled.div`
+  flex: 1 0 auto; /* cresce e ocupa espaço disponível */
+`
 
 // Novo contêiner geral
-export const MenuWrapper = styled.div<{ isOpen: boolean }>`
+export const PageContent = styled.div<{ isOpen: boolean }>`
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* coluna para o layout vertical */
+  min-height: 100vh; /* altura mínima da tela */
   padding: 20px;
   transition: margin-left 0.4s ease;
 
   @media (min-width: 768px) {
-    margin-left: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
+    margin-left: ${({ isOpen }) => (isOpen ? "220px" : "65px")};
   }
+`
 
+export const PageContentWithOutTitle = styled.div`
+  padding: 50px 0px 10px 0px;
   @media (max-width: 767px) {
     margin-left: 0;
-    padding: 10px;
     flex-direction: column;
   }
 `;
-
-export const Global = styled.div`
-padding: 10px;
-`
 
 export const PageTitle = styled.div`
   display: flex;
@@ -30,10 +56,12 @@ export const PageTitle = styled.div`
   gap: 5px;
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 20px;
   color: var(--txt-primary);
   cursor:pointer;
   user-select: none;
+  @media (max-width: 768px) {
+    margin: 13px 0 0 80px;
+  }
   & a, p{
     text-decoration: none;
     font-size: 24px;
@@ -46,7 +74,13 @@ export const PageTitle = styled.div`
 `
 
 // Container do menu inteiro
-export const MenuContainer = styled.div``
+export const MenuContainer = styled.div`
+  @media (min-width: 767px) {
+    padding-top:15px;
+    padding-left:15px;
+    padding-right:15px ;
+  }
+`
 
 // Botão do menu mobile
 export const MenuMobileButton = styled.div`
@@ -120,9 +154,6 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
   padding: 5px;
   gap: 10px;
   width: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
-  /* & ${MenuLink} span {
-    color: ${({ isOpen }) => (isOpen ? "inherit" : Color.BgSecondary)};
-  } */
   span{
     margin-left:10px;
   }
@@ -159,29 +190,23 @@ export const MenuItem = styled.li<MenuItemProps>`
   list-style: none;
   text-decoration: none;
   color: ${({ color }) => color};
-  background-color: ${({ isActive }) =>
-    isActive ? cssVarToRgba(Color.Primary, 0.3) : "transparent"};
+  background-color: ${({ isActive, color }) => backgroundColorItem(isActive, color)};
+  border-radius: 5px;
 
-  & ${MenuLink} span {
-    ${({ isActive, isOpenMenu }) => isActive && isOpenMenu && css`
-      color: ${Color.Primary};
-    `}
-    font-weight: ${({ isActive }) => (isActive ? "700" : "500")};
-  }
-
-  @media (max-width: 768px) {
-    font-size: 25px;
-    padding: 10px 5px;
-  }
-
+& ${MenuLink} span {
+  color: ${({ isActive, color }) => getActiveColor(isActive, color)};
+  font-weight: ${({ isActive }) => (isActive ? "700" : "500")};
+}
+  
   &:hover {
-    /* const hex = getCssVariableValue("--txt-primary"); */
-    /* const rgba = hexToRgba(hex, 0.3); // → "rgba(143, 141, 152, 0.3)" */
-    background-color: ${({ color }) => cssVarToRgba(color, .3)}}; /* cor com ~30% opacidade */
-    border-radius: 5px;
-  }
+    background-color: ${({ isActive, color }) =>
+    backgroundColorItem(isActive, color, true)};
+}
+@media (max-width: 768px) {
+  font-size: 25px;
+  padding: 10px 5px;
+}
 `
-
 
 // Ícone (container flex para o SVG)
 export const IconWrapper = styled.div`

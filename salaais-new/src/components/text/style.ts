@@ -2,12 +2,21 @@ import styled from "styled-components"
 import type { TextProps } from "."
 import { Color } from "../../global/types/color"
 import { Size } from "../../global/types/size"
+import type { EnumType } from "../../global"
 
 interface TitleProps {
   center?: boolean
   size?: string
-  color?: Color
+  color?: EnumType<typeof Color>
 }
+
+export const ShowMore = styled.span`
+  color: ${Color.Primary};
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 4px;
+  user-select: none;
+`
 
 export const Title = styled.h3<TitleProps>`
   font-size: 30px;
@@ -18,7 +27,7 @@ export const Title = styled.h3<TitleProps>`
 
 interface AProps {
   size?: string
-  color?: Color
+  color?: EnumType<typeof Color>
 }
 
 export const A = styled.a<AProps>`
@@ -47,7 +56,7 @@ export const Text = styled.p<TextProps>`
         return "18px" // Valor padrão
     }
   }};
-  font-weight: ${(props) => (props.bold ? "700" : "500")};
+  font-weight: ${(props) => (props.bold ? "600" : "400")};
   color: ${(props) =>
     props.bold
       ? Color.TxtPrimary

@@ -60,6 +60,11 @@ export const IconType = makeEnum({
   User: "User",
   Users: "Users",
   Notification: "Notification",
+  Payments: "Payments",
+  Instagram: "Instagram",
+  Facebook: "Facebook",
+  Trophy: "Trophy",
+  Checklist: "Checklist",
 })
 
 export const iconMap = {
@@ -105,4 +110,9 @@ export const iconMap = {
   [IconType.User]: Icons.User,
   [IconType.Users]: Icons.Users,
   [IconType.Notification]: Icons.Notification,
+  [IconType.Payments]: Icons.Payments,
+  [IconType.Instagram]: Icons.Instagram,
+  [IconType.Facebook]: Icons.Facebook,
+  [IconType.Trophy]: Icons.Trophy,
+  [IconType.Checklist]: Icons.Checklist,
 }

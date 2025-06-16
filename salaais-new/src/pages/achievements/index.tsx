@@ -1,6 +1,6 @@
 import { Menu } from "../../components";
 
-export function HomePage() {
+export function AchievementsPage() {
 
   return (
     <>

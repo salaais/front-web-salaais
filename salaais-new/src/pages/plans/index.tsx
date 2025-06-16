@@ -1,11 +1,11 @@
 import { Menu } from "../../components";
 
-export function HomePage() {
+export function PlansPage() {
 
   return (
     <>
       <Menu>
-        <a href="/home" >Estamos ainda trabalhando nisso</a>
+        <a href="/planos" >Estamos ainda trabalhando nisso</a>
       </Menu >
     </>
   )

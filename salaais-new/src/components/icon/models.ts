@@ -13,7 +13,9 @@ export interface IconContentProps {
   background?: EnumType<typeof Color>
   color?: EnumType<typeof Color> | string
   padding?: string
+  borderRadius?: number
   onClick?: React.MouseEventHandler
+  width?: string
 }
 
 export interface IconProps {

@@ -4,21 +4,22 @@ import { Align } from '../../align'
 import type { ButtonProps } from "./interfaces"
 import { Icon } from "./icon"
 import { JustifyType } from "../../align/interfaces"
-import { ThemeType, type EnumType } from "../../../global"
+import { Color, ThemeType, type EnumType } from "../../../global"
 
 
 export function Button({
   background,
-  text,
+  text='Button',
   borderColor,
   size,
   onClick,
   secondary = false,
   icon,
-  type,
-  color,
+  type=ThemeType.Primary,
+  color=Color.Primary,
   response,
   htmlFor,
+  textColor,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [buttonType, setButtonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
@@ -73,6 +74,7 @@ export function Button({
       type={type}
       color={color}
       htmlFor={htmlFor}
+      textColor={textColor}
     >
       {isLoading ? (
         <Icon type={buttonType}>

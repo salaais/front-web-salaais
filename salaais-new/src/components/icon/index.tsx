@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react"
-import type {IconContentProps} from "./models"
-import * as Styled from "./style"
-import { Size, StartAnimation, ThemeType } from "../../global"
+import type { IconContentProps } from "./models"
+import { Color, Size, StartAnimation, ThemeType } from "../../global"
 import { IconType } from "../../global"
+import * as Styled from "./style"
 
 export function Icon({
   themeType = ThemeType.Primary,
@@ -11,10 +11,12 @@ export function Icon({
   startAnimation,
   animationType,
   interval,
-  color,
+  color = Color.TxtPrimary,
   background,
   padding,
   onClick,
+  borderRadius = 100,
+  width="fit-content"
 }: IconContentProps) {
   const [animate, setAnimate] = useState(false)
   const StyledIcon = Styled.getStyledIcon(iconType)
@@ -40,6 +42,8 @@ export function Icon({
       background={background}
       padding={padding}
       onClick={onClick}
+      borderRadius={borderRadius}
+      width={width}
     >
       {StyledIcon ? (
         <StyledIcon color={color} themeType={themeType} size={size} />
