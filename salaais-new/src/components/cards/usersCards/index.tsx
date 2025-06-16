@@ -92,7 +92,6 @@ function formatDataCriacao(data: string): string {
 }
 
 export function UsersCards({ cards = defaultCards }: UserCardProps) {
-  const [expanded, setExpanded] = useState<number | null>(null)
   const [followState, setFollowState] = useState<Record<number, boolean>>(() =>
     Object.fromEntries(defaultCards.map(user => [user.id, user.eu_sigo]))
   )

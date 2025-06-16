@@ -119,7 +119,7 @@ export const ContentIcon = styled.div<IconContentProps>`
   height: fit-content;
   width: ${props => props.width};
   background-color: ${({ background }) => background || 'transparent'};
-  border-radius: ${({ borderRadius }) => `${borderRadius}%` || '100%'};
+  border-radius: ${({ borderRadius }) => borderRadius != null ? `${borderRadius}%` : '100%'};
 
   ${({ startAnimation, animationType, interval }) => {
     const animationDuration = interval ? `${interval}ms` : "1s"

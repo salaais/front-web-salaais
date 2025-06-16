@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components"
 import { Loading } from "../../../assets/icons"
 import type { ButtonProps } from "./interfaces"
-import { Color, ThemeType } from "../../../global"
+import { ThemeType } from "../../../global"
 
 export const Button = styled.button<ButtonProps>`
   height: fit-content;
