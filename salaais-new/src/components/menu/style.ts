@@ -60,7 +60,7 @@ export const PageTitle = styled.div`
   cursor:pointer;
   user-select: none;
   @media (max-width: 768px) {
-    margin: 13px 0 0 80px;
+    margin: 0 0 0 40px;
   }
   & a, p{
     text-decoration: none;
@@ -94,11 +94,11 @@ export const MenuMobileButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   color: var(--txt-primary);
   font-weight: 700;
-  font-size: 25px;
+  font-size: 15px;
 
   @media (min-width: 769px) {
     display: none;
@@ -154,16 +154,17 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
   padding: 5px;
   gap: 10px;
   width: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
+  transition: ${({ isOpen }) => isOpen ? 'all 1s ease' : 'all 1s ease'};
   span{
     margin-left:10px;
   }
   @media (max-width: 767px) {
-    width: ${({ isOpen }) => (isOpen ? "320px" : "0")};
+    width: ${({ isOpen }) => (isOpen ? "220px" : "0")};
     height: 100%;
     border-radius: ${({ isOpen }) => (isOpen ? "0 20px 20px 0" : "0")};
-    padding: ${({ isOpen }) => (isOpen ? "10px 20px 20px 30px" : "10px 0 0 0")};
+    padding: ${({ isOpen }) => (isOpen ? "0 10px 0 10px" : "0")};
     justify-content: flex-start;
-    gap: 20px;
+    gap:2px;
   }
 
   @media (min-width: 769px) and (max-height: 499px) {
@@ -203,8 +204,7 @@ export const MenuItem = styled.li<MenuItemProps>`
     backgroundColorItem(isActive, color, true)};
 }
 @media (max-width: 768px) {
-  font-size: 25px;
-  padding: 10px 5px;
+  padding: 5px;
 }
 `
 

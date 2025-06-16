@@ -181,7 +181,7 @@ export function Menu(props: MenuProps) {
               <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => { navigate(item.link) }}>
                 <Styled.MenuLink>
                   <Styled.IconWrapper>
-                    <Icon iconType={item.icone} color={getActiveColor(isActive, item.color)} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
+                    <Icon iconType={item.icone} color={getActiveColor(isActive, item.color)} size={Size.S} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
                   </Styled.IconWrapper>
                   <span>{item.nome}</span>
                 </Styled.MenuLink>
