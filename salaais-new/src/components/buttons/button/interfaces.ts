@@ -15,6 +15,7 @@ export interface ButtonProps {
   response?: number
   htmlFor?: string
   textColor?: EnumType< typeof Color>
+  colorLoading?: string
 }
 
 export interface IconProps {

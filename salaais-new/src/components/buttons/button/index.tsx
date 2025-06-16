@@ -20,6 +20,7 @@ export function Button({
   response,
   htmlFor,
   textColor,
+  colorLoading,
 }: ButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [buttonType, setButtonType] = useState<EnumType<typeof ThemeType>>(ThemeType.Primary)
@@ -75,11 +76,12 @@ export function Button({
       color={color}
       htmlFor={htmlFor}
       textColor={textColor}
+      colorLoading={colorLoading}
     >
       {isLoading ? (
-        <Icon type={buttonType}>
+        <Styles.ContentIcon type={buttonType} colorLoading={colorLoading}>
           <Styles.LoadingIcon type={buttonType} />
-        </Icon>
+        </Styles.ContentIcon>
       ) : (
         <Align gap="4px" alignCenter justify={JustifyType.Center}>
           {icon && <Icon type={buttonType}>{icon}</Icon>}

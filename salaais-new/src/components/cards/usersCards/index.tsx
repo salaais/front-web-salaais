@@ -167,6 +167,7 @@ export function UsersCards({ cards = defaultCards }: UserCardProps) {
                   text={loadingFollow[card.id] ? "..." : "Seguindo"}
                   type={ThemeType.Outlined}
                   color={Color.TxtTertiary}
+                  colorLoading={Color.TxtSecondary}
                   onClick={() => stopToFollow(card.id)}
                 />
               ) : (
@@ -176,6 +177,7 @@ export function UsersCards({ cards = defaultCards }: UserCardProps) {
                   color={Color.FollowButtonColor}
                   background={Color.FollowButtonColor}
                   textColor={Color.BgPrimary}
+                  colorLoading={Color.BgPrimary}
                   onClick={() => startToFollow(card.id)}
                 />
               )}

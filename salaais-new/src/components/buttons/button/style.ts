@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components"
 import { Loading } from "../../../assets/icons"
 import type { ButtonProps } from "./interfaces"
-import { ThemeType } from "../../../global"
+import { Color, ThemeType, type EnumType } from "../../../global"
 
 export const Button = styled.button<ButtonProps>`
   height: fit-content;
@@ -12,8 +12,6 @@ export const Button = styled.button<ButtonProps>`
   * svg{
     width: 1em;
     height: 1em;
-    fill:red;
-    color: red;
   }
 
   ${({ type, color, background, textColor }) => {
@@ -99,7 +97,7 @@ export const LoadingIcon = styled(Loading) <ButtonProps>`
       case ThemeType.Lite:
         return 'var(--text-solid)';
       case ThemeType.Outlined:
-        return 'red';
+        return Color.BgPrimary;
       case ThemeType.Error:
         return 'var(--danger-color)';
       default:
@@ -108,33 +106,30 @@ export const LoadingIcon = styled(Loading) <ButtonProps>`
   }};
 `
 
-export const ContentIcon = styled.div<ButtonProps>`
+export const ContentIcon = styled.div<{ type: EnumType<typeof ThemeType>, colorLoading?: string }>`
   width: 100%;
   height: 100%;
   align-items: center;
   justify-content: center;
   display: flex;
+
   & * {
-    ${({ type }) => {
+      ${({ type, colorLoading }) => {
+    if (colorLoading) {
+      return `fill: ${colorLoading};`;
+    }
+
     switch (type) {
       case ThemeType.Primary:
-        return `
-            fill: red;
-          `
+        return `fill: blue;`
       case ThemeType.Secondary:
-        return `
-            fill: var(--primary-color);
-          `
+        return `fill: var(--primary-color);`
       case ThemeType.Lite:
-        return `
-            fill: var(--text-solid);
-          `
+        return `fill: var(--text-solid);`
       case ThemeType.Outlined:
-        return `
-            fill: var(--admin-color);
-          `
+        return `fill: var(--admin-color);`
       default:
-        return "fill: var(--bg-secondary);"
+        return `fill: var(--bg-secondary);`
     }
   }}
   }
