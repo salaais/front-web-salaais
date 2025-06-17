@@ -52,6 +52,8 @@ export const Text = styled.p<TextProps>`
         return "20px"
       case Size.Xl:
         return "25px"
+      case Size.Xxl:
+        return "40px"
       default:
         return "18px" // Valor padrão
     }

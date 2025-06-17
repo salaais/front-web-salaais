@@ -12,7 +12,7 @@ export function Achievement({
 }: IconContentProps) {
   const [animate, ] = useState(false)
 
-  const StyledIcon = Styled.getStyledIcon(iconType, achievementType, disabled)
+  const StyledIcon = Styled.getStyledIcon(iconType, achievementType)
 
   return (
     <Styled.ContentBackground achievementType={achievementType} disabled={disabled} onClick={onClick}>

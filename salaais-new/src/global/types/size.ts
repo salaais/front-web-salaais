@@ -6,5 +6,6 @@ export const Size = makeEnum({
   M: "md",
   L: "lg",
   Xl: "xl",
+  Xxl: "xxl",
   Full: "full",
 })

@@ -50,13 +50,12 @@ const rotate360 = keyframes`
 
 export function getStyledIcon(
   iconType?: IconProps["iconType"],
-  achievementType?: IconProps["achievementType"],
-  disabled?: IconProps["disabled"],
+  achievementType?: IconProps["achievementType"]
 ) {
-  if (!iconType || !achievementType) return null
+  if (!iconType || !achievementType) return null;
 
-  const IconComponent = iconMap[iconType]
-  if (!IconComponent) return null
+  const IconComponent = iconMap[iconType];
+  if (!IconComponent) return null;
 
   return styled(IconComponent)<IconProps>`
     width: 24px;
@@ -65,30 +64,31 @@ export function getStyledIcon(
     opacity: 1 !important;
 
     & * {
-      ${({ achievementType, disabled }) => {
-const fillColor = disabled
-  ? Color.AchievementDisabled
-  : achievementType === AchievementType.Comum
-  ? Color.AchievementComum
-  : achievementType === AchievementType.Raro
-  ? Color.AchievementRare // ← aqui trocamos
-  : "var(--success-color)" // lendário
+      ${(props) => {
+        const fillColor = props.disabled
+          ? Color.AchievementDisabled
+          : props.achievementType === AchievementType.Comum
+          ? Color.AchievementComum
+          : props.achievementType === AchievementType.Raro
+          ? Color.AchievementRare
+          : "var(--success-color)"; // lendário
 
         const lendarioAnimation =
-          achievementType === AchievementType.Lendario
+          props.achievementType === AchievementType.Lendario
             ? css`
                 animation: ${legendaryColorCycle} 4s linear infinite;
               `
-            : ""
+            : "";
 
         return css`
           fill: ${fillColor};
           ${lendarioAnimation}
-        `
+        `;
       }}
     }
-  `
+  `;
 }
+
 
 
 export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof AchievementType>, disabled: boolean }>`

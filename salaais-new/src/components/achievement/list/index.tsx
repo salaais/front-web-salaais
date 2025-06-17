@@ -121,7 +121,7 @@ const achievementList = [
   },
 ]
 
-const myAchieviments:string[] = []
+const myAchieviments: string[] = []
 
 function renderToast(item: typeof achievementList[0]) {
   return (
