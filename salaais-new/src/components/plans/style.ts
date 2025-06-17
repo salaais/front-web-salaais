@@ -12,13 +12,16 @@ width:100%;
 `
 
 export const AllContent = styled.div`
+  display: flex;
   position: relative;  // <-- necessário para posicionar o ContentImage
   width: 100%;
   max-width: 250px;
-  display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 95px;  // espaço para a imagem flutuante
+  @media(max-width:768px){
+    max-width: 340px;
+  }
 `
 
 export const ContentImage = styled.div`
@@ -54,7 +57,6 @@ export const Content = styled.div`
  flex-direction:column;
  gap:10px;
  width: 100%;
- max-width:250px;
  box-shadow: var(--shadow);
  position:relative;
 `
