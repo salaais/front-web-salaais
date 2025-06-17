@@ -30,15 +30,16 @@
   --orange: #F2925E;
 
   /**/
-  --achievements-comum: #7CE57A;
---achievements-rare-background: conic-gradient(
+  --achievement-comum: #7CE57A;
+  --achievement-rare: #F2925E;
+--achievement-rare-background: conic-gradient(
   from 0deg,
   #FF863A,
   #fce564,
   #FF6347,
   #ff7926
 );
-  --achievements-legendary-background: conic-gradient(
+  --achievement-legendary-background: conic-gradient(
                               from 0deg,
                               #EB6CFF,
                               #5BB1FF,
@@ -47,9 +48,7 @@
                               #EB6CFF
                             );
 
-
-  --bg-primary-table-color: #ccd0d3;
-  --bg-secondary-table-color: #ccd0d3;
+  --achievement-disabled: rgb(216, 216, 216);
 
   --shadow: rgba(10, 10, 10, 0.4) 0px 3px 9px 0px;
   --msg-send: #353342;

@@ -12,10 +12,12 @@ export interface IconContentProps {
   iconType?: EnumType<typeof IconType>
   achievementType?: EnumType<typeof AchievementType>
   onClick?: React.MouseEventHandler
+  disabled: boolean,
 }
 
 export interface IconProps {
   themeType?: EnumType<typeof ThemeType>
   iconType?: EnumType<typeof IconType>
   achievementType?: EnumType<typeof AchievementType>
+  disabled: boolean,
 }

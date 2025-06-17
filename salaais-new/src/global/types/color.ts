@@ -38,7 +38,9 @@ export const Color = makeEnum({
     Orange: "var(--orange)",
 
     MsgSend: "var(--msg-send)",
-    AchievementsComum: "var(--achievements-comum)",
-    AchievementsRaroBackground: "var(--achievements-rare-background)",
-    AchievementsLendarioBackground: "var(--achievements-legendary-background)",
+    AchievementComum: "var(--achievement-comum)",
+    AchievementRare: "var(--achievement-rare)",
+    AchievementRaroBackground: "var(--achievement-rare-background)",
+    AchievementLendarioBackground: "var(--achievement-legendary-background)",
+    AchievementDisabled: "var(--achievement-disabled)",
 })

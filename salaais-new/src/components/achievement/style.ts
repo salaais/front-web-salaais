@@ -8,7 +8,7 @@ const legendaryColorCycle = keyframes`
   0% { fill: #EB6CFF; }
   50% { fill: #FDED49; }
   25% { fill: #5AFFE4; }
-  75% { fill: ##5BB1FF; }
+  75% { fill: #5BB1FF; }
   100% { fill: #EB6CFF; }
 `
 
@@ -51,59 +51,59 @@ const rotate360 = keyframes`
 export function getStyledIcon(
   iconType?: IconProps["iconType"],
   achievementType?: IconProps["achievementType"],
+  disabled?: IconProps["disabled"],
 ) {
-  if (!iconType) return null
-  if (!achievementType) return null
+  if (!iconType || !achievementType) return null
 
   const IconComponent = iconMap[iconType]
   if (!IconComponent) return null
 
-  return styled(IconComponent) <IconProps>`
-    width: 24px; 
+  return styled(IconComponent)<IconProps>`
+    width: 24px;
     height: 24px;
     stroke: none !important;
     opacity: 1 !important;
 
     & * {
-      ${({ achievementType }) => {
-      if (achievementType === AchievementType.Lendario) {
-        return css`
-            animation: ${legendaryColorCycle} 4s linear infinite;
-          `
-      }
+      ${({ achievementType, disabled }) => {
+const fillColor = disabled
+  ? Color.AchievementDisabled
+  : achievementType === AchievementType.Comum
+  ? Color.AchievementComum
+  : achievementType === AchievementType.Raro
+  ? Color.AchievementRare // ← aqui trocamos
+  : "var(--success-color)" // lendário
 
-      if (achievementType === AchievementType.Raro) {
-        return css`
-            fill: #FF863A;
-          `
-      }
+        const lendarioAnimation =
+          achievementType === AchievementType.Lendario
+            ? css`
+                animation: ${legendaryColorCycle} 4s linear infinite;
+              `
+            : ""
 
-      switch (achievementType) {
-        case AchievementType.Comum:
-          return `fill: ${Color.AchievementsComum};`
-        case AchievementType.Raro:
-          return `fill: ${Color.AchievementsRaroBackground};`
-        default:
-          return "fill: var(--success-color);"
-      }
-    }}
+        return css`
+          fill: ${fillColor};
+          ${lendarioAnimation}
+        `
+      }}
     }
   `
 }
 
-export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof AchievementType> }>`
+
+export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof AchievementType>, disabled: boolean }>`
   position: relative;
   width: fit-content;
   padding: 3px;
   border-radius: 12px;
   overflow: hidden;
   background: transparent;
-
-  ${({ achievementType }) => {
+  opacity: ${({ disabled }) => (disabled ? .6 : 1)};
+  ${({ achievementType, disabled }) => {
     switch (achievementType) {
       case AchievementType.Comum:
         return css`
-          background: ${Color.AchievementsComum};
+          background: ${disabled ? Color.AchievementDisabled : Color.AchievementComum};
         `
       case AchievementType.Raro:
         return css`
@@ -114,7 +114,7 @@ export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof 
             position: absolute;
             top: -20%; left: -20%; right: -20%; bottom: -20%;
             border-radius: 50%;
-            background: ${Color.AchievementsRaroBackground};
+            background: ${disabled ? Color.AchievementDisabled : Color.AchievementRaroBackground};
             animation: ${rotate360} 3s linear infinite;
             z-index: 0;
           }
@@ -122,14 +122,14 @@ export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof 
       case AchievementType.Lendario:
         return css`
           background: transparent;
-          animation: ${legendaryShadow} 4s linear infinite;
-
+          ${!disabled && css`animation: ${legendaryShadow} 4s linear infinite;`};
+          
           &::before {
             content: "";
             position: absolute;
             top: -20%; left: -20%; right: -20%; bottom: -20%;
             border-radius: 50%;
-            background: ${Color.AchievementsLendarioBackground};
+            background: ${disabled ? Color.AchievementDisabled : Color.AchievementLendarioBackground};
             animation: ${rotate360} 3s linear infinite;
             z-index: 0;
           }
