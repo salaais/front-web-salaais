@@ -12,12 +12,20 @@ const legendaryColorCycle = keyframes`
   100% { fill: #EB6CFF; }
 `
 
-const legendaryShadowCycle = keyframes`
+const legendaryShadow = keyframes`
   0% { box-shadow: 0 0 6px 2px #EB6CFF; }
   25% { box-shadow: 0 0 6px 2px #FDED49; }
   50% { box-shadow: 0 0 6px 2px #FDED49; }
   75% { box-shadow: 0 0 6px 2px #FDED49; }
   100% { box-shadow: 0 0 6px 2px #EB6CFF; }
+`
+
+const rareShadow = keyframes`
+  0% { box-shadow: 0 0 6px 2px #FF863A; }
+  25% { box-shadow: 0 0 6px 2px #FF6347; }
+  50% { box-shadow: 0 0 6px 2px #FF6347; }
+  75% { box-shadow: 0 0 6px 2px #FFB347; }
+  100% { box-shadow: 0 0 6px 2px #FF6347; }
 `
 
 export const AchievementWrapper = styled.div`
@@ -64,11 +72,17 @@ export function getStyledIcon(
           `
       }
 
+      if (achievementType === AchievementType.Raro) {
+        return css`
+            fill: #FF863A;
+          `
+      }
+
       switch (achievementType) {
         case AchievementType.Comum:
           return `fill: ${Color.AchievementsComum};`
         case AchievementType.Raro:
-          return `fill: ${Color.AchievementsRaro};`
+          return `fill: ${Color.AchievementsRaroBackground};`
         default:
           return "fill: var(--success-color);"
       }
@@ -93,19 +107,29 @@ export const ContentBackground = styled.div<{ achievementType?: EnumType<typeof 
         `
       case AchievementType.Raro:
         return css`
-          background: ${Color.AchievementsRaro};
+          background: transparent;
+          /* animation: ${rareShadow} 4s linear infinite; */
+          &::before {
+            content: "";
+            position: absolute;
+            top: -20%; left: -20%; right: -20%; bottom: -20%;
+            border-radius: 50%;
+            background: ${Color.AchievementsRaroBackground};
+            animation: ${rotate360} 3s linear infinite;
+            z-index: 0;
+          }
         `
       case AchievementType.Lendario:
         return css`
           background: transparent;
-          animation: ${legendaryShadowCycle} 4s linear infinite;
+          animation: ${legendaryShadow} 4s linear infinite;
 
           &::before {
             content: "";
             position: absolute;
             top: -20%; left: -20%; right: -20%; bottom: -20%;
             border-radius: 50%;
-            background: ${Color.AchievementsLendario};
+            background: ${Color.AchievementsLendarioBackground};
             animation: ${rotate360} 3s linear infinite;
             z-index: 0;
           }
