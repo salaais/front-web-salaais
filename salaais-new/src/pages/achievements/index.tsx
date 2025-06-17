@@ -1,11 +1,14 @@
-import { Menu } from "../../components";
+import { AchievementList, Menu } from "../../components";
 
 export function AchievementsPage() {
 
   return (
     <>
       <Menu>
-        <a href="/home" >Estamos ainda trabalhando nisso</a>
+        <a href="/home" >Disponíveis em breve!</a>
+        <br/>
+        <br/>
+        <AchievementList />
       </Menu >
     </>
   )

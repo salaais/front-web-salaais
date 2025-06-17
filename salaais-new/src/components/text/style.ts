@@ -49,7 +49,7 @@ export const Text = styled.p<TextProps>`
       case Size.M:
         return "16px"
       case Size.L:
-        return "18px"
+        return "20px"
       case Size.Xl:
         return "25px"
       default:

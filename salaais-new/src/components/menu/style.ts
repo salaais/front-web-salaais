@@ -154,7 +154,7 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
   padding: 5px;
   gap: 10px;
   width: ${({ isOpen }) => (isOpen ? "200px" : "45px")};
-  transition: ${({ isOpen }) => isOpen ? 'all 1s ease' : 'all 1s ease'};
+  transition: ${({ isOpen }) => isOpen ? 'all 0.35s ease' : 'all 0.35s ease'};
   span{
     margin-left:10px;
   }

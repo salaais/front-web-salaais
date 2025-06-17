@@ -29,6 +29,19 @@
   --pink: #CC09DC;
   --orange: #F2925E;
 
+  /**/
+  --achievements-comum: #7CE57A;
+  --achievements-rare: #FF863A;
+  --achievements-legendary: conic-gradient(
+                              from 0deg,
+                              #EB6CFF,
+                              #5BB1FF,
+                              #5AFFE4,
+                              #FDED49,
+                              #EB6CFF
+                            );
+
+
   --bg-primary-table-color: #ccd0d3;
   --bg-secondary-table-color: #ccd0d3;
 
