@@ -15,7 +15,7 @@ export function Icon({
   background,
   padding,
   onClick,
-  borderRadius = 100,
+  borderRadius = '100%',
   width="fit-content"
 }: IconContentProps) {
   const [animate, setAnimate] = useState(false)

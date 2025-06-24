@@ -77,6 +77,15 @@ export const IconType = makeEnum({
   AirplaneDown: "AirplaneDown",
   Brain: "Brain",
   Wing: "Wing",
+
+  Fire: "Fire",
+  BookA: "BookA",
+  Test: "Test",
+  Tests: "Tests",
+  Edit: "Edit",
+  ShoppingCart: "ShoppingCart",
+  Payment: "Payment",
+  ShoppingBag: "ShoppingBag",
 })
 
 export const iconMap = {
@@ -139,4 +148,12 @@ export const iconMap = {
   [IconType.AirplaneDown]: Icons.AirplaneDown,
   [IconType.Brain]: Icons.Brain,
   [IconType.Wing]: Icons.Wing,
+  [IconType.Fire]: Icons.Fire,
+  [IconType.BookA]: Icons.BookA,
+  [IconType.Test]: Icons.Test,
+  [IconType.Tests]: Icons.Tests,
+  [IconType.Edit]: Icons.Edit,
+  [IconType.ShoppingCart]: Icons.ShoppingCart,
+  [IconType.Payment]: Icons.Payment,
+  [IconType.ShoppingBag]: Icons.ShoppingBag,
 }

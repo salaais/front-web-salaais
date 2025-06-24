@@ -1,8 +1,19 @@
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import type { LoginResponse, LoginGoogleParams, RegisterRequest, LoginAppleParams, LoginAppleSessionTokenParams, ErrorRegisterResponse, loginWithGoogleResponse } from "./models";
+import type {
+  LoginResponse,
+  LoginGoogleParams,
+  RegisterRequest,
+  LoginAppleParams,
+  LoginAppleSessionTokenParams,
+  ErrorRegisterResponse,
+  loginWithGoogleResponse,
+  UserCardResponse,
+  UserCardsResponse,
+  FullUserCardResponse
+} from "./models";
 import { toast } from "react-toastify";
-import { setCookie } from "../../../global";
+import { getCookie, setCookie } from "../../../global";
 import './google.d.ts';
 
 export function getApiSalaAis() {
@@ -208,7 +219,134 @@ export const loginWithAppleValidateAccessToken = async (
   }
 };
 
+export const getUsers = async (
+  string_de_busca: string,
+  page: number = 1,
+  options?: { signal?: AbortSignal }
+): Promise<{ data: UserCardResponse[]; total: number }> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
 
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return { data: [], total: 0 };
+  }
 
+  try {
+    const promise = apiSalaAis.get<UserCardsResponse>(
+      `usuario?string_de_busca=${encodeURIComponent(string_de_busca)}&page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+        signal: options?.signal,
+      }
+    );
 
+    const { data } = options?.signal
+      ? await promise
+      : await toast.promise(promise, {
+        pending: "Carregando usuários...",
+        success: "Usuários carregados!",
+        error: "Erro ao carregar usuários.",
+      });
 
+    return {
+      data: Array.isArray(data.data) ? data.data : [],
+      total: data.total ?? 0,
+    };
+  } catch (error: unknown) {
+    if (
+      error instanceof DOMException &&
+      (error.name === "CanceledError" || error.name === "AbortError")
+    ) {
+      return { data: [], total: 0 };
+    }
+
+    console.error("Erro ao buscar usuários:", error);
+    if (!options?.signal) {
+      toast.error("Erro ao carregar usuários.");
+    }
+    return { data: [], total: 0 };
+  }
+};
+
+export const getUserInfo = async (id_usuario: number): Promise<FullUserCardResponse> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return {} as FullUserCardResponse;
+  }
+
+  try {
+    const { data } = await apiSalaAis.get<FullUserCardResponse>(
+      `usuario/info/${id_usuario}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
+    return {} as FullUserCardResponse;
+  }
+};
+
+export const startToFollow = async (id_usuario_seguir: number): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return;
+  }
+
+  try {
+    await apiSalaAis.post(
+      `usuario/seguir/${id_usuario_seguir}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Erro ao seguir usuário: ", error);
+    toast.error("Erro ao seguir usuário. Tente novamente.");
+  }
+};
+
+export const stopToFollow = async (id_usuario_seguido: number): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return;
+  }
+
+  try {
+    await apiSalaAis.post(
+      `usuario/parar-de-seguir/${id_usuario_seguido}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Erro ao seguir usuário: ", error);
+    toast.error("Erro ao seguir usuário. Tente novamente.");
+  }
+};

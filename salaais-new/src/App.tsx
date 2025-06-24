@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css'
 import { Alert } from "./components";
-import { AchievementsPage, AdminPage, HomePage, LoginPage, PlansPage, SettingsPage, StudyPage, UsersPage } from "./pages";
+import { AchievementsPage, AdminPage, HomePage, LoginPage, PlansPage, RankingPage, SettingsPage, StudyPage, UsersPage } from "./pages";
 
 export default function App() {
   return (
@@ -17,7 +17,7 @@ export default function App() {
           <Route path="/estudos" element={<StudyPage />} />
           <Route path="/usuarios" element={<UsersPage />} />
           <Route path="/configuracoes" element={<SettingsPage />} />
-          <Route path="/ranking" element={<SettingsPage />} />
+          <Route path="/ranking" element={<RankingPage />} />
           <Route path="/conquistas" element={<AchievementsPage />} />
         </Routes>
       </BrowserRouter>

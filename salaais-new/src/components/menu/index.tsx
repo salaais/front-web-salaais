@@ -32,7 +32,7 @@ const defaultItems: MenuItem[] = [
   {
     nome: "Planos",
     link: "/planos",
-    icone: IconType.Medal,
+    icone: IconType.ShoppingCart,
     color: Color.TxtPrimary,
     is_handle: true,
   },

@@ -147,7 +147,7 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
   text-decoration: none;
   font-size: 18px;
   background-color: var(--bg-secondary);
-  border-radius: 15px;
+  border-radius: 10px;
   list-style: none;
   display: flex;
   flex-direction: column;

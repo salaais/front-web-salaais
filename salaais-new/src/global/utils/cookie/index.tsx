@@ -2,18 +2,27 @@
 
 import { timeDuration } from "../time";
 
-export function getCookie(name: string): string | null {
-  const cookies = document.cookie.split(";")
+export function getCookie<T extends string | number | boolean | Date>(name: string): T | null {
+  const cookies = document.cookie.split(";");
 
   for (const cookie of cookies) {
-    const [cookieName, cookieValue] = cookie.split("=")
+    const [cookieName, cookieValueRaw] = cookie.split("=");
     if (cookieName.trim() === name) {
-      return cookieValue
+      const value = decodeURIComponent(cookieValueRaw);
+
+      if (value === "true") return true as T;
+      if (value === "false") return false as T;
+
+      const numberValue = Number(value);
+      if (!isNaN(numberValue) && value.trim() !== "") return numberValue as T;
+
+      return value as T;
     }
   }
 
-  return null
+  return null;
 }
+
 
 //setCookie("theme", "dark", 2m); -> 2 minutos
 export function setCookie(name: string, value: string, durationStr: string): void {

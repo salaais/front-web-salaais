@@ -35,3 +35,29 @@ export interface loginWithGoogleResponse {
 export interface ErrorRegisterResponse {
     errors_description?: string[];
 }
+
+export interface UserCardResponse {
+    id_usuario: number;
+    username: string;
+    nome: string;
+    url_imagem_perfil: string;
+    eu_sigo: boolean;
+}
+
+export interface UserCardsResponse {
+    count?: number;
+    page?: number;
+    total?: number;
+    data: UserCardResponse[]
+}
+
+export interface FullUserCardResponse {
+    bio?: string
+    seguidores: number
+    seguindo: number
+    desativado: boolean
+    deletado: boolean
+    data_criacao: string
+    link_instagram?: string | null
+    link_facebook?: string | null
+}

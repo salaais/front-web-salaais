@@ -1,4 +1,5 @@
 //apenas para tirar os erros de tipagem ESlint
+export {} // força esse arquivo a ser módulo ES
 declare global {
   interface Window {
     google: {
