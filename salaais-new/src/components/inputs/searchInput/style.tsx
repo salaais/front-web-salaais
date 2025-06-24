@@ -10,6 +10,7 @@ export const Content = styled.div`
   width: 100%;
   max-width:300px;
   margin-bottom:100px;
+  gap:20px;
 `;
 
 export const Input = styled.input`
@@ -19,7 +20,7 @@ export const Input = styled.input`
   background-color: var(--bg-secondary);
   padding: 2px 0px 0px 20px;
   color: var(--txt-primary);
-  border-radius: 32px 0 0 32px;
+  border-radius: 32px;
   font-size: 16px;
   position: relative;
 

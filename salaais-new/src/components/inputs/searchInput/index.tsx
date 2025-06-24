@@ -5,11 +5,14 @@ import type { RefObject } from "react";
 
 type SearchInputProps = {
   placeholder?: string;
+  onSearchClick?: () => void;
+  onTyping?: () => void;
   inputRef: RefObject<HTMLInputElement | null>;
 };
 
 export function SearchInput({
   placeholder = "Buscar",
+  onSearchClick,
   inputRef
 }: SearchInputProps) {
   return (
@@ -23,7 +26,7 @@ export function SearchInput({
           iconType={IconType.Search}
           size={Size.S}
           background={Color.BgSecondary}
-          borderRadius={'0 32px 32px 0'}
+          onClick={onSearchClick}
         />
       </Styled.Content>
     </Styled.All>

@@ -6,84 +6,64 @@ import { AnimationType, IconType, Size, StartAnimation } from "../../global";
 
 export function UsersPage() {
   const [userList, setUserList] = useState<UserCardResponse[]>([]);
-  const [searchText, setSearchText] = useState("");
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [isLoadingInitial, setIsLoadingInitial] = useState(true);
+  const [isLoadingInitial, setIsLoadingInitial] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const userListRef = useRef<UserCardResponse[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
-  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const fetchUsers = async (
     text: string,
     pageToFetch = 1,
     append = false
   ) => {
-    if (abortControllerRef.current) abortControllerRef.current.abort();
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
     if (append) {
       setIsLoadingMore(true)
     } else {
       setIsLoadingInitial(true);
     }
-
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     try {
-      const res = await getUsers(text, pageToFetch, {
-        signal: controller.signal,
-      });
+      const res = await getUsers(text, pageToFetch, { signal: controller.signal });
+      const newList = append
+        ? [...userListRef.current, ...res.data]
+        : res.data;
 
-      setUserList(prev =>
-        append ? [...prev, ...res.data] : res.data
-      );
+      userListRef.current = newList;
+      setUserList(newList);
       setTotal(res.total);
-    } catch (err: unknown) {
-      if (
-        err instanceof DOMException &&
-        err.name === "AbortError"
-      ) return;
-
-      console.error("Erro ao carregar usuários", err);
+    } catch (err) {
+      if (!(err instanceof DOMException && err.name === "AbortError")) {
+        console.error("Erro ao buscar usuários:", err);
+      }
     } finally {
       if (append) {
         setIsLoadingMore(false)
       } else {
-        setIsLoadingInitial(false);
+        setIsLoadingInitial(false)
       }
     }
   };
 
-  // Busca inicial ao abrir a página
   useEffect(() => {
-    setIsLoadingInitial(true); // <- força o loading imediatamente antes do fetch
     fetchUsers("", 1);
   }, []);
 
-  // Observa input e faz debounce da digitação
-  useEffect(() => {
-    const inputEl = inputRef.current;
-    if (!inputEl) return;
+  const handleSearchClick = () => {
+    if (!inputRef.current) return;
+    const value = inputRef.current.value;
+    setSearchText(value);
+    setPage(1);
+    fetchUsers(value, 1, false);
+  };
 
-    const handleInput = () => {
-      const value = inputEl.value;
-      setSearchText(value);
-      setPage(1);
-
-      if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
-      debounceTimeout.current = setTimeout(() => {
-        setIsLoadingInitial(true); // <- garantir que o loading apareça
-        fetchUsers(value, 1, false);
-      }, 500);
-    };
-
-    inputEl.addEventListener("input", handleInput);
-    return () => inputEl.removeEventListener("input", handleInput);
-  }, []);
-
-  // Scroll infinito com IntersectionObserver
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
@@ -106,7 +86,7 @@ export function UsersPage() {
 
   return (
     <Menu>
-      <SearchInput inputRef={inputRef} />
+      <SearchInput inputRef={inputRef} onSearchClick={handleSearchClick} />
 
       {isLoadingInitial && (
         <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
