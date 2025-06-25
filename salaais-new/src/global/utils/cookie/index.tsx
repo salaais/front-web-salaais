@@ -4,7 +4,8 @@ import { makeEnum } from "../enum";
 import { timeDuration } from "../time";
 
 export const Cookie = makeEnum({
-  access_token: "access_token"// string
+  access_token: "access_token", // string
+  login_state_apple: "login_state_apple" // string
 })
 
 // setCookie("permissoes_ativas", ["COMUM", "ADMIN"], "10m");

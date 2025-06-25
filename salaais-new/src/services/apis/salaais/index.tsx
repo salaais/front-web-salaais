@@ -50,6 +50,14 @@ export const paymentPlan = async (
   }
 };
 
+// login apple, login google, login normal
+export const finalizarLogin = async (access_token: string, navigate: (path: string) => void) => {
+  setCookie("access_token", access_token, '7d');
+  await getPermissionsByToken();
+  toast.success("Bem-vindo!");
+  navigate("/home");
+};
+
 export const loginAction = async (
   email: string,
   password: string,
@@ -60,10 +68,7 @@ export const loginAction = async (
     const requestData = { email, password }
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
-      toast.success("Bem-vindo!")
-      setCookie("access_token", response.data.access_token, Duration["7d"])
-      await getPermissionsByToken();
-      navigate("/home")
+      await finalizarLogin(response.data.access_token, navigate);
     }
   } catch (error) {
     console.error("Erro ao fazer login:", error)
@@ -112,6 +117,7 @@ export const loginWithGoogle = async ({
 
   if (!window.google?.accounts?.oauth2) {
     console.error("Google OAuth não está carregado.");
+    toast.error("O Google está com problema no momento.")
     return;
   }
 
@@ -121,7 +127,7 @@ export const loginWithGoogle = async ({
     callback: async (googleResponse: loginWithGoogleResponse) => {
       const apiSalaAis = getApiSalaAis();
       if (!googleResponse?.access_token) {
-        toast.error("Falha ao obter token do Google.");
+        toast.error("Falha login Google.");
         return;
       }
 
@@ -137,13 +143,10 @@ export const loginWithGoogle = async ({
           }
         );
 
-        const data = apiResponse.data;
         if (apiResponse.status >= 200 && apiResponse.status < 300) {
-          toast.success("Bem-vindo!")
-          navigate("/home")
+          const data = apiResponse.data;
+          await finalizarLogin(data.access_token, navigate);
         }
-        setCookie("access_token", data.access_token, '7d');
-        await getPermissionsByToken();
 
       } catch (error) {
         toast.error("Erro ao fazer login com Google.");
@@ -165,7 +168,7 @@ export const loginWithApple = async ({
     setIsLoading(true);
     const state = crypto.randomUUID();
     //5 minutos
-    setCookie("login_state_apple", state, '2m');
+    setCookie(Cookie.login_state_apple, state, '2m');
 
     //ADICIONAR REQUEST para minha api salvar login_state_apple
 
@@ -189,13 +192,11 @@ export const loginWithApple = async ({
 export const loginWithAppleValidateAccessToken = async (
   params: LoginAppleSessionTokenParams
 ) => {
-  //http://localhost:5173/login?session_token=mskssoiam
   const { sessionToken, navigate, setIsLoading } = params;
   const apiSalaAis = getApiSalaAis();
 
   setIsLoading(true);
   try {
-
     if (!sessionToken) {
       toast.error("O login apple falhou");
       console.log("Token de sessão ausente inválido.");
@@ -212,12 +213,11 @@ export const loginWithAppleValidateAccessToken = async (
       console.log("Token de acesso não retornado.");
       return;
     }
-    setCookie("access_token", access_token, Duration['7d']); // 7 dias de validade
-    await getPermissionsByToken();
-    toast.success("Bem vindo!");
+
     // Limpar a URL (remove os parâmetros da query)
     window.history.replaceState({}, document.title, "/login");
-    navigate("/home")
+
+    await finalizarLogin(access_token, navigate);
 
   } catch (error) {
     console.error("Erro ao validar token de sessão da Apple:", error);
