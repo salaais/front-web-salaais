@@ -60,9 +60,9 @@ export const loginAction = async (
     const requestData = { email, password }
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
-      await getPermissionsByToken();
       toast.success("Bem-vindo!")
       setCookie("access_token", response.data.access_token, Duration["7d"])
+      await getPermissionsByToken();
       navigate("/home")
     }
   } catch (error) {
@@ -142,8 +142,8 @@ export const loginWithGoogle = async ({
           toast.success("Bem-vindo!")
           navigate("/home")
         }
-        await getPermissionsByToken();
         setCookie("access_token", data.access_token, '7d');
+        await getPermissionsByToken();
 
       } catch (error) {
         toast.error("Erro ao fazer login com Google.");
@@ -212,8 +212,8 @@ export const loginWithAppleValidateAccessToken = async (
       console.log("Token de acesso não retornado.");
       return;
     }
+    setCookie("access_token", access_token, Duration['7d']); // 7 dias de validade
     await getPermissionsByToken();
-    setCookie("access_token", access_token, '7d'); // 7 dias de validade
     toast.success("Bem vindo!");
     // Limpar a URL (remove os parâmetros da query)
     window.history.replaceState({}, document.title, "/login");
