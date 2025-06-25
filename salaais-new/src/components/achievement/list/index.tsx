@@ -1,9 +1,10 @@
 import { toast } from "react-toastify"
 import { Achievement } from ".."
-import { IconType, Size } from "../../../global"
+import {Size } from "../../../global"
 import { Text } from "../../text"
 import { AchievementType } from "../models"
 import * as Styled from "./style"
+import { IconType } from "../../icon/models"
 
 // Supondo que todos tenham nome
 const achievementList = [

@@ -1,10 +1,14 @@
 import React from "react"
-import { AnimationType, Color, IconType, Size, StartAnimation, ThemeType } from "../../../global"
 import { Icon } from "../../icon"
 import { Text } from "../../text"
 import { Button } from "../../buttons/button"
 import * as Styled from "./style"
 import type { FullUserCardResponse, UserCardResponse } from "../../../services/apis/salaais/models"
+import { AlertDelete, ItemName } from "../../alerts/alertDelete"
+import { adminLoginComUsuario } from "../../../services/apis/salaais"
+import { PermissionCardList } from "../permissionCard"
+import { Color, getLocalStorage, LocalStorage, Permission, Size, ThemeType } from "../../../global"
+import { AnimationType, IconType, StartAnimation } from "../../icon/models"
 
 export type UserCardProps = {
   user: UserCardResponse
@@ -50,6 +54,8 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
     onFollow,
     onUnfollow
   } = props
+  const isAdmin = (getLocalStorage<string[]>(LocalStorage.permissions) ?? []).includes(Permission.ADMIN);
+
   return (
     <Styled.ContentCard>
       <Styled.FirstContent expanded={isExpanded}>
@@ -66,26 +72,36 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
             <Text size={Size.M} text={user.nome} />
           </Styled.FlexColumn>
         </Styled.ImageAndText>
+        <Styled.ButtonsRight>
 
-        {followState ? (
-          <Button
-            text={loadingFollow ? "..." : "Seguindo"}
-            type={ThemeType.Outlined}
-            color={Color.TxtTertiary}
-            colorLoading={Color.TxtSecondary}
-            onClick={onUnfollow}
-          />
-        ) : (
-          <Button
-            text={loadingFollow ? "..." : "Seguir"}
-            type={ThemeType.Outlined}
-            color={Color.FollowButtonColor}
-            background={Color.FollowButtonColor}
-            textColor={Color.BgPrimary}
-            colorLoading={Color.BgPrimary}
-            onClick={onFollow}
-          />
-        )}
+          {followState ? (
+            <Button
+              text={loadingFollow ? "..." : "Seguindo"}
+              type={ThemeType.Outlined}
+              color={Color.TxtTertiary}
+              colorLoading={Color.TxtSecondary}
+              onClick={onUnfollow}
+            />
+          ) : (
+            <Button
+              text={loadingFollow ? "..." : "Seguir"}
+              type={ThemeType.Outlined}
+              color={Color.FollowButtonColor}
+              background={Color.FollowButtonColor}
+              textColor={Color.BgPrimary}
+              colorLoading={Color.BgSecondary}
+              onClick={onFollow}
+            />
+          )}
+          {isAdmin && <Icon
+            iconType={IconType.Trash}
+            size={Size.Xs}
+            color={Color.BgSecondary}
+            background={Color.Red}
+            onClick={() => AlertDelete(user.id_usuario, ItemName.User)}
+            padding="5px"
+          />}
+        </Styled.ButtonsRight>
       </Styled.FirstContent>
 
       <Styled.SecondContent>
@@ -113,6 +129,9 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                 text={`Entrou em: ${formatDataCriacao(fullUserData.data_criacao)}`}
                 size={Size.S}
               />
+
+              <PermissionCardList />
+
               <Styled.Flex>
                 <Styled.FlexColumnIcons>
                   <Icon
@@ -141,6 +160,20 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                   {!fullUserData.link_facebook && <Text text="Indisponível" size={Size.S} />}
                 </Styled.FlexColumnIcons>
               </Styled.Flex>
+              {isAdmin &&
+                <Styled.FlexColumnIcons>
+                  <Icon
+                    iconType={IconType.Login}
+                    size={Size.Xs}
+                    color={Color.BgSecondary}
+                    background={Color.Admin}
+                    onClick={() => adminLoginComUsuario(user.id_usuario)}
+                    padding="5px"
+                  />
+                  <Text text="Login" size={Size.S} />
+                </Styled.FlexColumnIcons>
+              }
+
             </Styled.IconAndtext>
           </>
         )}

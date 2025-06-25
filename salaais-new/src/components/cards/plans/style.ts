@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color } from "../../global";
+import { Color } from "../../../global";
 
 export const ContentList = styled.div`
 display: flex; 

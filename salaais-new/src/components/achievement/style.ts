@@ -1,7 +1,8 @@
 // style.ts
 import styled, { css, keyframes } from "styled-components"
 import { AchievementType, type IconProps } from "./models"
-import { Color, iconMap, type EnumType } from "../../global"
+import { Color, type EnumType } from "../../global"
+import { iconMap } from "../icon/models"
 
 // Define keyframes para animação da cor do ícone lendário
 const legendaryColorCycle = keyframes`

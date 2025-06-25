@@ -1,8 +1,8 @@
 // Achievements.tsx
 import { useState } from "react"
 import { AchievementType, type IconContentProps } from "./models"
-import { IconType } from "../../global"
 import * as Styled from "./style"
+import { IconType } from "../icon/models"
 
 export function Achievement({
   iconType = IconType.ClockLoading,

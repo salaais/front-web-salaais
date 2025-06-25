@@ -1,0 +1,21 @@
+import styled from "styled-components";
+import { Color } from "../../../global";
+
+export const CardItem = styled.div`
+    display: flex;
+    flex-direction:column;
+    border-radius: 10px;
+    border: 2px solid ${Color.TxtSecondary};
+    padding: 5px;
+    width: fit-content;
+    height: fit-content;
+    align-items:center;
+`
+
+export const CardList = styled.div`
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+`

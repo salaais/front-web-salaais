@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css'
-import { Alert } from "./components";
 import { AchievementsPage, AdminPage, HomePage, LoginPage, PlansPage, RankingPage, SettingsPage, StudyPage, UsersPage } from "./pages";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
     <>
-      <Alert />
+      <ToastContainer theme="light" />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

@@ -1,8 +1,9 @@
 import "react-toastify/dist/ReactToastify.css"
 import * as Styled from './style'
-import { Text } from "../text"
-import { Icon } from "../icon"
-import { Color, IconType, Size } from "../../global"
+import { Text } from "../../text"
+import { Icon } from "../../icon"
+import { Color, Size } from "../../../global"
+import { IconType } from "../../icon/models"
 
 const mockPlans: Plan[] = [
   {
@@ -35,7 +36,7 @@ const mockPlans: Plan[] = [
     price: 59.90,
     paymentType: "/à vista"
   },
-   {
+  {
     title: "Premium",
     image: "https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Diamond_2.png",
     planDetails: [

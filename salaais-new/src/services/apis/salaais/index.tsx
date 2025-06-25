@@ -10,11 +10,15 @@ import type {
   loginWithGoogleResponse,
   UserCardResponse,
   UserCardsResponse,
-  FullUserCardResponse
+  FullUserCardResponse,
+  AccessTokenResponse,
+  DadosUsuarioPorTokenResponse
 } from "./models";
 import { toast } from "react-toastify";
-import { getCookie, setCookie } from "../../../global";
+import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
 import './google.d.ts';
+import { Cookie } from "../../../global/utils/cookie/index.tsx";
+import { Duration } from "../../../global/utils/time/index.ts";
 
 export function getApiSalaAis() {
 
@@ -24,7 +28,7 @@ export function getApiSalaAis() {
       "Content-Type": "application/json",
     },
   });
-}
+};
 
 export const paymentPlan = async (
   accessToken: string,
@@ -57,14 +61,14 @@ export const loginAction = async (
     const response = await apiSalaAis.post<LoginResponse>("auth/login", requestData)
     if (response.status === 200) {
       toast.success("Bem-vindo!")
-      setCookie("access_token", response.data.access_token, '7d')
+      setCookie("access_token", response.data.access_token, Duration["7d"])
       navigate("/home")
     }
   } catch (error) {
     console.error("Erro ao fazer login:", error)
     toast.error("email ou senha incorretos")
   }
-}
+};
 
 export const registerAction = async (
   registerRequest: RegisterRequest,
@@ -98,7 +102,7 @@ export const registerAction = async (
       toast.error("Erro inesperado");
     }
   }
-}
+};
 
 export const loginWithGoogle = async ({
   setIsLoading,
@@ -348,5 +352,103 @@ export const stopToFollow = async (id_usuario_seguido: number): Promise<void> =>
   } catch (error) {
     console.error("Erro ao seguir usuário: ", error);
     toast.error("Erro ao seguir usuário. Tente novamente.");
+  }
+};
+
+export const deleteUser = async (id_usuario_seguido: number): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    // Aqui ainda faz sentido mostrar erro diretamente
+    toast.error("Faça login e tente novamente");
+    throw new Error("Token de sessão ausente ou inválido.");
+  }
+
+  const response = await apiSalaAis.delete(
+    `usuario/${id_usuario_seguido}`,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+
+  // Se o backend estiver retornando status 204 ou 200, isso já é sucesso
+  // Mas se por algum motivo não for, você pode verificar:
+  if (!response || response.status >= 400) {
+    throw new Error("Erro inesperado ao deletar usuário.");
+  }
+};
+
+export const adminLoginComUsuario = async (id_usuario: number): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>(Cookie.access_token);
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return;
+  }
+
+  // Envolve com toast.promise
+  await toast.promise(
+    apiSalaAis
+      .post<AccessTokenResponse>(
+        `auth/gerar-token-usuario`,
+        { id_usuario },
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      )
+      .then(async ({ data }) => {
+        if (data?.access_token) {
+          setCookie(Cookie.access_token, data.access_token, Duration["7d"]);
+          await getPermissionsByToken();
+          setTimeout(() => { window.location.reload() }, 2000);
+        } else {
+          throw new Error("Token ausente na resposta.");
+        }
+      }),
+
+    {
+      pending: "Carregando login com usuário...",
+      success: "Login realizado!",
+      error: "Erro ao fazer login. Verifique suas permissões.",
+    }
+  );
+};
+
+//adicionado e nao usado
+export const getPermissionsByToken = async (): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>(Cookie.access_token);
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    console.error("Token de sessão ausente ou inválido.");
+    return;
+  }
+
+  try {
+    const { data } = await apiSalaAis.get<DadosUsuarioPorTokenResponse>(
+      `auth/permissoes-por-token`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    if (data.permissoes_ativas) {
+      setLocalStorage(LocalStorage.permissions, data.permissoes_ativas);
+    } else {
+      throw new Error("Erro ao conseguir permissoes.");
+    }
+  } catch (error) {
+    console.error("Erro ao gerar token do usuário:", error);
+    toast.error("Erro ao fazer login. Verifique sua permissão.");
   }
 };

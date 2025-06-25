@@ -94,6 +94,13 @@ gap:15px;
 align-items:center;
 `
 
+export const ButtonsRight = styled.div`
+display: flex;
+gap:15px;
+flex-direction:column;
+align-items:flex-end;
+`
+
 export const Flex = styled.div`
 display: flex;
 gap:50px;

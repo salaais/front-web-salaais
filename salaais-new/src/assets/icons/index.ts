@@ -1,3 +1,4 @@
+export { default as Add } from "./icon/add.svg"
 export { default as ShieldAdmin } from "./icon/shield_admin.svg"
 export { default as Airplane } from "./icon/airplane.svg"
 export { default as ArrowDown } from "./icon/arrow_down.svg"

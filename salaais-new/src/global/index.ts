@@ -1,11 +1,11 @@
 
-export { getCookie, setCookie } from './utils/cookie'
+export { getCookie, setCookie, Cookie } from './utils/cookie'
 export { getLocalStorage, setLocalStorage, LocalStorage } from './utils/localStorage'
 export { ThemeType } from './types/componentTheme'
 export { Color } from './types/color'
 export { Size } from './types/size'
 export { timeDuration } from './utils/time'
-export { iconMap, IconType, AnimationType, StartAnimation } from './types/icon'
+export { Permission } from './types/permission'
 export { makeEnum, type EnumType } from './utils/enum'
 export type { EnvServerlessResponse } from './types/env'
 export { cssVarToRgba } from './utils/color'

@@ -44,8 +44,6 @@ export function UserCardList({ list = defaultCards }: UserCardListProps) {
 
     try {
       const data = await getUserInfo(user.id_usuario);
-      console.log("🔎 Dados recebidos da API:", data);
-
       if (!data || !data.data_criacao) throw new Error("Dados incompletos");
 
       setFullUserData(prev => ({ ...prev, [user.username]: data }));

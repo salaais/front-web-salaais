@@ -1,5 +1,6 @@
-import { Color, IconType, Size } from "../../../global";
+import { Color, Size } from "../../../global";
 import { Icon } from "../../icon";
+import { IconType } from "../../icon/models";
 import * as Styled from "./style";
 import type { RefObject } from "react";
 

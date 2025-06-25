@@ -1,5 +1,6 @@
-import { Color, IconType, Size, type EnumType } from "../../../global"
+import { Color, Size, type EnumType } from "../../../global"
 import { Icon } from "../../icon"
+import { IconType } from "../../icon/models"
 import { Text } from "../../text"
 import * as Styled from "./style"
 

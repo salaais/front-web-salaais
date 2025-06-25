@@ -1,5 +1,10 @@
 import { makeEnum } from "../enum"
 
+export const LocalStorage = makeEnum({
+  isMenuOpen: "isMenuOpen", //bool
+  permissions: "permissions"// striing[]
+})
+
 // Armazena qualquer tipo de valor (T) no localStorage
 // setLocalStorage<boolean>(LocaStorage.isMenuOpen, true)
 export function setLocalStorage<T>(key: string, value: T): void {
@@ -21,7 +26,3 @@ export function getLocalStorage<T>(key: string): T | null {
     return null
   }
 }
-
-export const LocalStorage = makeEnum({
-  isMenuOpen: "isMenuOpen",
-})

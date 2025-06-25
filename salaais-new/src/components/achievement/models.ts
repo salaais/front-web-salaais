@@ -1,6 +1,6 @@
 // models.ts
 import { ThemeType, type EnumType, makeEnum } from "../../global"
-import type { IconType } from "../../global/types/icon"
+import type { IconType } from "../icon/models"
 
 export const AchievementType = makeEnum({
   Comum: "Comum",

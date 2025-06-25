@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Icon, Menu, SearchInput, UserCardList } from "../../components";
 import { getUsers } from "../../services/apis/salaais";
 import type { UserCardResponse } from "../../services/apis/salaais/models";
-import { AnimationType, IconType, Size, StartAnimation } from "../../global";
+import { AnimationType, IconType, StartAnimation } from "../../components/icon/models";
+import { Size } from "../../global";
 
 export function UsersPage() {
   const [userList, setUserList] = useState<UserCardResponse[]>([]);

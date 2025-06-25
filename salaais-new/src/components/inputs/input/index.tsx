@@ -5,7 +5,8 @@ import * as Styled from "./style"
 import { InputType } from "./interfaces"
 import type { InputComponentProps } from "./interfaces"
 import { Icon } from "../../icon"
-import { Color, IconType } from "../../../global"
+import { Color } from "../../../global"
+import { IconType } from "../../icon/models"
 
 export function Input({
   text,

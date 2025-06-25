@@ -1,124 +1,50 @@
-import React, { useEffect, useRef, useState, type ReactNode } from "react";
-import { AnimationType, Color, getLocalStorage, IconType, LocalStorage, setLocalStorage, Size, StartAnimation, type EnumType } from "../../global"
-import { Icon } from "../icon"
-import * as Styled from "./style"
+import React, { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Color, getLocalStorage, LocalStorage, Permission, setLocalStorage, Size, type EnumType } from "../../global";
+import { Icon } from "../icon";
+import * as Styled from "./style";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FooterContentMenu } from "../footerContentMenu";
-
+import { AnimationType, IconType, StartAnimation } from "../icon/models";
 
 type MenuItem = {
-  nome: string
-  link: string
-  icone: EnumType<typeof IconType>
-  color: EnumType<typeof Color>
-  is_handle: boolean
-}
-
-const defaultItems: MenuItem[] = [
-  {
-    nome: "Admin",
-    link: "/admin",
-    icone: IconType.ShieldAdmin,
-    color: Color.Admin,
-    is_handle: true,
-  },
-  {
-    nome: "Home",
-    link: "/home",
-    icone: IconType.Grid,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  {
-    nome: "Planos",
-    link: "/planos",
-    icone: IconType.ShoppingCart,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  {
-    nome: "Ranking",
-    link: "/ranking",
-    icone: IconType.Trophy,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  {
-    nome: "Estudos",
-    link: "/estudos",
-    icone: IconType.Formation,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  {
-    nome: "Usuários",
-    link: "/usuarios",
-    icone: IconType.Users,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-    {
-    nome: "Conquistas",
-    link: "/conquistas",
-    icone: IconType.Checklist,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  
-  {
-    nome: "Configurações",
-    link: "/configuracoes",
-    icone: IconType.Settings,
-    color: Color.TxtPrimary,
-    is_handle: true,
-  },
-  {
-    nome: "Sair",
-    link: "/login",
-    icone: IconType.LogOut,
-    color: Color.Red,
-    is_handle: true,
-  },
-]
+  nome: string;
+  link: string;
+  icone: EnumType<typeof IconType>;
+  color: EnumType<typeof Color>;
+  is_handle: boolean;
+};
 
 export interface MenuProps {
-  items?: MenuItem[]
-  children?: ReactNode
+  items?: MenuItem[];
+  children?: ReactNode;
 }
 
 export function useResponsiveIconSize() {
-  const [size, setSize] = useState<EnumType<typeof Size>>(Size.S)
+  const [size, setSize] = useState<EnumType<typeof Size>>(Size.S);
 
   useEffect(() => {
     const update = () => {
-      const width = window.innerWidth
-      if (width >= 768) setSize(Size.S)
-      else if (width < 768) setSize(Size.L)
-      else setSize(Size.S)
-    }
+      const width = window.innerWidth;
+      if (width >= 768) setSize(Size.S);
+      else setSize(Size.L);
+    };
 
-    update()
-    window.addEventListener("resize", update)
-    return () => window.removeEventListener("resize", update)
-  }, [])
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
-  return size
+  return size;
 }
 
 export function PageTitle() {
-  const location = useLocation()
-  const pathParts = location.pathname.split("/").filter(Boolean)
+  const location = useLocation();
+  const pathParts = location.pathname.split("/").filter(Boolean);
 
-  const formatLabel = (part: string, isFirst: boolean) => {
-    return isFirst
-      ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-      : part.toLowerCase()
-  }
+  const formatLabel = (part: string, isFirst: boolean) =>
+    isFirst ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase() : part.toLowerCase();
 
-  const buildHref = (index: number) => {
-    const partialPath = pathParts.slice(0, index + 1).join("/")
-    return `/${partialPath}`
-  }
+  const buildHref = (index: number) => `/${pathParts.slice(0, index + 1).join("/")}`;
 
   return (
     <Styled.PageTitle>
@@ -129,51 +55,131 @@ export function PageTitle() {
         </React.Fragment>
       ))}
     </Styled.PageTitle>
-  )
+  );
 }
 
 export function getActiveColor(isActive: boolean | undefined, color: string) {
-  return isActive && color === Color.TxtPrimary ? Color.Primary : color
+  return isActive && color === Color.TxtPrimary ? Color.Primary : color;
 }
 
 export function Menu(props: MenuProps) {
-  const navigate = useNavigate()
-  const items = props.items ?? defaultItems
-  const sizeIcons = useResponsiveIconSize()
+  const navigate = useNavigate();
   const location = useLocation();
-
-  const menuRef = useRef<HTMLUListElement>(null)
+  const sizeIcons = useResponsiveIconSize();
+  const menuRef = useRef<HTMLUListElement>(null);
 
   const [isOpen, setIsOpen] = useState(() => {
-    const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen)
-    return saved !== null ? saved : false
-  })
+    const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen);
+    return saved !== null ? saved : false;
+  });
+
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    const permissoes = getLocalStorage<string[]>(LocalStorage.permissions) ?? [];
+    return permissoes.includes(Permission.ADMIN);
+  });
+
+  useEffect(() => {
+    const atualizarPermissoes = async () => {
+      // await dadosUsuarioPorToken();
+      const permissoesAtualizadas = getLocalStorage<string[]>(LocalStorage.permissions) ?? [];
+      setIsAdmin(permissoesAtualizadas.includes(Permission.ADMIN));
+    };
+
+    atualizarPermissoes();
+  }, []);
 
   const toggleIsOpen = () => {
     setIsOpen(prev => {
-      const next = !prev
-      setLocalStorage<boolean>(LocalStorage.isMenuOpen, next)
-      return next
-    })
-  }
+      const next = !prev;
+      setLocalStorage(LocalStorage.isMenuOpen, next);
+      return next;
+    });
+  };
 
-  // 🔽 Detecta clique fora do menu no mobile
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const isMobile = window.innerWidth < 768
-      if (!isMobile || !isOpen) return
-
+      const isMobile = window.innerWidth < 768;
+      if (!isMobile || !isOpen) return;
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-        setLocalStorage<boolean>(LocalStorage.isMenuOpen, false)
+        setIsOpen(false);
+        setLocalStorage(LocalStorage.isMenuOpen, false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
+  const menuItems: MenuItem[] = useMemo(() => {
+    const comuns: MenuItem[] = [
+      {
+        nome: "Home",
+        link: "/home",
+        icone: IconType.Grid,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Planos",
+        link: "/planos",
+        icone: IconType.ShoppingCart,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Ranking",
+        link: "/ranking",
+        icone: IconType.Trophy,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Estudos",
+        link: "/estudos",
+        icone: IconType.Formation,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Usuários",
+        link: "/usuarios",
+        icone: IconType.Users,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Conquistas",
+        link: "/conquistas",
+        icone: IconType.Checklist,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Configurações",
+        link: "/configuracoes",
+        icone: IconType.Settings,
+        color: Color.TxtPrimary,
+        is_handle: true,
+      },
+      {
+        nome: "Sair",
+        link: "/login",
+        icone: IconType.LogOut,
+        color: Color.Red,
+        is_handle: true,
+      },
+    ];
+
+    const admin: MenuItem = {
+      nome: "Admin",
+      link: "/admin",
+      icone: IconType.ShieldAdmin,
+      color: Color.Admin,
+      is_handle: true,
+    };
+
+    return isAdmin ? [admin, ...comuns] : comuns;
+  }, [isAdmin]);
 
   return (
     <>
@@ -193,10 +199,10 @@ export function Menu(props: MenuProps) {
             </Styled.MenuLink>
           </Styled.MenuItem>
 
-          {items.filter(item => item.is_handle).map((item, index) => {
+          {menuItems.map((item, index) => {
             const isActive = location.pathname.startsWith(item.link);
             return (
-              <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => { navigate(item.link) }}>
+              <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => navigate(item.link)}>
                 <Styled.MenuLink>
                   <Styled.IconWrapper>
                     <Icon iconType={item.icone} color={getActiveColor(isActive, item.color)} size={Size.S} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
@@ -217,11 +223,9 @@ export function Menu(props: MenuProps) {
           </Styled.PageContentWithOutTitle>
         </Styled.ContentWrapper>
         <FooterContentMenu>
-          <>
-            {`© ${new Date().getFullYear()} SalaAis, All Rights Reserved.`}
-          </>
+          <>© {new Date().getFullYear()} SalaAis, All Rights Reserved.</>
         </FooterContentMenu>
       </Styled.PageContent>
     </>
-  )
+  );
 }

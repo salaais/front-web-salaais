@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react"
-import type { IconContentProps } from "./models"
-import { Color, Size, StartAnimation, ThemeType } from "../../global"
-import { IconType } from "../../global"
+import { IconType, StartAnimation, type IconContentProps } from "./models"
+import { Color, Size, ThemeType } from "../../global"
 import * as Styled from "./style"
 
 export function Icon({
@@ -9,6 +8,7 @@ export function Icon({
   iconType = IconType.ClockLoading,
   size = Size.S,
   startAnimation,
+  margin= "0",
   animationType,
   interval,
   color = Color.TxtPrimary,
@@ -44,6 +44,7 @@ export function Icon({
       onClick={onClick}
       borderRadius={borderRadius}
       width={width}
+      margin={margin}
     >
       {StyledIcon ? (
         <StyledIcon color={color} themeType={themeType} size={size} />
