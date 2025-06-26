@@ -65,10 +65,10 @@ export const Text = styled.p<TextProps>`
   }};
   font-weight: ${(props) => (props.bold ? "600" : "400")};
   color: ${(props) =>
-    props.bold
-      ? Color.TxtPrimary
-      : props.color
-        ? `${props.color}`
+    props.color
+      ? `${props.color}`
+      : props.bold
+        ? Color.TxtPrimary
         : Color.TxtSecondary};
   text-align: ${(props) => (props.center ? "center" : "")};
 

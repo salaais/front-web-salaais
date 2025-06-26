@@ -3,7 +3,7 @@ import { Icon } from "../../icon"
 import { Text } from "../../text"
 import { Button } from "../../buttons/button"
 import * as Styled from "./style"
-import type { FullUserCardResponse, UserCardResponse } from "../../../services/apis/salaais/models"
+import type { FullUserCardResponse, PermissioesFullUserCard, UserCardResponse } from "../../../services/apis/salaais/models"
 import { AlertDelete, ItemName } from "../../alerts/alertDelete"
 import { adminLoginComUsuario } from "../../../services/apis/salaais"
 import { PermissionCardList } from "../permissionCard"
@@ -135,7 +135,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                 size={Size.S}
               />
 
-              <PermissionCardList />
+              <PermissionCardList list={fullUserData.permissoes} />
 
               <Styled.Flex>
                 <Styled.FlexColumnIcons>

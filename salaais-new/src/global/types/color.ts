@@ -36,6 +36,8 @@ export const Color = makeEnum({
     Yellow: "var(--yellow)",
     Pink: "var(--pink)",
     Orange: "var(--orange)",
+    
+    Shadow: "var(--shadow)",
 
     MsgSend: "var(--msg-send)",
     AchievementComum: "var(--achievement-comum)",

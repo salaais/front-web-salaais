@@ -60,6 +60,16 @@ export interface FullUserCardResponse {
     data_criacao: string
     link_instagram?: string | null
     link_facebook?: string | null
+    permissoes: PermissioesFullUserCard[]
+}
+export interface PermissioesFullUserCard {
+    key_permissao: string;
+    nome_permissao: string;
+    url_imagem: string;
+    data_inicio: string | null;
+    data_fim: string | null;
+    ativo: boolean | null;
+    data_criacao: string | null;
 }
 
 export interface AccessTokenResponse {
@@ -67,32 +77,32 @@ export interface AccessTokenResponse {
 }
 
 export interface PermissaoDetalhada {
-  id: number;
-  id_key: number;
-  key: string;
-  ativo: boolean;
-  data_criacao: string;
-  data_inicio: string | null;
-  data_fim: string | null;
+    id: number;
+    id_key: number;
+    key: string;
+    ativo: boolean;
+    data_criacao: string;
+    data_inicio: string | null;
+    data_fim: string | null;
 }
 
 export interface DadosUsuarioPorTokenResponse {
-  id_usuario: number;
-  email: string;
-  nome: string;
-  username: string;
-  bio: string;
-  tipo_login: string;
-  data_criacao_usuario: string;
-  data_atualizacao_usuario: string;
-  id_subscription_stripe: string;
-  deletado: boolean;
-  desativado: boolean;
-  id_google: string | null;
-  url_imagem_perfil: string | null;
-  permissoes_ativas: string[];
-  regras_ativas: string[];
-  permissoes: PermissaoDetalhada[];
-  criacao_token: number;
-  expiracao_token: number;
+    id_usuario: number;
+    email: string;
+    nome: string;
+    username: string;
+    bio: string;
+    tipo_login: string;
+    data_criacao_usuario: string;
+    data_atualizacao_usuario: string;
+    id_subscription_stripe: string;
+    deletado: boolean;
+    desativado: boolean;
+    id_google: string | null;
+    url_imagem_perfil: string | null;
+    permissoes_ativas: string[];
+    regras_ativas: string[];
+    permissoes: PermissaoDetalhada[];
+    criacao_token: number;
+    expiracao_token: number;
 }
