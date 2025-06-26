@@ -16,12 +16,20 @@ export function SearchInput({
   onSearchClick,
   inputRef
 }: SearchInputProps) {
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && onSearchClick) {
+      onSearchClick();
+    }
+  };
+
   return (
     <Styled.All>
       <Styled.Content>
         <Styled.Input
           ref={inputRef}
           placeholder={placeholder}
+          onKeyDown={handleKeyDown}
         />
         <Icon
           iconType={IconType.Search}
