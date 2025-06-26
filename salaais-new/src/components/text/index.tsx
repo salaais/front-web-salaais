@@ -22,6 +22,7 @@ export interface TextProps {
   textLimit?: number
   showMore?: boolean,
   coloredParts?: { text: string; color: EnumType<typeof Color> }[]
+  margin?: string
 }
 
 export function Text({
@@ -39,6 +40,7 @@ export function Text({
   textLimit,
   showMore = false,
   coloredParts = [],
+  margin,
 }: TextProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -99,7 +101,13 @@ export function Text({
   // Estilizações iguais às anteriores
   if (title) {
     return (
-      <Styled.Title id={id} size={size} center={center} color={color}>
+      <Styled.Title 
+      id={id} 
+      size={size} 
+      center={center} 
+      color={color}
+      margin={margin}
+      >
         {renderTextWithColors()}
       </Styled.Title>
     )
@@ -114,6 +122,7 @@ export function Text({
         color={color}
         target="_blank"
         rel="noopener noreferrer"
+        margin={margin}
       >
         {renderTextWithColors()}
       </Styled.A>
@@ -129,6 +138,7 @@ export function Text({
       color={color}
       maxW={maxW}
       responsive={responsive}
+      margin={margin}
     >
       {renderTextWithColors()}
     </Styled.Text>

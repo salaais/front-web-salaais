@@ -8,6 +8,7 @@ interface TitleProps {
   center?: boolean
   size?: string
   color?: EnumType<typeof Color>
+  margin?: string
 }
 
 export const ShowMore = styled.span`
@@ -21,6 +22,7 @@ export const ShowMore = styled.span`
 export const Title = styled.h3<TitleProps>`
   font-size: 30px;
   margin: 70px 0 70px 0;
+  margin: ${(props) => (props.margin ? props.margin : "70px 0 70px 0")};
   text-align: ${(props) => (props.center ? "center" : "left")};
   color: ${(props) => (props.color ? `${props.color}` : Color.TxtPrimary)};
 `
@@ -28,18 +30,21 @@ export const Title = styled.h3<TitleProps>`
 interface AProps {
   size?: string
   color?: EnumType<typeof Color>
+  margin?: string
 }
 
 export const A = styled.a<AProps>`
   font-size: ${(props) => (props.size ? `${props.size}` : "17px")};
   color: ${(props) => (props.color ? `${props.color}` : Color.Primary)};
   font-weight: 600;
+  margin: ${(props) => (props.margin ? props.margin : "0")};
 `
 
 export const Text = styled.p<TextProps>`
   overflow-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
+  margin: ${(props) => (props.margin ? props.margin : "0")};
   font-size: ${(props) => {
     switch (props.size) {
       case Size.Xs:
