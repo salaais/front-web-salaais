@@ -99,11 +99,11 @@ export function UsersPage() {
         />
       )}
 
-      {!isLoadingInitial && userListRef.current.length === 0 && (
+      {!isLoadingInitial && userListRef.current.length === 0 && userList.length === 0 && (
         <Text text="Nenhum usuário encontrado." size={Size.M} center />
       )}
 
-      {!isLoadingMore && userListRef.current.length === 0 && (
+      {!isLoadingMore && userListRef.current.length === 0 && userList.length === 0 && (
         <Text text="Sem mais usuários." size={Size.M} center />
       )}
 
