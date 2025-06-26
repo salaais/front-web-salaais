@@ -161,6 +161,7 @@ export const loginWithGoogle = async ({
   client.requestAccessToken();
 };
 
+//login inicio apple
 export const loginWithApple = async ({
   setIsLoading,
 }: LoginAppleParams) => {
@@ -189,6 +190,7 @@ export const loginWithApple = async ({
   }
 };
 
+//login final apple
 export const loginWithAppleValidateAccessToken = async (
   params: LoginAppleSessionTokenParams
 ) => {

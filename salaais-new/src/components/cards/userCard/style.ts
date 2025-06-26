@@ -78,7 +78,6 @@ export const ImgPerfil = styled.img`
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  overflow: hidden;
 `;
 
 export const ContentFollwers = styled.div`
