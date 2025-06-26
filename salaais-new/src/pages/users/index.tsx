@@ -103,10 +103,6 @@ export function UsersPage() {
         <Text text="Nenhum usuário encontrado." size={Size.M} center />
       )}
 
-      {!isLoadingMore && userListRef.current.length === 0 && userList.length === 0 && (
-        <Text text="Sem mais usuários." size={Size.M} center />
-      )}
-
       <UserCardList list={userList} />
 
       {isLoadingMore && (
@@ -118,6 +114,10 @@ export function UsersPage() {
           width="100%"
           padding="20px"
         />
+      )}
+
+      {!isLoadingMore && userListRef.current.length === 0 && userList.length === 0 && (
+        <Text text="Sem mais usuários." size={Size.M} center />
       )}
 
       <div ref={observerRef} style={{ height: "1px" }} />
