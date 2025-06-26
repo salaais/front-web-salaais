@@ -116,7 +116,7 @@ export function UsersPage() {
         />
       )}
 
-      {isLoadingInitial && !isLoadingMore && userListRef.current.length === 0 && userList.length === 0 && (
+      {isLoadingInitial && !isLoadingMore && (
         <Text text="Sem mais usuários." size={Size.M} center />
       )}
 
