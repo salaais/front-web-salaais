@@ -8,7 +8,7 @@ type SearchInputProps = {
   placeholder?: string;
   onSearchClick?: () => void;
   onTyping?: () => void;
-  inputRef: RefObject<HTMLInputElement | null>;
+  inputRef?: RefObject<HTMLInputElement | null>;
 };
 
 export function SearchInput({

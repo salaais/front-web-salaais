@@ -106,7 +106,12 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
 
       <Styled.SecondContent>
         {isExpanded && (!fullUserData || !fullUserData.bio) && (
-          <Text text="Carregando..." size={Size.M} />
+          <Icon
+            iconType={IconType.Loading}
+            size={Size.S}
+            animationType={AnimationType.Rotate}
+            startAnimation={StartAnimation.Infinite}
+          />
         )}
 
         {isExpanded && fullUserData?.bio && (
