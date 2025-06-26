@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Icon, Menu, SearchInput, UserCardList } from "../../components";
+import { Icon, Menu, SearchInput, Text, UserCardList } from "../../components";
 import { getUsers } from "../../services/apis/salaais";
 import type { UserCardResponse } from "../../services/apis/salaais/models";
 import { AnimationType, IconType, StartAnimation } from "../../components/icon/models";
@@ -90,27 +90,34 @@ export function UsersPage() {
       <SearchInput inputRef={inputRef} onSearchClick={handleSearchClick} />
 
       {isLoadingInitial && (
-        <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
-          <Icon
-            iconType={IconType.Loading}
-            size={Size.S}
-            animationType={AnimationType.Rotate}
-            startAnimation={StartAnimation.Infinite}
-          />
-        </div>
+        <Icon
+          iconType={IconType.Loading}
+          size={Size.S}
+          animationType={AnimationType.Rotate}
+          startAnimation={StartAnimation.Infinite}
+          width="100%"
+        />
+      )}
+
+      {!isLoadingInitial && userListRef.current.length === 0 && (
+        <Text text="Nenhum usuário encontrado." size={Size.M} center />
+      )}
+
+      {!isLoadingMore && userListRef.current.length === 0 && (
+        <Text text="Sem mais usuários." size={Size.M} center />
       )}
 
       <UserCardList list={userList} />
 
       {isLoadingMore && (
-        <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
-          <Icon
-            iconType={IconType.Loading}
-            size={Size.S}
-            animationType={AnimationType.Rotate}
-            startAnimation={StartAnimation.Infinite}
-          />
-        </div>
+        <Icon
+          iconType={IconType.Loading}
+          size={Size.S}
+          animationType={AnimationType.Rotate}
+          startAnimation={StartAnimation.Infinite}
+          width="100%"
+          padding="20px"
+        />
       )}
 
       <div ref={observerRef} style={{ height: "1px" }} />
