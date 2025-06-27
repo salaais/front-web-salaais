@@ -48,4 +48,10 @@ export const Color = makeEnum({
 
     InstagramColor: "var(--instagram_color)",
     FacebookColor: "var(--facebook_color)",
+
+    PlanPrimaryColor: "var(--plan-primary-color)",
+    PlanBackgroundImageColor: "var(--plan-background-image)",
+    PlanButtonTextColor: "var(--plan-button-text-color)",
+    PlanTitleColor: "var(--plan-title-color)",
+    PlanTextColor: "var(--plan-text-color)",
 })

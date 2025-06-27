@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import type { TextProps } from "."
+import { TextDecoration, type TextProps } from "."
 import { Color } from "../../global/types/color"
 import { Size } from "../../global/types/size"
 import type { EnumType } from "../../global"
@@ -61,6 +61,30 @@ export const Text = styled.p<TextProps>`
         return "40px"
       default:
         return "18px" // Valor padrão
+    }
+  }};
+   text-decoration: ${(props) => {
+    switch (props.textDecoration) {
+      case TextDecoration.none:
+        return 'none';
+      case TextDecoration.underline:
+        return 'underline';
+      case TextDecoration.overline:
+        return 'overline';
+      case TextDecoration['line-through']:
+        return 'line-through';
+      case TextDecoration.blink:
+        return 'blink';
+      case TextDecoration.inherit:
+        return 'inherit';
+      case TextDecoration.initial:
+        return 'initial';
+      case TextDecoration.revert:
+        return 'revert';
+      case TextDecoration.unset:
+        return 'unset';
+      default:
+        return 'none'; // valor padrão
     }
   }};
   font-weight: ${(props) => (props.bold ? "600" : "400")};

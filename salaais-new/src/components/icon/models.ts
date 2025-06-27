@@ -16,6 +16,7 @@ export interface IconContentProps {
   borderRadius?: string
   onClick?: React.MouseEventHandler
   width?: string
+  style?: React.CSSProperties
 }
 
 export interface IconProps {

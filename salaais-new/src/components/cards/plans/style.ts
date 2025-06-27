@@ -27,7 +27,7 @@ export const AllContent = styled.div`
 export const ContentImage = styled.div`
   display: flex;
   justify-content: center;
-  background: #e0e0e0;
+  background: ${Color.PlanBackgroundImageColor};
   padding: 20px 20px 70px 20px;
   border-radius: 20px;
   width: 100%;
@@ -40,8 +40,6 @@ export const ContentImage = styled.div`
     transform: translateY(-20px);
   }
 `
-
-
 
 export const Image = styled.img`
 width: 100%;
@@ -68,18 +66,37 @@ export const PlanDetails = styled.div`
 `
 
 export const MoneyInfo = styled.div`
+  display: flex
+  flex-direction:column;
+`
+
+export const FlexPrices = styled.div`
   display: flex;
-  gap: 10px;
-  align-items: baseline;
+  gap:10px;
+  align-items:baseline;
 `
 
 export const Button = styled.button`
-background: #000000;
+background: ${Color.PlanPrimaryColor};
 width: 100%;
 font-size:14px;
 padding: 15px;
+height: 50px;
 color: white;
 border-radius: 40px;
 cursor: pointer;
 text-decoration:underline;
+transition:0.3s;
+&:hover{
+  font-size:16px;
+}
+`
+
+export const PlanDetailsContainer = styled.div<{ $expanded: boolean }>`
+  max-height: ${(props) => (props.$expanded ? "500px" : "90px")};
+  overflow: hidden;
+  transition: max-height 2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 `

@@ -16,7 +16,8 @@ export function Icon({
   padding,
   onClick,
   borderRadius = '100%',
-  width="fit-content"
+  width="fit-content",
+  style,
 }: IconContentProps) {
   const [animate, setAnimate] = useState(false)
   const StyledIcon = Styled.getStyledIcon(iconType)
@@ -45,6 +46,7 @@ export function Icon({
       borderRadius={borderRadius}
       width={width}
       margin={margin}
+      style={style}
     >
       {StyledIcon ? (
         <StyledIcon color={color} themeType={themeType} size={size} />

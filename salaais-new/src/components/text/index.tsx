@@ -1,9 +1,20 @@
 import { useState } from "react";
-import type { EnumType } from "../../global";
+import { makeEnum, type EnumType } from "../../global";
 import { Color } from "../../global/types/color";
 import { Size } from "../../global/types/size";
 import * as Styled from "./style"
 
+export const TextDecoration = makeEnum({
+  none: 'none',
+  underline: 'underline',
+  overline: 'overline',
+  'line-through': 'line-through',
+  blink: 'blink', // raramente suportado, mas existe na spec
+  inherit: 'inherit',
+  initial: 'initial',
+  revert: 'revert',
+  unset: 'unset',
+});
 
 export interface TextProps {
   id?: string
@@ -12,6 +23,7 @@ export interface TextProps {
   title?: boolean
   space?: number
   bold?: boolean
+  textDecoration?: EnumType<typeof TextDecoration>
   link?: boolean
   href?: string
   center?: boolean
@@ -30,6 +42,7 @@ export function Text({
   text = "text",
   size,
   title = false,
+  textDecoration,
   bold = false,
   link = false,
   href,
@@ -101,12 +114,12 @@ export function Text({
   // Estilizações iguais às anteriores
   if (title) {
     return (
-      <Styled.Title 
-      id={id} 
-      size={size} 
-      center={center} 
-      color={color}
-      margin={margin}
+      <Styled.Title
+        id={id}
+        size={size}
+        center={center}
+        color={color}
+        margin={margin}
       >
         {renderTextWithColors()}
       </Styled.Title>
@@ -139,6 +152,7 @@ export function Text({
       maxW={maxW}
       responsive={responsive}
       margin={margin}
+      textDecoration={textDecoration}
     >
       {renderTextWithColors()}
     </Styled.Text>
