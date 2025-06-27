@@ -140,7 +140,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
               
               {fullUserData.link_facebook || fullUserData.link_instagram &&
                 <Styled.SocialMedia>
-                  {
+                  {fullUserData.link_facebook &&
                     <Icon
                       iconType={IconType.Facebook}
                       size={Size.S}
