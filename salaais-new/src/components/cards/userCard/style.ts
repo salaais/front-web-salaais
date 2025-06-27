@@ -73,6 +73,7 @@ export const SecondContent = styled.div<SecondContentProps>`
   width: 100%;
   overflow: hidden;
   max-height: fit-content;
+  transition: 0.4s;
   padding: ${({ isExpanded }) => (isExpanded ? '20px 0 20px 0' : '0')};
 `;
 
