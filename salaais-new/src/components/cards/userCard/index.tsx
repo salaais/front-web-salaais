@@ -49,7 +49,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
     isExpanded,
     onToggleExpand,
     fullUserData,
-    // loadingData,
+    loadingData,
     followState,
     loadingFollow,
     onFollow,
@@ -105,7 +105,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
         </Styled.ButtonsRight>
       </Styled.FirstContent>
 
-      <Styled.SecondContent>
+      <Styled.SecondContent isExpanded={isExpanded && !loadingData}>
         {isExpanded && (!fullUserData || !fullUserData.bio) && (
           <Icon
             iconType={IconType.Loading}
@@ -130,7 +130,6 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
 
             <Text text={fullUserData.bio} size={Size.M} />
 
-            <Styled.IconAndtext>
               <Text
                 text={`Entrou em: ${formatDataCriacao(fullUserData.data_criacao)}`}
                 size={Size.S}
@@ -187,8 +186,6 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                   <Text text="Login" size={Size.S} />
                 </Styled.FlexColumnIcons>
               }
-
-            </Styled.IconAndtext>
           </>
         )}
       </Styled.SecondContent>

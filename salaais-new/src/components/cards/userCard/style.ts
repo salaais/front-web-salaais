@@ -60,7 +60,11 @@ export const FlexIcons = styled.div`
   gap:5px;
 `
 
-export const SecondContent = styled.div`
+interface SecondContentProps {
+  isExpanded: boolean;
+}
+
+export const SecondContent = styled.div<SecondContentProps>`
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -69,7 +73,8 @@ export const SecondContent = styled.div`
   width: 100%;
   overflow: hidden;
   max-height: fit-content;
-`
+  padding: ${({ isExpanded }) => (isExpanded ? '20px 0 20px 0' : '0')};
+`;
 
 export const IconAndtext = styled.div`
   display: flex;
@@ -109,7 +114,6 @@ align-items:flex-end;
 export const SocialMedia = styled.div`
 display: flex;
 gap:20px;
-margin: 10px 0 20px 0;
 `
 
 export const InitialsPlaceholder = styled.div`
