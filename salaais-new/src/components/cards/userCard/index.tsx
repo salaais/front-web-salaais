@@ -4,11 +4,12 @@ import { Text } from "../../text"
 import { Button } from "../../buttons/button"
 import * as Styled from "./style"
 import type { FullUserCardResponse, UserCardResponse } from "../../../services/apis/salaais/models"
-import { AlertDelete, ItemName } from "../../alerts/alertDelete"
-import { adminLoginComUsuario } from "../../../services/apis/salaais"
+import { AlertDelete } from "../../alerts/alertDelete"
+import { adminLoginComUsuario, deleteUser } from "../../../services/apis/salaais"
 import { PermissionCardList } from "../permissionCard"
 import { Color, getLocalStorage, LocalStorage, Permission, Size, ThemeType } from "../../../global"
 import { AnimationType, IconType, StartAnimation } from "../../icon/models"
+import { ItemName } from "../../alerts/alertCreate"
 
 export type UserCardProps = {
   user: UserCardResponse
@@ -98,7 +99,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
             size={Size.Xs}
             color={Color.BgSecondary}
             background={Color.Red}
-            onClick={() => AlertDelete(user.id_usuario, ItemName.User)}
+            onClick={() => AlertDelete(user.id_usuario, ItemName.User, deleteUser)}
             padding="5px"
           />}
         </Styled.ButtonsRight>
@@ -135,36 +136,36 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                 size={Size.S}
               />
 
-              <PermissionCardList list={fullUserData.permissoes} />
-
-              <Styled.Flex>
-                <Styled.FlexColumnIcons>
-                  <Icon
-                    iconType={IconType.Facebook}
-                    size={Size.S}
-                    color={Color.BgPrimary}
-                    animationType={AnimationType.Float}
-                    startAnimation={StartAnimation.Hover}
-                    background={Color.TxtPrimary}
-                    onClick={() => window.open(fullUserData.link_facebook!, "_blank")}
-                    padding="5px"
-                  />
-                  {!fullUserData.link_facebook && <Text text="Indisponível" size={Size.S} />}
-                </Styled.FlexColumnIcons>
-                <Styled.FlexColumnIcons>
-                  <Icon
-                    iconType={IconType.Instagram}
-                    size={Size.S}
-                    color={Color.BgPrimary}
-                    animationType={AnimationType.Float}
-                    startAnimation={StartAnimation.Hover}
-                    background={Color.TxtPrimary}
-                    onClick={() => window.open(fullUserData.link_instagram!, "_blank")}
-                    padding="5px"
-                  />
-                  {!fullUserData.link_facebook && <Text text="Indisponível" size={Size.S} />}
-                </Styled.FlexColumnIcons>
-              </Styled.Flex>
+              <PermissionCardList id_usuario={user.id_usuario} list={fullUserData.permissoes} />
+              
+              {fullUserData.link_facebook || fullUserData.link_instagram &&
+                <Styled.SocialMedia>
+                  {
+                    <Icon
+                      iconType={IconType.Facebook}
+                      size={Size.S}
+                      color={Color.FacebookColor}
+                      animationType={AnimationType.Float}
+                      startAnimation={StartAnimation.Hover}
+                      background={Color.BgPrimary}
+                      onClick={() => { fullUserData.link_facebook && window.open(fullUserData.link_facebook!, "_blank") }}
+                      padding="5px"
+                    />
+                  }
+                  {fullUserData.link_instagram &&
+                    <Icon
+                      iconType={IconType.Instagram}
+                      size={Size.S}
+                      color={Color.InstagramColor}
+                      animationType={AnimationType.Float}
+                      startAnimation={StartAnimation.Hover}
+                      background={Color.BgPrimary}
+                      onClick={() => { fullUserData.link_instagram && window.open(fullUserData.link_instagram, "_blank") }}
+                      padding="5px"
+                    />
+                  }
+                </Styled.SocialMedia>
+              }
               {isAdmin &&
                 <Styled.FlexColumnIcons>
                   <Icon

@@ -12,7 +12,8 @@ import type {
   UserCardsResponse,
   FullUserCardResponse,
   AccessTokenResponse,
-  DadosUsuarioPorTokenResponse
+  DadosUsuarioPorTokenResponse,
+  CreateUserPermissionRequest
 } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
@@ -420,7 +421,7 @@ export const adminLoginComUsuario = async (id_usuario: number): Promise<void> =>
     {
       pending: "Carregando login com usuário...",
       success: "Login realizado!",
-      error: "Erro ao fazer login. Verifique suas permissões.",
+      error: "Erro ao fazer login. Permissão ou usuário inválido.",
     }
   );
 };
@@ -456,3 +457,56 @@ export const getPermissionsByToken = async (): Promise<void> => {
     toast.error("Erro ao fazer login. Verifique sua permissão.");
   }
 };
+
+export const deletePermission = async (id_usuario: number): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    throw new Error("Token de sessão ausente ou inválido.");
+  }
+
+  const response = await apiSalaAis.delete(
+    `permissao/permissao-usuario/${id_usuario}`,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+
+  // Se o backend estiver retornando status 204 ou 200, isso já é sucesso
+  // Mas se por algum motivo não for, você pode verificar:
+  if (!response || response.status >= 400) {
+    throw new Error("Erro inesperado ao deletar usuário.");
+  }
+};
+
+export const createUserPermission = async (
+  body: CreateUserPermissionRequest
+): Promise<void> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    throw new Error("Token de sessão ausente ou inválido.");
+  }
+
+  const response = await apiSalaAis.post(
+    `permissao/permissao-usuario`,
+    body,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+
+  if (!response || response.status >= 400) {
+    throw new Error("Erro ao adicionar permissão.");
+  }
+};
+
+// @Get('/permissao') query 'string_busca'

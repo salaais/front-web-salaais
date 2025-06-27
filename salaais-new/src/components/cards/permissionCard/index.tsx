@@ -4,29 +4,15 @@ import { Color, getLocalStorage, LocalStorage, Permission, Size } from "../../..
 import { Icon } from "../../icon";
 import { IconType } from "../../icon/models";
 import type { PermissioesFullUserCard } from "../../../services/apis/salaais/models";
+import { deletePermission } from "../../../services/apis/salaais";
+import { AlertDelete } from "../../alerts/alertDelete";
+import { AlertCreatePermission } from "../../alerts/alertCreate/modals/userPermission";
+import { ItemName } from "../../alerts/alertCreate";
 
 type PermissionCardProps = {
+    id_usuario: number;
     list?: PermissioesFullUserCard[]; // Fallback para teste
 };
-
-// const mockPlans = [
-//     {
-//         title: "Bronze",
-//         image: "https://static.wikia.nocookie.net/leagueoflegends/images/a/ac/Season_2019_-_Bronze_2.png",
-//     },
-//     {
-//         title: "Prata",
-//         image: "https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Silver_1.png",
-//     },
-//     {
-//         title: "Ouro",
-//         image: "https://static.wikia.nocookie.net/leagueoflegends/images/9/96/Season_2019_-_Gold_1.png",
-//     },
-//     {
-//         title: "Premium",
-//         image: "https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Diamond_2.png",
-//     }
-// ]
 
 // export const permissionList: PermissioesFullUserCard[] = [
 //     {
@@ -99,7 +85,7 @@ export function PermissionCardItem({ card }: { card: PermissioesFullUserCard }) 
                         background={Color.Red}
                         padding="5px"
                         margin="0 0 10px 0"
-                        onClick={() => { }}
+                        onClick={() => AlertDelete(card.id_permissao_usuario, ItemName.PermissionUser, deletePermission)}
                     />
                 </Styled.FlexEndIcon>
             }
@@ -113,7 +99,7 @@ export function PermissionCardItem({ card }: { card: PermissioesFullUserCard }) 
     );
 }
 
-export function PermissionCardList({ list = [] }: PermissionCardProps) {
+export function PermissionCardList({ id_usuario, list = [] }: PermissionCardProps) {
     const isAdmin = (getLocalStorage<string[]>(LocalStorage.permissions) ?? []).includes(Permission.ADMIN);
 
     return (
@@ -124,10 +110,11 @@ export function PermissionCardList({ list = [] }: PermissionCardProps) {
             {isAdmin && <Icon
                 iconType={IconType.Add}
                 size={Size.Xs}
-                color={Color.BgSecondary}
-                background={Color.TxtPrimary}
+                color={Color.TxtSecondary}
+                background={Color.BgPrimary}
                 padding="5px"
-                onClick={() => { }}
+                margin="0 20px"
+                onClick={() => AlertCreatePermission(id_usuario)}
             />}
         </Styled.CardList>
     );

@@ -54,6 +54,12 @@ export const FlexColumnIcons = styled.div`
   align-items:center;
 `
 
+export const FlexIcons = styled.div`
+  display: flex;
+  align-items:center;
+  gap:5px;
+`
+
 export const SecondContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,10 +106,10 @@ flex-direction:column;
 align-items:flex-end;
 `
 
-export const Flex = styled.div`
+export const SocialMedia = styled.div`
 display: flex;
-gap:50px;
-margin-top: 20px;
+gap:20px;
+margin: 10px 0 20px 0;
 `
 
 export const InitialsPlaceholder = styled.div`

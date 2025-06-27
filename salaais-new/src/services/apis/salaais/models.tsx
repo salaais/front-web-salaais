@@ -65,6 +65,7 @@ export interface FullUserCardResponse {
 export interface PermissioesFullUserCard {
     key_permissao: string;
     nome_permissao: string;
+    id_permissao_usuario: number;
     url_imagem: string;
     data_inicio: string | null;
     data_fim: string | null;
@@ -105,4 +106,11 @@ export interface DadosUsuarioPorTokenResponse {
     permissoes: PermissaoDetalhada[];
     criacao_token: number;
     expiracao_token: number;
+}
+
+export interface CreateUserPermissionRequest {
+    id_usuario: number,
+    key_permissao: string;
+    data_inicio: string;
+    data_fim: string;
 }

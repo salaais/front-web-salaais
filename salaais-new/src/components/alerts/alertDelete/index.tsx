@@ -1,24 +1,24 @@
 import { toast } from "react-toastify";
-import { deleteUser } from "../../../services/apis/salaais";
 import * as Styled from './style';
-import { makeEnum, type EnumType } from "../../../global";
+import { Size, type EnumType } from "../../../global";
+import { Text } from "../../text";
+import type { ItemName } from "../alertCreate";
 
-export const ItemName = makeEnum({
-    User: "Usuário",
-    Permission: "Permissão",
-})
-
-export const AlertDelete = (id: number, itemName?: EnumType<typeof ItemName>) => {
+export const AlertDelete = (
+    id: number,
+    itemName: EnumType<typeof ItemName>,
+    deleteAction: (id: number) => Promise<void>
+) => {
     toast(
         ({ closeToast }) => (
             <Styled.ToastContainer>
-                <span>Tem certeza que deseja remover este usuário?</span>
+                <Text text={`Tem certeza que deseja remover este ${itemName}?`} size={Size.M} />
                 <Styled.ConfirmButton
                     onClick={() => {
                         closeToast?.();
-                        toast.promise(deleteUser(id), {
+                        toast.promise(deleteAction(id), {
                             pending: `Removendo ${itemName}...`,
-                            success: `${itemName} removido com sucesso!`,
+                            success: `${itemName} removid${itemName.endsWith("a") ? "a" : "o"} com sucesso!`,
                             error: `Erro ao remover ${itemName}.`,
                         });
                     }}
