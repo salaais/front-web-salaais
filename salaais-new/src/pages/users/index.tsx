@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Icon, Menu, SearchInput, Text, UserCardList } from "../../components";
+import { Icon, Menu, InputSearch, Text, UserCardList } from "../../components";
 import { getUsers } from "../../services/apis/salaais";
 import type { UserCardResponse } from "../../services/apis/salaais/models";
 import { AnimationType, IconType, StartAnimation } from "../../components/icon/models";
@@ -87,7 +87,7 @@ export function UsersPage() {
 
   return (
     <Menu>
-      <SearchInput inputRef={inputRef} onSearchClick={handleSearchClick} />
+      <InputSearch inputRef={inputRef} onSearchClick={handleSearchClick} />
 
       {isLoadingInitial && (
         <Icon

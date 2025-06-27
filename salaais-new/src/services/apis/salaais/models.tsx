@@ -114,3 +114,8 @@ export interface CreateUserPermissionRequest {
     data_inicio: string | null;
     data_fim: string | null;
 }
+
+export interface getPermissaoResponse {
+    key: string,
+    name: string;
+}

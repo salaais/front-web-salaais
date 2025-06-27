@@ -1,4 +1,4 @@
-import { Menu, SearchInput } from "../../components";
+import { Menu, InputSearch } from "../../components";
 
 export function RankingPage() {
 
@@ -8,7 +8,7 @@ export function RankingPage() {
         <a href="/planos" >Estamos ainda trabalhando nisso</a>
         <br />
         <br />
-        <SearchInput />
+        <InputSearch />
       </Menu >
     </>
   )

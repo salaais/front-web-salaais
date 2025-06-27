@@ -4,18 +4,18 @@ import { IconType } from "../../icon/models";
 import * as Styled from "./style";
 import type { RefObject } from "react";
 
-type SearchInputProps = {
+type InputSearchProps = {
   placeholder?: string;
   onSearchClick?: () => void;
   onTyping?: () => void;
   inputRef?: RefObject<HTMLInputElement | null>;
 };
 
-export function SearchInput({
+export function InputSearch({
   placeholder = "Buscar",
   onSearchClick,
   inputRef
-}: SearchInputProps) {
+}: InputSearchProps) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && onSearchClick) {

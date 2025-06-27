@@ -13,7 +13,8 @@ import type {
   FullUserCardResponse,
   AccessTokenResponse,
   DadosUsuarioPorTokenResponse,
-  CreateUserPermissionRequest
+  CreateUserPermissionRequest,
+  getPermissaoResponse
 } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
@@ -509,4 +510,33 @@ export const createUserPermission = async (
   }
 };
 
-// @Get('/permissao') query 'string_busca'
+// @Get('/permissao') query 'string_busca' // se estiver definido
+
+export const getPermissaoOptions = async (busca: string = ""): Promise<{ label: string, value: string }[]> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    toast.error("Faça login e tente novamente");
+    throw new Error("Token de sessão ausente ou inválido.");
+  }
+
+  const response = await apiSalaAis.get<getPermissaoResponse[]>(
+    `permissao?string_busca=${busca}`,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+
+  if (!response || response.status >= 400) {
+    throw new Error("Erro ao buscar permissões.");
+  }
+
+  // Transforma para o formato aceito pelo componente
+  return response.data.map((item) => ({
+    label: item.key,
+    value: item.name,
+  }));
+};
