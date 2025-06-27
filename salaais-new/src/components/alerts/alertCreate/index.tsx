@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import * as Styled from "./style";
 import { makeEnum, type EnumType } from "../../../global";
-import { Text } from "../../text";
 import React, { useState, type ReactNode } from "react";
 
 export const ItemName = makeEnum({
@@ -37,35 +36,52 @@ type AlertCreateProps<T> = {
 //     />
 //   ),
 // });
+function AlertCreateContent<T>({
+  itemName,
+  defaultValue,
+  createAction,
+  children,
+  closeToast,
+}: AlertCreateProps<T> & { closeToast: () => void }) {
+  const [value, setValue] = useState<T>(defaultValue);
+
+  return (
+    <Styled.ToastContainer>
+      {children(value, setValue)}
+      <Styled.ConfirmButton
+        onClick={() => {
+          closeToast?.();
+          toast.promise(createAction(value), {
+            pending: `Adicionando ${itemName}...`,
+            success: `${itemName} adicionad${itemName.endsWith("a") ? "a" : "o"} com sucesso!`,
+            error: `Erro ao adicionar ${itemName}.`,
+          });
+        }}
+      >
+        Adicionar
+      </Styled.ConfirmButton>
+    </Styled.ToastContainer>
+  );
+}
+
 export function AlertCreateBase<T>({
   itemName,
   defaultValue,
   createAction,
   children,
 }: AlertCreateProps<T>) {
-  toast(({ closeToast }) => {
-    const [value, setValue] = useState<T>(defaultValue);
-
-    return (
-      <Styled.ToastContainer>
-        {children(value, setValue)}
-        <Styled.ConfirmButton
-          onClick={() => {
-            closeToast?.();
-            toast.promise(createAction(value), {
-              pending: `Adicionando ${itemName}...`,
-              success: `${itemName} adicionad${itemName.endsWith("a") ? "a" : "o"} com sucesso!`,
-              error: `Erro ao adicionar ${itemName}.`,
-            });
-          }}
-        >
-          Sim
-        </Styled.ConfirmButton>
-      </Styled.ToastContainer>
-    );
-  }, {
+  toast(({ closeToast }) => (
+    <AlertCreateContent
+      itemName={itemName}
+      defaultValue={defaultValue}
+      createAction={createAction}
+      closeToast={closeToast}
+      children={children}
+    />
+  ), {
     autoClose: false,
     closeOnClick: false,
     closeButton: true,
   });
 }
+

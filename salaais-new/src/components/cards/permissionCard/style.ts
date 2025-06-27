@@ -18,7 +18,6 @@ export const CardList = styled.div`
     flex-wrap: wrap;
     gap: 10px;
     width: 100%;
-    align-items:center;
 `
 
 export const Image = styled.img`

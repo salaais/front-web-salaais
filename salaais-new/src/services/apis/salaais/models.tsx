@@ -111,6 +111,6 @@ export interface DadosUsuarioPorTokenResponse {
 export interface CreateUserPermissionRequest {
     id_usuario: number,
     key_permissao: string;
-    data_inicio: string;
-    data_fim: string;
+    data_inicio: string | null;
+    data_fim: string | null;
 }

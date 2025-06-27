@@ -113,7 +113,7 @@ export function PermissionCardList({ id_usuario, list = [] }: PermissionCardProp
                 color={Color.TxtSecondary}
                 background={Color.BgPrimary}
                 padding="5px"
-                margin="0 20px"
+                margin="20px"
                 onClick={() => AlertCreatePermission(id_usuario)}
             />}
         </Styled.CardList>

@@ -6,6 +6,8 @@ export const ToastContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   position: relative;
+  width:100%;
+  border-radius: 10px;
 `;
 
 export const ConfirmButton = styled.button`
@@ -22,4 +24,5 @@ export const ContentModal = styled.div`
     display:flex;
     flex-direction:column;
     gap:10px;
+    width:100%;
 `

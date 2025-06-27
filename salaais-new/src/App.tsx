@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
     <>
-      <ToastContainer theme="light" />
+      <ToastContainer theme="light"/>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

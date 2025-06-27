@@ -137,7 +137,7 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
               />
 
               <PermissionCardList id_usuario={user.id_usuario} list={fullUserData.permissoes} />
-              
+
               {fullUserData.link_facebook || fullUserData.link_instagram &&
                 <Styled.SocialMedia>
                   {fullUserData.link_facebook &&
@@ -148,7 +148,11 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                       animationType={AnimationType.Float}
                       startAnimation={StartAnimation.Hover}
                       background={Color.BgPrimary}
-                      onClick={() => { fullUserData.link_facebook && window.open(fullUserData.link_facebook!, "_blank") }}
+                      onClick={() => {
+                        if (fullUserData.link_facebook) {
+                          window.open(fullUserData.link_facebook!, "_blank")
+                        }
+                      }}
                       padding="5px"
                     />
                   }
@@ -160,7 +164,11 @@ export const UserCard = React.memo(function UserCard(props: UserCardProps) {
                       animationType={AnimationType.Float}
                       startAnimation={StartAnimation.Hover}
                       background={Color.BgPrimary}
-                      onClick={() => { fullUserData.link_instagram && window.open(fullUserData.link_instagram, "_blank") }}
+                      onClick={() => {
+                        if (fullUserData.link_instagram) {
+                          window.open(fullUserData.link_instagram, "_blank")
+                        }
+                      }}
                       padding="5px"
                     />
                   }

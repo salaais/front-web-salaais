@@ -126,6 +126,11 @@ p {
   padding-left: 220px;
 }
 
+/* toasty */
+.Toastify__toast {
+  border-radius: 10px !important;
+}
+
 @media (max-width: 768px) {
   .contentOpen,
   .contentClose {

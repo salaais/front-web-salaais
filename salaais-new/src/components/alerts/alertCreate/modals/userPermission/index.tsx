@@ -1,11 +1,12 @@
 import { AlertCreateBase, ItemName } from "../..";
+import { Size } from "../../../../../global";
 import { createUserPermission } from "../../../../../services/apis/salaais";
-import * as Styled from '../../style'
-
+import { Text } from "../../../../text";
+import * as Styled from './style'
 export interface CreateUserPermissionModal {
     key_permissao: string;
-    data_inicio: string;
-    data_fim: string;
+    data_inicio: string | null;
+    data_fim: string | null;
 }
 
 type ModalFormPermissionProps = {
@@ -15,23 +16,27 @@ type ModalFormPermissionProps = {
 
 export const ModalPermissionUser = ({ formState, onChange }: ModalFormPermissionProps) => (
     <Styled.ContentModal>
-        <input
+        <Text text="Adicionar Permissão" size={Size.M} />
+
+        <Styled.Input
             type="text"
             placeholder="Nome Permissão"
             value={formState.key_permissao}
             onChange={(e) => onChange({ key_permissao: e.target.value })}
         />
-        <input
+
+        <Styled.Input
             type="date"
-            placeholder="Data Inicio permissão"
-            value={formState.data_inicio}
-            onChange={(e) => onChange({ data_inicio: e.target.value })}
+            placeholder="Data Início permissão"
+            value={formState.data_inicio ?? ""}
+            onChange={(e) => onChange({ data_inicio: e.target.value || null })}
         />
-        <input
+
+        <Styled.Input
             type="date"
             placeholder="Data Fim permissão"
-            value={formState.data_fim}
-            onChange={(e) => onChange({ data_fim: e.target.value })}
+            value={formState.data_fim ?? ""}
+            onChange={(e) => onChange({ data_fim: e.target.value || null })}
         />
     </Styled.ContentModal>
 );
@@ -48,8 +53,8 @@ export const AlertCreatePermission = (id_usuario: number) => {
             createUserPermission({
                 id_usuario,
                 key_permissao: data.key_permissao,
-                data_inicio: data.data_inicio,
-                data_fim: data.data_fim,
+                data_inicio: data.data_inicio || null,
+                data_fim: data.data_fim || null,
             }),
         children: (formState, setFormState) => (
             <ModalPermissionUser
