@@ -119,3 +119,32 @@ export interface getPermissaoResponse {
     key: string,
     name: string;
 }
+
+export interface UserDataByTokenResponse {
+    id_usuario: number;
+    criacao_token: number;
+    expiracao_token: number;
+    email: string;
+    bio: string | null;
+    username: string;
+    nome: string;
+    tipo_login: string;
+    data_atualizacao_usuario: string; // ISO 8601 format (UTC)
+    data_criacao_usuario: string;     // ISO 8601 format (UTC)
+    id_subscription_stripe: string | null;
+    deletado: boolean;
+    desativado: boolean;
+    id_google: string | null;
+    url_imagem_perfil: string | null;
+    permissoes_ativas: string[];
+    regras_ativas: string[];
+    permissoes: {
+        id: number;
+        id_key: number;
+        key: string;
+        ativo: boolean;
+        data_criacao: string;   // ISO 8601 format (UTC)
+        data_inicio: string | null;
+        data_fim: string | null;
+    }[];
+}

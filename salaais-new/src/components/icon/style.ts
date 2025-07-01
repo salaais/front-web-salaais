@@ -75,7 +75,7 @@ export function getStyledIcon(iconType: EnumType<typeof IconType>) {
     ${({ size }) => {
       switch (size) {
         case Size.Xs:
-          return "width: 16px; height: 16px;";
+          return "width: 20px; height: 20px;";
         case Size.S:
           return "width: 24px; height: 24px;";
         case Size.M:

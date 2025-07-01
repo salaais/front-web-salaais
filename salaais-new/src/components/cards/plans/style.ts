@@ -59,6 +59,18 @@ export const Content = styled.div`
  position:relative;
 `
 
+export const Top = styled.div`
+display: flex; 
+gap: 40px;
+justify-content:space-between;
+`
+
+export const FlexIconCloseAndCheck = styled.div`
+display: flex;
+gap:2px;
+align-items:center;
+`
+
 export const PlanDetails = styled.div`
  display:flex;
  gap:5px;
@@ -100,3 +112,9 @@ export const PlanDetailsContainer = styled.div<{ $expanded: boolean }>`
   flex-direction: column;
   gap: 6px;
 `
+
+export const ArrowButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+

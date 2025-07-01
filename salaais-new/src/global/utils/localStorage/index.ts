@@ -1,3 +1,4 @@
+import { Permission } from "../../types/permission"
 import { makeEnum } from "../enum"
 
 export const LocalStorage = makeEnum({
@@ -26,3 +27,5 @@ export function getLocalStorage<T>(key: string): T | null {
     return null
   }
 }
+
+export const isAdmin = (getLocalStorage<string[]>(LocalStorage.permissions) ?? []).includes(Permission.ADMIN);

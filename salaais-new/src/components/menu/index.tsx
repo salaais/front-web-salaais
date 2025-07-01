@@ -5,6 +5,7 @@ import * as Styled from "./style";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FooterContentMenu } from "../footerContentMenu";
 import { AnimationType, IconType, StartAnimation } from "../icon/models";
+import { Cookie, deleteCookie } from "../../global/utils/cookie";
 
 type MenuItem = {
   nome: string;
@@ -194,15 +195,23 @@ export function Menu(props: MenuProps) {
           <Styled.MenuItem key={'closeOpen'} color={Color.TxtPrimary} onClick={toggleIsOpen} isOpenMenu={isOpen}>
             <Styled.MenuLink>
               <Styled.IconWrapper>
-                <Icon iconType={IconType.ArrowLeft} color={Color.TxtPrimary} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
+                <Icon iconType={IconType.ArrowRight} color={Color.TxtPrimary} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
               </Styled.IconWrapper>
             </Styled.MenuLink>
           </Styled.MenuItem>
 
           {menuItems.map((item, index) => {
             const isActive = location.pathname.startsWith(item.link);
+
+            const handleClick = () => {
+              if (item.nome === "Sair") {
+                deleteCookie(Cookie.access_token);
+              }
+              navigate(item.link);
+            };
+
             return (
-              <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={() => navigate(item.link)}>
+              <Styled.MenuItem key={index} color={item.color} isActive={isActive} isOpenMenu={isOpen} onClick={handleClick}>
                 <Styled.MenuLink>
                   <Styled.IconWrapper>
                     <Icon iconType={item.icone} color={getActiveColor(isActive, item.color)} size={Size.S} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />

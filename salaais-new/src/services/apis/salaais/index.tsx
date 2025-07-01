@@ -14,7 +14,8 @@ import type {
   AccessTokenResponse,
   DadosUsuarioPorTokenResponse,
   CreateUserPermissionRequest,
-  getPermissaoResponse
+  getPermissaoResponse,
+  UserDataByTokenResponse
 } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
@@ -239,7 +240,7 @@ export const getUsers = async (
 
   if (!access_token) {
     toast.error("Faça login e tente novamente");
-    console.error("Token de sessão ausente ou inválido.");
+    console.error(`Token de sessão ausente ou inválido: ${access_token}`);
     return { data: [], total: 0 };
   }
 
@@ -306,6 +307,32 @@ export const getUserInfo = async (id_usuario: number): Promise<FullUserCardRespo
   } catch (error) {
     console.error("Erro ao buscar usuários:", error);
     return {} as FullUserCardResponse;
+  }
+};
+
+export const getAuthUserByToken = async (): Promise<UserDataByTokenResponse | null> => {
+  const apiSalaAis = getApiSalaAis();
+  const access_token = getCookie<string>("access_token");
+
+  if (!access_token) {
+    console.error("Token de sessão ausente ou inválido.");
+    return null;
+  }
+
+  try {
+    const { data } = await apiSalaAis.get<UserDataByTokenResponse>(
+      `auth/dados-usuario-por-token`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    console.error("Erro ao buscar dados do usuário por token:", error);
+    return null;
   }
 };
 
