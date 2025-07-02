@@ -56,9 +56,9 @@ export const paymentPlan = async (
 
 // login apple, login google, login normal
 export const finalizarLogin = async (access_token: string, navigate: (path: string) => void) => {
+  toast.success("Bem-vindo!");
   setCookie("access_token", access_token, '7d');
   await getPermissionsByToken();
-  toast.success("Bem-vindo!");
   navigate("/home");
 };
 
