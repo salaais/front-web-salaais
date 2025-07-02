@@ -11,7 +11,12 @@ width:100%;
 }
 `
 
-export const AllContent = styled.div`
+interface ContentProps {
+  opacity?: boolean;
+}
+
+
+export const AllContent = styled.div<ContentProps>`
   display: flex;
   position: relative;  // <-- necessário para posicionar o ContentImage
   width: 100%;
@@ -19,6 +24,8 @@ export const AllContent = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 95px;  // espaço para a imagem flutuante
+
+  opacity: ${(props) => (props.opacity ? "1" : ".6")};
   @media(max-width:768px){
     max-width: 340px;
   }
@@ -28,7 +35,7 @@ export const ContentImage = styled.div`
   display: flex;
   justify-content: center;
   background: ${Color.PlanBackgroundImageColor};
-  padding: 20px 20px 70px 20px;
+  padding: 20px 20px 120px 20px;
   border-radius: 20px;
   width: 100%;
   position: absolute;
@@ -77,11 +84,6 @@ export const PlanDetails = styled.div`
  align-items:center;
 `
 
-export const MoneyInfo = styled.div`
-  display: flex
-  flex-direction:column;
-`
-
 export const FlexPrices = styled.div`
   display: flex;
   gap:10px;
@@ -110,7 +112,6 @@ export const PlanDetailsContainer = styled.div<{ $expanded: boolean }>`
   transition: max-height 2s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 6px;
 `
 
 export const ArrowButtons = styled.div`

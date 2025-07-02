@@ -1,5 +1,5 @@
 // components/PlanCardEditable.tsx
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import * as Styled from './style'
 import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
@@ -13,7 +13,6 @@ import { InputCheckBox } from '../../inputs/checkBox'
 interface EditableProps {
     plan: GetPlansResponse
     onFieldChange: (field: keyof GetPlansResponse, value: unknown) => void
-    onDetailChange: (index: number, value: string) => void
     onMoveDetailUp: (index: number) => void
     onMoveDetailDown: (index: number) => void
     isExpanded: boolean
@@ -22,79 +21,132 @@ interface EditableProps {
     onCancelEdit: () => void
 }
 
-export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpanded, onExpandToggle, onEditToggle, onMoveDetailUp, onMoveDetailDown, onCancelEdit }: EditableProps) {
-    const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
+export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandToggle, onEditToggle, onMoveDetailUp, onMoveDetailDown, onCancelEdit }: EditableProps) {
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
     const [nextFocusIndex, setNextFocusIndex] = useState<number | null>(null)
-    useEffect(() => {
-        inputRefs.current = inputRefs.current.slice(0, plan.topicos_do_plano.length)
-    }, [plan.topicos_do_plano.length])
+    const [localTopicos, setLocalTopicos] = useState<string[]>(plan.topicos_do_plano)
+    const visibleDetails = isExpanded ? localTopicos : localTopicos.slice(0, 2)
+    const [inputTitulo, setInputTitulo] = useState(plan.titulo)
+    const [inputPreco, setInputPreco] = useState<number | null>(plan.preco)
+    const [inputPrecoAntigo, setInputPrecoAntigo] = useState<string | undefined>(plan.preco_antigo?.toString() || "");
+    const [inputTipoPagamento, setInputTipoPagamento] = useState<string | undefined>(plan.tipo_pagamento || "");
+    const [inputDuracaoPlanoEmDias, setInputDuracaoPlanoEmDias] = useState<string | undefined>(plan.duracao_plano_em_dias?.toString() || "");
+    const [inputIdPrecoStripe, setInputIdPrecoStripe] = useState<string | undefined>(plan.stripe_price_id || "");
+    const [inputCompravel, setInputCompravel] = useState<boolean>(plan.compravel);
+    const [inputPublico, setInputPublico] = useState<boolean>(plan.publico);
+
+    const setInputRef = useCallback((el: HTMLInputElement | null, index: number) => {
+        if (el) {
+            inputRefs.current[index] = el
+        }
+    }, [])
 
     useEffect(() => {
-        if (nextFocusIndex !== null) {
-            inputRefs.current[nextFocusIndex]?.focus()
-            setNextFocusIndex(null)
-        }
-    }, [plan.topicos_do_plano, nextFocusIndex])
+        setInputTitulo(plan.titulo)
+    }, [plan.titulo])
+
+    useEffect(() => {
+        setInputPreco(plan.preco)
+    }, [plan.preco])
+
+    useEffect(() => {
+        setInputPrecoAntigo(plan.preco_antigo?.toString())
+    }, [plan.preco_antigo])
+
+    useEffect(() => {
+        setInputTipoPagamento(plan.tipo_pagamento?.toString())
+    }, [plan.tipo_pagamento])
+
+    useEffect(() => {
+        setInputDuracaoPlanoEmDias(plan.duracao_plano_em_dias?.toString())
+    }, [plan.duracao_plano_em_dias])
+
+    useEffect(() => {
+        setInputIdPrecoStripe(plan.stripe_price_id)
+    }, [plan.stripe_price_id])
+
+    useEffect(() => {
+        setInputCompravel(plan.compravel)
+    }, [plan.compravel])
+
+    useEffect(() => {
+        setInputPublico(plan.publico)
+    }, [plan.publico])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         const isBackspace = e.key === 'Backspace'
-        const inputValue = plan.topicos_do_plano[index]
+        const isEnter = e.key === 'Enter'
+        const inputValue = localTopicos[index]
 
-        // Se o campo está vazio e usuário apertou Backspace, remover item
         if (isBackspace && inputValue === '') {
             e.preventDefault()
-            const newDetails = [...plan.topicos_do_plano]
-            newDetails.splice(index, 1)
-            onFieldChange("topicos_do_plano", newDetails)
+            if (localTopicos.length === 1) return
 
-            // Foca no item anterior (se houver)
-            setNextFocusIndex(index > 0 ? index - 1 : null)
+            const newDetails = [...localTopicos]
+            newDetails.splice(index, 1)
+            setLocalTopicos(newDetails)
+            setNextFocusIndex(index > 0 ? index - 1 : 0)
             return
         }
 
-        if (e.key === 'Enter') {
+        if (isEnter) {
             e.preventDefault()
-            const newDetails = [...plan.topicos_do_plano]
-            newDetails.splice(index + 1, 0, "")
-            onFieldChange("topicos_do_plano", newDetails)
+            const newDetails = [...localTopicos]
+            newDetails.splice(index + 1, 0, '')
+            setLocalTopicos(newDetails)
             setNextFocusIndex(index + 1)
         }
     }
 
     const handleDetailInput = (i: number, value: string) => {
-        onDetailChange(i, value)
+        const updated = [...localTopicos]
+        updated[i] = value
+        setLocalTopicos(updated)
     }
 
-
-    // const handleDetailInput = (i: number, value: string) => {
-    //     if (value === "") {
-    //         const newDetails = [...plan.topicos_do_plano]
-    //         newDetails.splice(i, 1)
-    //         onFieldChange("topicos_do_plano", newDetails)
-    //     } else {
-    //         onDetailChange(i, value)
-    //     }
-    // }
+    const handleDetailBlur = () => {
+        onFieldChange("topicos_do_plano", localTopicos)
+    }
 
     const handleAddTopic = () => {
-        const newDetails = [...plan.topicos_do_plano, ""]
-        onFieldChange("topicos_do_plano", newDetails)
-        setNextFocusIndex(newDetails.length - 1)
+        setLocalTopicos(prev => {
+            const newDetails = [...prev, ""]
+            setNextFocusIndex(newDetails.length - 1)
+            return newDetails
+        })
     }
 
+    useEffect(() => {
+        if (nextFocusIndex !== null && inputRefs.current[nextFocusIndex]) {
+            inputRefs.current[nextFocusIndex]?.focus()
+            setNextFocusIndex(null)
+        }
+    }, [nextFocusIndex, localTopicos])
+
+    const handleSaveChanges = () => {
+        onFieldChange("titulo", inputTitulo)
+        onFieldChange("preco", inputPreco)
+        onFieldChange("preco_antigo", inputPrecoAntigo ? parseFloat(inputPrecoAntigo) : null)
+        onFieldChange("tipo_pagamento", inputTipoPagamento)
+        onFieldChange("duracao_plano_em_dias", inputDuracaoPlanoEmDias ? parseInt(inputDuracaoPlanoEmDias) : null)
+        onFieldChange("stripe_price_id", inputIdPrecoStripe)
+        onFieldChange("compravel", inputCompravel)
+        onFieldChange("publico", inputPublico)
+        onFieldChange("topicos_do_plano", localTopicos)
+        onEditToggle()
+    }
 
 
     return (
-        <Styled.AllContent>
+        <Styled.AllContent opacity={plan.publico && plan.compravel}>
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
             <Styled.Content>
                 <Styled.Top>
                     <input
-                        value={plan.titulo}
-                        onChange={(e) => onFieldChange("titulo", e.target.value)}
+                        value={inputTitulo}
+                        onChange={(e) => setInputTitulo(e.target.value)}
                         style={{
                             fontSize: '23px',
                             fontWeight: 'bold',
@@ -117,7 +169,7 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                             iconType={IconType.Check}
                             color={Color.Green}
                             padding="0px"
-                            onClick={onEditToggle}
+                            onClick={handleSaveChanges}
                         />
                     </Styled.FlexIconCloseAndCheck>
                 </Styled.Top>
@@ -129,9 +181,10 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                             <Icon iconType={IconType.Check} color={Color.Green} padding="0" />
 
                             <input
-                                ref={(el) => { inputRefs.current[i] = el }}
-                                value={plan.topicos_do_plano[i]}
-                                onChange={e => handleDetailInput(i, e.target.value)}
+                                ref={(el) => setInputRef(el, i)}
+                                value={localTopicos[i]}
+                                onChange={(e) => handleDetailInput(i, e.target.value)}
+                                onBlur={handleDetailBlur}
                                 onKeyDown={e => handleKeyDown(e, i)}
                                 style={{
                                     fontSize: '12px',
@@ -197,14 +250,14 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                     />
                 )}
 
-                <Styled.MoneyInfo>
+                <div>
                     <input
                         type="number"
                         placeholder="Preço antigo"
-                        value={plan.preco_antigo ?? ""}
-                        onChange={(e) =>
-                            onFieldChange("preco_antigo", e.target.value ? parseFloat(e.target.value) : null)
-                        }
+                        value={inputPrecoAntigo || ""}
+                        onChange={(e) => {
+                            setInputPrecoAntigo(e.target.value)
+                        }}
                         style={{
                             fontSize: '12px',
                             color: Color.TxtSecondary,
@@ -220,8 +273,11 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                         <input
                             type="number"
                             placeholder="Preço"
-                            value={plan.preco || ''}
-                            onChange={(e) => onFieldChange("preco", parseFloat(e.target.value))}
+                            value={inputPreco || ""}
+                            onChange={(e) => {
+                                const value = e.target.value
+                                setInputPreco(value === "" ? null : parseFloat(value))
+                            }}
                             style={{
                                 fontSize: '20px',
                                 fontWeight: 'bold',
@@ -234,9 +290,11 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                             }}
                         />
                         <input
-                            value={plan.tipo_pagamento}
                             placeholder='Modo pagamento'
-                            onChange={(e) => onFieldChange("tipo_pagamento", e.target.value)}
+                            value={inputTipoPagamento}
+                            onChange={(e) => {
+                                setInputTipoPagamento(e.target.value)
+                            }}
                             style={{
                                 fontSize: '12px',
                                 color: Color.PlanTextColor,
@@ -248,26 +306,34 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                             }}
                         />
                     </Styled.FlexPrices>
-                </Styled.MoneyInfo>
+                </div>
 
 
                 <InputCheckBox
-                    value={plan.compravel}
-                    onChange={(checked) => onFieldChange("compravel", checked)}
+                    value={inputCompravel}
+                    onChange={(checked) => {
+                        setInputCompravel(checked)
+                        onFieldChange("compravel", checked)
+                    }}
                     text="Visível para comprar"
                 />
 
                 <InputCheckBox
-                    value={plan.publico}
-                    onChange={(checked) => onFieldChange("publico", checked)}
+                    value={inputPublico}
+                    onChange={(checked) => {
+                        setInputPublico(checked)
+                        onFieldChange("publico", checked)
+                    }}
                     text="Visível para o usuário"
                 />
 
                 <input
                     type='number'
-                    value={plan.duracao_plano_em_dias}
+                    value={inputDuracaoPlanoEmDias || ""}
+                    onChange={(e) => {
+                        setInputDuracaoPlanoEmDias(e.target.value)
+                    }}
                     placeholder='Duracão plano em dias'
-                    onChange={(e) => onFieldChange("duracao_plano_em_dias", parseFloat(e.target.value))}
                     style={{
                         fontSize: '12px',
                         color: Color.PlanTextColor,
@@ -280,9 +346,11 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                 />
 
                 <input
-                    value={plan.stripe_price_id}
                     placeholder='Id preço stripe'
-                    onChange={(e) => onFieldChange("stripe_price_id", e.target.value)}
+                    value={inputIdPrecoStripe || ""}
+                    onChange={(e) => {
+                        setInputIdPrecoStripe(e.target.value)
+                    }}
                     style={{
                         fontSize: '12px',
                         color: Color.PlanTextColor,
@@ -293,7 +361,7 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                         width: '100%',
                     }}
                 />
-                {plan.preco !== null &&
+                {plan.preco !== 0 &&
                     <Styled.Button>Assinar</Styled.Button>
                 }
             </Styled.Content>

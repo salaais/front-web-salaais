@@ -18,7 +18,7 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
     const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
 
     return (
-        <Styled.AllContent>
+        <Styled.AllContent opacity={plan.compravel && plan.publico}>
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
@@ -58,7 +58,7 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                     />
                 )}
 
-                <Styled.MoneyInfo>
+                <div>
                     {plan.preco_antigo && (
                         <Text
                             text={`R$${plan.preco_antigo.toFixed(2)}`}
@@ -71,15 +71,15 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                         <Text text={`R$${plan.preco?.toFixed(2) || 0}`} size={Size.Xl} color={Color.PlanPrimaryColor} />
                         <Text text={plan.tipo_pagamento} size={Size.S} color={Color.PlanTextColor} bold />
                     </Styled.FlexPrices>
-                </Styled.MoneyInfo>
-                {isAdmin && <Text
+                </div>
+                {isAdmin && plan.stripe_price_id !== null && <Text
                     text={`${plan.stripe_price_id}`}
                     size={Size.S}
                     color={Color.TxtSecondary}
                     center
                 />}
 
-                {plan.preco !== null &&
+                {plan.preco !== 0  &&
                     <Styled.Button>Assinar</Styled.Button>
                 }
             </Styled.Content>

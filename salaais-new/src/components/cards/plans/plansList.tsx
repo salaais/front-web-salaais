@@ -4,47 +4,37 @@ import { PlanCard } from "./planCard"
 import { PlanCardEditable } from "./planCardEditable"
 import { isAdmin } from "../../../global/utils/localStorage"
 import * as Styled from './style'
-import type { GetPlansResponse } from "../../../services/apis/salaais/models"
-import { getPlans } from "../../../services/apis/salaais"
+import type { EditPlanRequest, GetPlansResponse } from "../../../services/apis/salaais/models"
+import { editPlan, getPlans } from "../../../services/apis/salaais"
 import { Icon } from "../../icon"
 import { AnimationType, IconType, StartAnimation } from "../../icon/models"
 import { Size } from "../../../global"
-// import { getPlans } from "../../../services/apis/salaais"
+import { toast } from "react-toastify"
 
-// export interface Plan {
-//   titulo: string
-//   url_imagem: string
-//   stripe_price_id: string
-//   topicos_do_plano: string[]
-//   preco_antigo: number | null
-//   preco: number | null
-//   tipo_pagamento: string
-// }
+// export const mockPlans: GetPlansResponse[] = [
+//   {
+//     id: 5,
+//     titulo: "Bronze",
+//     url_imagem: "https://static.wikia.nocookie.net/leagueoflegends/images/a/ac/Season_2019_-_Bronze_2.png",
+//     stripe_price_id: 'price_hjunsiniuaa',
+//     moeda: 'R$',
+//     topicos_do_plano: [
+//       "30 dias",
+//       "Provas ANAC, por bloco e por matéria",
+//       "Provas ANAC, por bloco e por matéria",
+//       "Provas ANAC, por bloco e por matéria",
+//       "Provas ANAC, por bloco e por matéria",
+//     ],
+//     preco_antigo: null,
+//     preco: 25.90,
+//     tipo_pagamento: "/à vista",
+//     duracao_plano_em_dias: 30,
+//     publico: true,
+//     compravel: true,
+//   },
+// ]
 
-export const mockPlans: GetPlansResponse[] = [
-  {
-    key: 'BRONZE',
-    titulo: "Bronze",
-    url_imagem: "https://static.wikia.nocookie.net/leagueoflegends/images/a/ac/Season_2019_-_Bronze_2.png",
-    stripe_price_id: 'price_hjunsiniuaa',
-    moeda: 'R$',
-    topicos_do_plano: [
-      "30 dias",
-      "Provas ANAC, por bloco e por matéria",
-      "Provas ANAC, por bloco e por matéria",
-      "Provas ANAC, por bloco e por matéria",
-      "Provas ANAC, por bloco e por matéria",
-    ],
-    preco_antigo: null,
-    preco: 25.90,
-    tipo_pagamento: "/à vista",
-    duracao_plano_em_dias: 30,
-    publico: true,
-    compravel: true,
-  },
-]
-
-export function PlansList({ plans = mockPlans }: { plans?: GetPlansResponse[] }) {
+export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
   const [expandedIndexes, setExpandedIndexes] = useState<number[]>([])
   const [editedPlans, setEditedPlans] = useState<GetPlansResponse[]>(plans)
   const [originalPlans, setOriginalPlans] = useState<GetPlansResponse[]>(plans)
@@ -52,14 +42,22 @@ export function PlansList({ plans = mockPlans }: { plans?: GetPlansResponse[] })
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    getPlans().then(data => {
-      if (data) {
-        setEditedPlans(data)
-        setOriginalPlans(data)
+    toast.promise(
+      getPlans().then(data => {
+        if (data) {
+          setEditedPlans(data)
+          setOriginalPlans(data)
+        }
+        setLoading(false)
+      }),
+      {
+        pending: 'Carregando planos...',
+        success: 'Planos carregados com sucesso!',
+        error: 'Erro ao carregar planos.'
       }
-      setLoading(false)
-    })
+    )
   }, [])
+
 
   const moveDetailUp = (planIdx: number, detailIdx: number) => {
     if (detailIdx <= 0) return
@@ -96,11 +94,13 @@ export function PlansList({ plans = mockPlans }: { plans?: GetPlansResponse[] })
   }
 
   const toggleEdit = (index: number) => {
-    setEditingIndexes(prev =>
-      prev.includes(index)
-        ? prev.filter(i => i !== index) // desativa edição
-        : [...prev, index]             // ativa edição
-    )
+    if (editingIndexes.includes(index)) {
+      // Se já está editando, ao clicar no ícone "Check", deve salvar
+      handleSaveEdit(index)
+    } else {
+      // Ativa o modo edição
+      setEditingIndexes(prev => [...prev, index])
+    }
   }
 
   const handleCancelEdit = (index: number) => {
@@ -115,23 +115,38 @@ export function PlansList({ plans = mockPlans }: { plans?: GetPlansResponse[] })
       return updated
     })
   }
+  
+  const handleSaveEdit = async (index: number) => {
+    const planToSave = editedPlans[index]
+    const id_permission = originalPlans[index]?.id
 
-  const handleDetailChange = (planIdx: number, detailIdx: number, value: string) => {
-    setEditedPlans(prev => {
-      const updated = [...prev]
-      const newDetails = [...updated[planIdx].topicos_do_plano]
+    // Monta o objeto EditPlanRequest conforme esperado pela API
+    const editRequest: EditPlanRequest = {
+      titulo: planToSave.titulo,
+      stripe_price_id: planToSave.stripe_price_id || null,
+      topicos_do_plano: planToSave.topicos_do_plano || [],
+      preco_antigo: planToSave.preco_antigo || null,
+      preco: planToSave.preco || null,
+      tipo_pagamento: planToSave.tipo_pagamento,
+      duracao_plano_em_dias: planToSave.duracao_plano_em_dias || null,
+      publico: planToSave.publico,
+      compravel: planToSave.compravel,
+    }
 
-      if (value.trim() === "") {
-        // Remove o item da lista se estiver vazio
-        newDetails.splice(detailIdx, 1)
-      } else {
-        // Atualiza o valor normalmente
-        newDetails[detailIdx] = value
-      }
-
-      updated[planIdx] = { ...updated[planIdx], topicos_do_plano: newDetails }
-      return updated
-    })
+    try {
+      await editPlan(id_permission, editRequest)
+      // Remove o plano da lista de edição (fecha o modo edição)
+      setEditingIndexes(prev => prev.filter(i => i !== index))
+      // Atualiza a lista original para refletir a edição salva
+      setOriginalPlans(prev => {
+        const updated = [...prev]
+        updated[index] = planToSave
+        return updated
+      })
+    } catch (error) {
+      console.error('Falha ao salvar plano:', error)
+      // Pode mostrar uma notificação de erro para o usuário aqui
+    }
   }
 
   if (loading) {
@@ -158,7 +173,6 @@ export function PlansList({ plans = mockPlans }: { plans?: GetPlansResponse[] })
             isExpanded={expandedIndexes.includes(index)}
             onExpandToggle={() => toggleExpand(index)}
             onFieldChange={(field, value) => handleFieldChange(index, field, value)}
-            onDetailChange={(detailIdx, value) => handleDetailChange(index, detailIdx, value)}
             onEditToggle={() => toggleEdit(index)}
             onMoveDetailUp={(detailIdx) => moveDetailUp(index, detailIdx)}
             onMoveDetailDown={(detailIdx) => moveDetailDown(index, detailIdx)}

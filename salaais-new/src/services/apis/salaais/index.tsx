@@ -16,7 +16,8 @@ import type {
   CreateUserPermissionRequest,
   getPermissaoResponse,
   UserDataByTokenResponse,
-  GetPlansResponse
+  GetPlansResponse,
+  EditPlanRequest
 } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
@@ -579,9 +580,39 @@ export const getPlans = async (): Promise<GetPlansResponse[] | void> => {
   }
 
   try {
-    const data = await toast.promise(
-      apiSalaAis.get<GetPlansResponse[]>(
-        `permissao/planos`,
+    const response = await apiSalaAis.get<GetPlansResponse[]>(
+      `permissao/planos`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    )
+
+    return response.data
+  } catch (error) {
+    console.error("Erro ao buscar dados do usuário por token:", error)
+    return []
+  }
+}
+
+export const editPlan = async (
+  id_permissao: number,
+  editPlanRequest: EditPlanRequest
+): Promise<void> => {
+  const apiSalaAis = getApiSalaAis()
+  const access_token = getCookie<string>(Cookie.access_token)
+
+  if (!access_token) {
+    console.error("Token de sessão ausente ou inválido.")
+    return
+  }
+
+  try {
+    await toast.promise(
+      apiSalaAis.put<void>(
+        `permissao/plano/${id_permissao}`,
+        editPlanRequest,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
@@ -589,15 +620,12 @@ export const getPlans = async (): Promise<GetPlansResponse[] | void> => {
         }
       ),
       {
-        pending: 'Carregando planos...',
-        success: 'Planos carregados com sucesso!',
-        error: 'Erro ao carregar planos.',
+        pending: 'Editando Plano...',
+        success: 'Plano editado!',
+        error: 'Erro ao editar plano.',
       }
     )
-
-    return data.data
   } catch (error) {
-    console.error("Erro ao buscar dados do usuário por token:", error)
-    return []
+    console.error("Erro ao editar o plano:", error)
   }
 }
