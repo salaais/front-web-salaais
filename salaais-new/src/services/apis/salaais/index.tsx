@@ -64,8 +64,8 @@ export const finalizarLogin = async (access_token: string, navigate: (path: stri
 };
 
 export const loginAction = async (
-  email: string,
   password: string,
+  email: string,
   navigate: ReturnType<typeof useNavigate>
 ) => {
   try {
@@ -330,6 +330,8 @@ export const getAuthUserByToken = async (): Promise<UserDataByTokenResponse | nu
         },
       }
     );
+
+    toast.success('Bem vindo!')
 
     return data;
   } catch (error) {
@@ -627,5 +629,39 @@ export const editPlan = async (
     )
   } catch (error) {
     console.error("Erro ao editar o plano:", error)
+  }
+}
+
+export const pagamentoWeb = async (
+  id_permissao: number
+): Promise<void> => {
+  const apiSalaAis = getApiSalaAis()
+  const access_token = getCookie<string>(Cookie.access_token)
+
+  if (!access_token) {
+    toast.error("Token de sessão ausente ou inválido.")
+    return
+  }
+
+  try {
+    const response = await toast.promise(
+      apiSalaAis.get<{ url: string }>(
+        `stripe/pagamento-web?permission_id=${id_permissao}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      ),
+      {
+        pending: 'Gerando pagamento...',
+        success: 'Sucesso! Redirecionando...',
+        error: 'Erro ao gerar link de pagamento.',
+      }
+    )
+    window.open(response.data.url, '_blank')
+
+  } catch (error) {
+    console.error("Erro ao gerar link de pagamento:", error)
   }
 }

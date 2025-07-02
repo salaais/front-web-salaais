@@ -91,6 +91,7 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
       return updated
     })
   }
+
   const toggleExpand = (index: number) => {
     setExpandedIndexes(prev =>
       prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
@@ -177,7 +178,7 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
             isExpanded={expandedIndexes.includes(index)}
             onExpandToggle={() => toggleExpand(index)}
             onFieldChange={(field, value) => handleFieldChange(index, field, value)}
-            onEditToggle={() => toggleEdit(index)}
+            onEditToggle={() => toggleEdit(index)} // <-- ESSENCIAL
             onMoveDetailUp={(detailIdx) => moveDetailUp(index, detailIdx)}
             onMoveDetailDown={(detailIdx) => moveDetailDown(index, detailIdx)}
             onCancelEdit={() => handleCancelEdit(index)}

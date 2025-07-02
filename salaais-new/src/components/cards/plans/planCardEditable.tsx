@@ -4,10 +4,12 @@ import * as Styled from './style'
 import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
 import { Color, Size } from "../../../global"
-import type { GetPlansResponse } from '../../../services/apis/salaais/models'
+import type { EditPlanRequest, GetPlansResponse } from '../../../services/apis/salaais/models'
 import { isAdmin } from '../../../global/utils/localStorage'
 import { Text } from '../../text'
 import { InputCheckBox } from '../../inputs/checkBox'
+import { editPlan } from '../../../services/apis/salaais'
+import { toast } from 'react-toastify'
 
 
 interface EditableProps {
@@ -21,16 +23,16 @@ interface EditableProps {
     onCancelEdit: () => void
 }
 
-export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandToggle, onEditToggle, onMoveDetailUp, onMoveDetailDown, onCancelEdit }: EditableProps) {
+export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandToggle, onMoveDetailUp, onMoveDetailDown, onEditToggle, onCancelEdit }: EditableProps) {
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
     const [nextFocusIndex, setNextFocusIndex] = useState<number | null>(null)
     const [localTopicos, setLocalTopicos] = useState<string[]>(plan.topicos_do_plano)
     const visibleDetails = isExpanded ? localTopicos : localTopicos.slice(0, 2)
     const [inputTitulo, setInputTitulo] = useState(plan.titulo)
     const [inputPreco, setInputPreco] = useState<number | null>(plan.preco)
-    const [inputPrecoAntigo, setInputPrecoAntigo] = useState<string | undefined>(plan.preco_antigo?.toString() || "");
+    const [inputPrecoAntigo, setInputPrecoAntigo] = useState<string>(plan.preco_antigo?.toString())
     const [inputTipoPagamento, setInputTipoPagamento] = useState<string | undefined>(plan.tipo_pagamento || "");
-    const [inputDuracaoPlanoEmDias, setInputDuracaoPlanoEmDias] = useState<string | undefined>(plan.duracao_plano_em_dias?.toString() || "");
+    const [inputDuracaoPlanoEmDias, setInputDuracaoPlanoEmDias] = useState<string>(plan.duracao_plano_em_dias?.toString());
     const [inputIdPrecoStripe, setInputIdPrecoStripe] = useState<string | undefined>(plan.stripe_price_id || "");
     const [inputCompravel, setInputCompravel] = useState<boolean>(plan.compravel);
     const [inputPublico, setInputPublico] = useState<boolean>(plan.publico);
@@ -73,6 +75,10 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
         setInputPublico(plan.publico)
     }, [plan.publico])
 
+    useEffect(() => {
+        setLocalTopicos(plan.topicos_do_plano)
+    }, [plan.topicos_do_plano])
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
         const isBackspace = e.key === 'Backspace'
         const isEnter = e.key === 'Enter'
@@ -80,10 +86,10 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
 
         if (isBackspace && inputValue === '') {
             e.preventDefault()
-            if (localTopicos.length === 1) return
 
             const newDetails = [...localTopicos]
             newDetails.splice(index, 1)
+
             setLocalTopicos(newDetails)
             setNextFocusIndex(index > 0 ? index - 1 : 0)
             return
@@ -123,17 +129,31 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
         }
     }, [nextFocusIndex, localTopicos])
 
-    const handleSaveChanges = () => {
-        onFieldChange("titulo", inputTitulo)
-        onFieldChange("preco", inputPreco)
-        onFieldChange("preco_antigo", inputPrecoAntigo ? parseFloat(inputPrecoAntigo) : null)
-        onFieldChange("tipo_pagamento", inputTipoPagamento)
-        onFieldChange("duracao_plano_em_dias", inputDuracaoPlanoEmDias ? parseInt(inputDuracaoPlanoEmDias) : null)
-        onFieldChange("stripe_price_id", inputIdPrecoStripe)
-        onFieldChange("compravel", inputCompravel)
-        onFieldChange("publico", inputPublico)
-        onFieldChange("topicos_do_plano", localTopicos)
-        onEditToggle()
+    const handleEditPlan = async () => {
+
+        const editRequest: EditPlanRequest = {
+            titulo: inputTitulo,
+            stripe_price_id: inputIdPrecoStripe || null,
+            topicos_do_plano: localTopicos || [],
+            preco_antigo: inputPrecoAntigo !== null && inputPrecoAntigo !== ""
+                ? parseFloat(inputPrecoAntigo)
+                : null,
+            preco: inputPreco || null,
+            tipo_pagamento: inputTipoPagamento || null,
+            duracao_plano_em_dias: inputDuracaoPlanoEmDias !== null && inputDuracaoPlanoEmDias !== ""
+                ? parseInt(inputDuracaoPlanoEmDias)
+                : null,
+            publico: inputPublico,
+            compravel: inputCompravel,
+        }
+
+        try {
+            await editPlan(plan.id, editRequest)
+            onEditToggle()
+        } catch (err) {
+            console.error("Erro ao salvar plano:", err)
+            toast.error("Erro ao salvar plano.")
+        }
     }
 
 
@@ -169,7 +189,7 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
                             iconType={IconType.Check}
                             color={Color.Green}
                             padding="0px"
-                            onClick={handleSaveChanges}
+                            onClick={handleEditPlan}
                         />
                     </Styled.FlexIconCloseAndCheck>
                 </Styled.Top>
@@ -324,7 +344,7 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
                         setInputPublico(checked)
                         onFieldChange("publico", checked)
                     }}
-                    text="Visível para o usuário"
+                    text="Visível no perfil do usuário"
                 />
 
                 <input

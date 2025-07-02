@@ -5,6 +5,7 @@ import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
 import { Color, Size } from "../../../global"
 import type { GetPlansResponse } from '../../../services/apis/salaais/models'
+import { pagamentoWeb } from '../../../services/apis/salaais'
 
 interface PlanCardProps {
     plan: GetPlansResponse
@@ -80,7 +81,11 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                 />}
 
                 {plan.preco !== 0 &&
-                    <Styled.Button>Assinar</Styled.Button>
+                    <Styled.Button
+                        onClick={() => pagamentoWeb(plan.id)}
+                    >
+                        Assinar
+                    </Styled.Button>
                 }
             </Styled.Content>
         </Styled.AllContent>

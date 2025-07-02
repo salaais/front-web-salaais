@@ -155,11 +155,11 @@ export interface GetPlansResponse {
     url_imagem: string
     stripe_price_id: string
     topicos_do_plano: string[]
-    preco_antigo: number | null
-    preco: number | null
+    preco_antigo: number
+    preco: number
     tipo_pagamento: string
     moeda: string
-    duracao_plano_em_dias: number | null
+    duracao_plano_em_dias: number
     publico: boolean
     compravel: boolean
 }
@@ -170,7 +170,7 @@ export interface EditPlanRequest {
     topicos_do_plano: string[]
     preco_antigo: number | null
     preco: number | null
-    tipo_pagamento: string
+    tipo_pagamento: string | null
     duracao_plano_em_dias: number | null
     publico: boolean
     compravel: boolean
