@@ -15,7 +15,8 @@ import type {
   DadosUsuarioPorTokenResponse,
   CreateUserPermissionRequest,
   getPermissaoResponse,
-  UserDataByTokenResponse
+  UserDataByTokenResponse,
+  GetPlansResponse
 } from "./models";
 import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
@@ -567,3 +568,36 @@ export const getPermissaoOptions = async (busca: string = ""): Promise<{ label: 
     value: item.name,
   }));
 };
+
+export const getPlans = async (): Promise<GetPlansResponse[] | void> => {
+  const apiSalaAis = getApiSalaAis()
+  const access_token = getCookie<string>(Cookie.access_token)
+
+  if (!access_token) {
+    console.error("Token de sessão ausente ou inválido.")
+    return
+  }
+
+  try {
+    const data = await toast.promise(
+      apiSalaAis.get<GetPlansResponse[]>(
+        `permissao/planos`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      ),
+      {
+        pending: 'Carregando planos...',
+        success: 'Planos carregados com sucesso!',
+        error: 'Erro ao carregar planos.',
+      }
+    )
+
+    return data.data
+  } catch (error) {
+    console.error("Erro ao buscar dados do usuário por token:", error)
+    return []
+  }
+}

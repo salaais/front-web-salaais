@@ -4,12 +4,15 @@ import * as Styled from './style'
 import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
 import { Color, Size } from "../../../global"
-import type { Plan } from './plansList'
+import type { GetPlansResponse } from '../../../services/apis/salaais/models'
+import { isAdmin } from '../../../global/utils/localStorage'
+import { Text } from '../../text'
+import { InputCheckBox } from '../../inputs/checkBox'
 
 
 interface EditableProps {
-    plan: Plan
-    onFieldChange: (field: keyof Plan, value: unknown) => void
+    plan: GetPlansResponse
+    onFieldChange: (field: keyof GetPlansResponse, value: unknown) => void
     onDetailChange: (index: number, value: string) => void
     onMoveDetailUp: (index: number) => void
     onMoveDetailDown: (index: number) => void
@@ -20,51 +23,78 @@ interface EditableProps {
 }
 
 export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpanded, onExpandToggle, onEditToggle, onMoveDetailUp, onMoveDetailDown, onCancelEdit }: EditableProps) {
-    const visibleDetails = isExpanded ? plan.planDetails : plan.planDetails.slice(0, 2)
+    const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
     const [nextFocusIndex, setNextFocusIndex] = useState<number | null>(null)
     useEffect(() => {
-        inputRefs.current = inputRefs.current.slice(0, plan.planDetails.length)
-    }, [plan.planDetails.length])
+        inputRefs.current = inputRefs.current.slice(0, plan.topicos_do_plano.length)
+    }, [plan.topicos_do_plano.length])
 
     useEffect(() => {
         if (nextFocusIndex !== null) {
             inputRefs.current[nextFocusIndex]?.focus()
             setNextFocusIndex(null)
         }
-    }, [plan.planDetails, nextFocusIndex])
+    }, [plan.topicos_do_plano, nextFocusIndex])
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        const isBackspace = e.key === 'Backspace'
+        const inputValue = plan.topicos_do_plano[index]
+
+        // Se o campo está vazio e usuário apertou Backspace, remover item
+        if (isBackspace && inputValue === '') {
+            e.preventDefault()
+            const newDetails = [...plan.topicos_do_plano]
+            newDetails.splice(index, 1)
+            onFieldChange("topicos_do_plano", newDetails)
+
+            // Foca no item anterior (se houver)
+            setNextFocusIndex(index > 0 ? index - 1 : null)
+            return
+        }
+
         if (e.key === 'Enter') {
             e.preventDefault()
-            const newDetails = [...plan.planDetails]
+            const newDetails = [...plan.topicos_do_plano]
             newDetails.splice(index + 1, 0, "")
-            onFieldChange("planDetails", newDetails)
+            onFieldChange("topicos_do_plano", newDetails)
             setNextFocusIndex(index + 1)
         }
     }
 
-
     const handleDetailInput = (i: number, value: string) => {
-        if (value === "") {
-            const newDetails = [...plan.planDetails]
-            newDetails.splice(i, 1)
-            onFieldChange("planDetails", newDetails)
-        } else {
-            onDetailChange(i, value)
-        }
+        onDetailChange(i, value)
     }
+
+
+    // const handleDetailInput = (i: number, value: string) => {
+    //     if (value === "") {
+    //         const newDetails = [...plan.topicos_do_plano]
+    //         newDetails.splice(i, 1)
+    //         onFieldChange("topicos_do_plano", newDetails)
+    //     } else {
+    //         onDetailChange(i, value)
+    //     }
+    // }
+
+    const handleAddTopic = () => {
+        const newDetails = [...plan.topicos_do_plano, ""]
+        onFieldChange("topicos_do_plano", newDetails)
+        setNextFocusIndex(newDetails.length - 1)
+    }
+
+
 
     return (
         <Styled.AllContent>
             <Styled.ContentImage>
-                <Styled.Image src={plan.image} alt={plan.title} />
+                <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
             <Styled.Content>
                 <Styled.Top>
                     <input
-                        value={plan.title}
-                        onChange={(e) => onFieldChange("title", e.target.value)}
+                        value={plan.titulo}
+                        onChange={(e) => onFieldChange("titulo", e.target.value)}
                         style={{
                             fontSize: '23px',
                             fontWeight: 'bold',
@@ -92,6 +122,7 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                     </Styled.FlexIconCloseAndCheck>
                 </Styled.Top>
 
+
                 <Styled.PlanDetailsContainer $expanded={isExpanded}>
                     {visibleDetails.map((detail, i) => (
                         <Styled.PlanDetails key={i}>
@@ -99,7 +130,7 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
 
                             <input
                                 ref={(el) => { inputRefs.current[i] = el }}
-                                value={plan.planDetails[i]}
+                                value={plan.topicos_do_plano[i]}
                                 onChange={e => handleDetailInput(i, e.target.value)}
                                 onKeyDown={e => handleKeyDown(e, i)}
                                 style={{
@@ -121,22 +152,38 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                                     padding="0px"
                                     size={Size.S}
                                     onClick={() => onMoveDetailUp(i)}
-                                    style={{ cursor: 'pointer' }}
                                 />
                                 <Icon
                                     iconType={IconType.ArrowDown}
                                     padding="0px"
                                     size={Size.S}
                                     onClick={() => onMoveDetailDown(i)}
-                                    style={{ cursor: 'pointer' }}
                                 />
                             </Styled.ArrowButtons>
                         </Styled.PlanDetails>
                     ))}
 
+                    {isAdmin && visibleDetails.length === 0 &&
+                        <Text
+                            text="adicionar topicos"
+                            size={Size.S}
+                            center
+                        />
+                    }
+                    {isAdmin &&
+                        <Icon
+                            iconType={IconType.Add}
+                            color={Color.Green}
+                            padding="0 5px"
+                            size={Size.Xs}
+                            onClick={handleAddTopic}
+                            width='100%'
+                        />
+                    }
+
                 </Styled.PlanDetailsContainer>
 
-                {plan.planDetails.length > 2 && (
+                {plan.topicos_do_plano.length > 1 && (
                     <Icon
                         iconType={IconType.ArrowDown}
                         padding="0"
@@ -173,8 +220,8 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                         <input
                             type="number"
                             placeholder="Preço"
-                            value={plan.price}
-                            onChange={(e) => onFieldChange("price", parseFloat(e.target.value))}
+                            value={plan.preco || ''}
+                            onChange={(e) => onFieldChange("preco", parseFloat(e.target.value))}
                             style={{
                                 fontSize: '20px',
                                 fontWeight: 'bold',
@@ -187,9 +234,9 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                             }}
                         />
                         <input
-                            value={plan.paymentType}
+                            value={plan.tipo_pagamento}
                             placeholder='Modo pagamento'
-                            onChange={(e) => onFieldChange("paymentType", e.target.value)}
+                            onChange={(e) => onFieldChange("tipo_pagamento", e.target.value)}
                             style={{
                                 fontSize: '12px',
                                 color: Color.PlanTextColor,
@@ -202,6 +249,36 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                         />
                     </Styled.FlexPrices>
                 </Styled.MoneyInfo>
+
+
+                <InputCheckBox
+                    value={plan.compravel}
+                    onChange={(checked) => onFieldChange("compravel", checked)}
+                    text="Visível para comprar"
+                />
+
+                <InputCheckBox
+                    value={plan.publico}
+                    onChange={(checked) => onFieldChange("publico", checked)}
+                    text="Visível para o usuário"
+                />
+
+                <input
+                    type='number'
+                    value={plan.duracao_plano_em_dias}
+                    placeholder='Duracão plano em dias'
+                    onChange={(e) => onFieldChange("duracao_plano_em_dias", parseFloat(e.target.value))}
+                    style={{
+                        fontSize: '12px',
+                        color: Color.PlanTextColor,
+                        background: 'transparent',
+                        border: 'none',
+                        borderBottom: '1px solid #ccc',
+                        outline: 'none',
+                        width: '100%',
+                    }}
+                />
+
                 <input
                     value={plan.stripe_price_id}
                     placeholder='Id preço stripe'
@@ -216,7 +293,9 @@ export function PlanCardEditable({ plan, onFieldChange, onDetailChange, isExpand
                         width: '100%',
                     }}
                 />
-                <Styled.Button>Assinar</Styled.Button>
+                {plan.preco !== null &&
+                    <Styled.Button>Assinar</Styled.Button>
+                }
             </Styled.Content>
         </Styled.AllContent>
     )

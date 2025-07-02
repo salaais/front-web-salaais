@@ -117,4 +117,3 @@ export const ArrowButtons = styled.div`
   display: flex;
   flex-direction: column;
 `;
-

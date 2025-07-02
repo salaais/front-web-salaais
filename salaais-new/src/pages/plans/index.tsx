@@ -8,7 +8,7 @@ export function PlansPage() {
         <a href="/planos" >Estamos ainda trabalhando nisso</a>
         <br/>
         <br/>
-        <PlansList />
+        <PlansList/>
       </Menu >
     </>
   )

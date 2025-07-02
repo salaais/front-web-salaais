@@ -148,3 +148,18 @@ export interface UserDataByTokenResponse {
         data_fim: string | null;
     }[];
 }
+
+export interface GetPlansResponse {
+    key: string
+    titulo: string
+    url_imagem: string
+    stripe_price_id: string
+    topicos_do_plano: string[]
+    preco_antigo: number | null
+    preco: number | null
+    tipo_pagamento: string
+    moeda: string
+    duracao_plano_em_dias: number
+    publico: boolean
+    compravel: boolean
+}

@@ -4,10 +4,10 @@ import { Text, TextDecoration } from "../../text"
 import { Icon } from "../../icon"
 import { IconType } from "../../icon/models"
 import { Color, Size } from "../../../global"
-import type { Plan } from './plansList'
+import type { GetPlansResponse } from '../../../services/apis/salaais/models'
 
 interface PlanCardProps {
-    plan: Plan
+    plan: GetPlansResponse
     isExpanded: boolean
     onExpandToggle: () => void
     onEditToggle?: () => void
@@ -15,16 +15,16 @@ interface PlanCardProps {
 }
 
 export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdmin }: PlanCardProps) {
-    const visibleDetails = isExpanded ? plan.planDetails : plan.planDetails.slice(0, 2)
+    const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
 
     return (
         <Styled.AllContent>
             <Styled.ContentImage>
-                <Styled.Image src={plan.image} alt={plan.title} />
+                <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
             <Styled.Content>
                 <Styled.Top>
-                    <Text text={plan.title} bold size={Size.Xl} color={Color.TxtPrimary} />
+                    <Text text={plan.titulo} bold size={Size.Xl} color={Color.TxtPrimary} />
                     {isAdmin && onEditToggle &&
                         <Icon
                             size={Size.Xs}
@@ -44,7 +44,7 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                     ))}
                 </Styled.PlanDetailsContainer>
 
-                {plan.planDetails.length > 2 && (
+                {plan.topicos_do_plano.length > 2 && (
                     <Icon
                         iconType={IconType.ArrowDown}
                         padding="0"
@@ -68,8 +68,8 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                         />
                     )}
                     <Styled.FlexPrices>
-                        <Text text={`R$${plan.price.toFixed(2)}`} size={Size.Xl} color={Color.PlanPrimaryColor} />
-                        <Text text={plan.paymentType} size={Size.S} color={Color.PlanTextColor} bold />
+                        <Text text={`R$${plan.preco?.toFixed(2) || 0}`} size={Size.Xl} color={Color.PlanPrimaryColor} />
+                        <Text text={plan.tipo_pagamento} size={Size.S} color={Color.PlanTextColor} bold />
                     </Styled.FlexPrices>
                 </Styled.MoneyInfo>
                 {isAdmin && <Text
@@ -78,7 +78,10 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                     color={Color.TxtSecondary}
                     center
                 />}
-                <Styled.Button>Assinar</Styled.Button>
+
+                {plan.preco !== null &&
+                    <Styled.Button>Assinar</Styled.Button>
+                }
             </Styled.Content>
         </Styled.AllContent>
     )
