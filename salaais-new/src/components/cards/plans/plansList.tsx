@@ -43,13 +43,17 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
 
   useEffect(() => {
     toast.promise(
-      getPlans().then(data => {
-        if (data) {
-          setEditedPlans(data)
-          setOriginalPlans(data)
+      (async () => {
+        const data = await getPlans()
+
+        if (!data || !Array.isArray(data)) {
+          throw new Error("Dados inválidos ou nulos")
         }
+
+        setEditedPlans(data)
+        setOriginalPlans(data)
         setLoading(false)
-      }),
+      })(),
       {
         pending: 'Carregando planos...',
         success: 'Planos carregados com sucesso!',
@@ -115,7 +119,7 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
       return updated
     })
   }
-  
+
   const handleSaveEdit = async (index: number) => {
     const planToSave = editedPlans[index]
     const id_permission = originalPlans[index]?.id

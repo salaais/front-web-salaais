@@ -138,7 +138,7 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
 
 
     return (
-        <Styled.AllContent opacity={plan.publico && plan.compravel}>
+        <Styled.AllContent opacity={(plan.publico && plan.compravel) || (plan.publico === null || plan.compravel === null)}>
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>

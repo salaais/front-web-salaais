@@ -18,7 +18,7 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
     const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
 
     return (
-        <Styled.AllContent opacity={plan.compravel && plan.publico}>
+        <Styled.AllContent opacity={(plan.publico && plan.compravel) || (plan.publico === null || plan.compravel === null)}>
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
@@ -79,7 +79,7 @@ export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdm
                     center
                 />}
 
-                {plan.preco !== 0  &&
+                {plan.preco !== 0 &&
                     <Styled.Button>Assinar</Styled.Button>
                 }
             </Styled.Content>
