@@ -63,6 +63,14 @@ const rotateMiddle = keyframes`
   }
 `
 
+const shake = keyframes`
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-12deg); }
+  75% { transform: rotate(12deg); }
+  100% { transform: rotate(0); }
+`;
+
+
 // Function to get styled icon component
 export function getStyledIcon(iconType: EnumType<typeof IconType>) {
   const IconComponent = iconMap[iconType];
@@ -139,7 +147,9 @@ export const ContentIcon = styled.div<IconContentProps>`
                 ? slide
                 : animationType === AnimationType.RotateMiddle
                   ? rotateMiddle
-                  : "none"}
+                  : animationType === AnimationType.Shake
+                    ? shake
+                    : "none"}
             ${animationDuration} linear alternate;//linear alternate
           animation-fill-mode: forwards;
         }
@@ -159,7 +169,9 @@ export const ContentIcon = styled.div<IconContentProps>`
                 ? slide
                 : animationType === AnimationType.RotateMiddle
                   ? rotateMiddle
-                  : "none"}
+                  : animationType === AnimationType.Shake
+                    ? shake
+                    : "none"}
             ${animationDuration} ease-in-out;
           animation-fill-mode: forwards;
         }
@@ -179,7 +191,9 @@ export const ContentIcon = styled.div<IconContentProps>`
                 ? slide
                 : animationType === AnimationType.RotateMiddle
                   ? rotateMiddle
-                  : "none"}
+                  : animationType === AnimationType.Shake
+                    ? shake
+                    : "none"}
             ${animationDuration} infinite;
         }
       `
@@ -198,7 +212,9 @@ export const ContentIcon = styled.div<IconContentProps>`
                 ? slide
                 : animationType === AnimationType.RotateMiddle
                   ? rotateMiddle
-                  : "none"}
+                  : animationType === AnimationType.Shake
+                    ? shake
+                    : "none"}
             ${animationDuration} infinite;
         }
       `
@@ -217,7 +233,9 @@ export const ContentIcon = styled.div<IconContentProps>`
                 ? slide
                 : animationType === AnimationType.RotateMiddle
                   ? rotateMiddle
-                  : "none"}
+                  : animationType === AnimationType.Shake
+                    ? shake
+                    : "none"}
             ${animationDuration} linear infinite;
         }
       `

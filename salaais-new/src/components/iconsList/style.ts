@@ -14,5 +14,5 @@ export const ContentList = styled.div`
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-  justify-content: center;
+  width: fit-content;
 `

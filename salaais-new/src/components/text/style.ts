@@ -45,6 +45,7 @@ export const Text = styled.p<TextProps>`
   word-break: break-word;
   white-space: pre-wrap;
   margin: ${(props) => (props.margin ? props.margin : "0")};
+
   font-size: ${(props) => {
     switch (props.size) {
       case Size.Xs:
@@ -98,7 +99,7 @@ export const Text = styled.p<TextProps>`
 
   max-width: ${(props) => (props.maxW ? `${props.maxW}` : "none")};
   width: ${(props) => (props.maxW ? "100%" : "auto")};
-
+  width: ${(props) => (props.width ? props.width : "auto")};
   ${(props) =>
     props.responsive &&
     `

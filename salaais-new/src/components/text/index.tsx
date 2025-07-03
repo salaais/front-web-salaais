@@ -35,6 +35,7 @@ export interface TextProps {
   showMore?: boolean,
   coloredParts?: { text: string; color: EnumType<typeof Color> }[]
   margin?: string
+  width?:string
 }
 
 export function Text({
@@ -54,6 +55,7 @@ export function Text({
   showMore = false,
   coloredParts = [],
   margin,
+  width,
 }: TextProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -153,6 +155,7 @@ export function Text({
       responsive={responsive}
       margin={margin}
       textDecoration={textDecoration}
+      width={width}
     >
       {renderTextWithColors()}
     </Styled.Text>

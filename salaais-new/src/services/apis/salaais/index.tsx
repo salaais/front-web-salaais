@@ -64,8 +64,8 @@ export const finalizarLogin = async (access_token: string, navigate: (path: stri
 };
 
 export const loginAction = async (
-  password: string,
   email: string,
+  password: string,
   navigate: ReturnType<typeof useNavigate>
 ) => {
   try {
@@ -332,7 +332,6 @@ export const getAuthUserByToken = async (): Promise<UserDataByTokenResponse | nu
     );
 
     toast.success('Bem vindo!')
-
     return data;
   } catch (error) {
     console.error("Erro ao buscar dados do usuário por token:", error);

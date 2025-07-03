@@ -42,7 +42,11 @@ export const PageContent = styled.div<{ isOpen: boolean }>`
 `
 
 export const PageContentWithOutTitle = styled.div`
+  display:flex;
+  flex-direction:column;
   padding: 50px 0px 10px 0px;
+  gap:15px;
+  
   @media (max-width: 767px) {
     margin-left: 0;
     flex-direction: column;

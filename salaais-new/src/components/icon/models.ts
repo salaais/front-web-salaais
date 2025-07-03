@@ -40,6 +40,7 @@ export const AnimationType = makeEnum({
   Bounce: "bounce",
   Float: "float",
   Slide: "slide",
+  Shake: "shake",
   RotateMiddle: "rotate_middle",
   Rotate: "rotate",
 })

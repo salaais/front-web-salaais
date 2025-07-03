@@ -1,4 +1,4 @@
-import { IconsList, Menu } from "../../components";
+import { IconsList, Menu, NotificationButton, UserProfileCard } from "../../components";
 
 export function HomePage() {
 
@@ -8,6 +8,9 @@ export function HomePage() {
         <a href="/home" >Estamos ainda trabalhando nisso</a>
         <br />
         <br />
+        
+        <NotificationButton/>
+        <UserProfileCard/>
         <IconsList />
 
       </Menu >

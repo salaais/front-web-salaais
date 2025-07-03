@@ -9,7 +9,6 @@ import { isAdmin } from '../../../global/utils/localStorage'
 import { Text } from '../../text'
 import { InputCheckBox } from '../../inputs/checkBox'
 import { editPlan } from '../../../services/apis/salaais'
-import { toast } from 'react-toastify'
 
 
 interface EditableProps {
