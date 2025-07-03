@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from "styled-components"
 import { AnimationType, iconMap, StartAnimation, type IconContentProps, type IconProps, type IconType } from "./models"
-import { Size, type EnumType } from "../../global"
+import { Color, Size, type EnumType } from "../../global"
 
 // Define keyframes for animations
 const bounce = keyframes`
@@ -119,6 +119,7 @@ export const ContentIcon = styled.div<IconContentProps>`
   height: fit-content;
   width: ${props => props.width};
   background-color: ${({ background }) => background || 'transparent'};
+  box-shadow: ${({ shadow }) => shadow ? Color.Shadow : 'none'};
   border-radius: ${({ borderRadius }) => borderRadius != null ? `${borderRadius}` : '100%'};
   margin: ${({ margin }) => margin || '0'};
   

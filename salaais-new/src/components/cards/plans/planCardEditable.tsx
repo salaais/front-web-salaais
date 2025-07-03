@@ -149,7 +149,6 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
 
         try {
             await editPlan(plan.id, editRequest)
-            onEditToggle()
         } catch (err) {
             console.error("Erro ao salvar plano:", err)
             toast.error("Erro ao salvar plano.")

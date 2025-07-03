@@ -17,6 +17,7 @@ export interface IconContentProps {
   onClick?: React.MouseEventHandler
   width?: string
   style?: React.CSSProperties
+  shadow?: boolean
 }
 
 export interface IconProps {
@@ -113,6 +114,7 @@ export const IconType = makeEnum({
   Payment: "Payment",
   ShoppingBag: "ShoppingBag",
   Add: "Add",
+  TestCheck: "TestCheck",
 })
 
 export const iconMap = {
@@ -184,4 +186,5 @@ export const iconMap = {
   [IconType.Payment]: Icons.Payment,
   [IconType.ShoppingBag]: Icons.ShoppingBag,
   [IconType.Add]: Icons.Add,
+  [IconType.TestCheck]: Icons.TestCheck,
 }
