@@ -19,11 +19,18 @@ interface EditableProps {
     onMoveDetailDown: (index: number) => void
     isExpanded: boolean
     onExpandToggle: () => void
-    onEditToggle: () => void
     onCancelEdit: () => void
 }
 
-export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandToggle, onMoveDetailUp, onMoveDetailDown, onEditToggle, onCancelEdit }: EditableProps) {
+export function PlanCardEditable({ 
+    plan, 
+    onFieldChange, 
+    isExpanded, 
+    onExpandToggle, 
+    onMoveDetailUp, 
+    onMoveDetailDown, 
+    onCancelEdit, 
+    }: EditableProps) {
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
     const [nextFocusIndex, setNextFocusIndex] = useState<number | null>(null)
     const [localTopicos, setLocalTopicos] = useState<string[]>(plan.topicos_do_plano)
@@ -147,12 +154,7 @@ export function PlanCardEditable({ plan, onFieldChange, isExpanded, onExpandTogg
             compravel: inputCompravel,
         }
 
-        try {
-            await editPlan(plan.id, editRequest)
-        } catch (err) {
-            console.error("Erro ao salvar plano:", err)
-            toast.error("Erro ao salvar plano.")
-        }
+        await editPlan(plan.id, editRequest)
     }
 
 

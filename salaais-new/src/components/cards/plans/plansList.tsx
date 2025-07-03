@@ -178,7 +178,6 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
             isExpanded={expandedIndexes.includes(index)}
             onExpandToggle={() => toggleExpand(index)}
             onFieldChange={(field, value) => handleFieldChange(index, field, value)}
-            onEditToggle={() => toggleEdit(index)}
             onMoveDetailUp={(detailIdx) => moveDetailUp(index, detailIdx)}
             onMoveDetailDown={(detailIdx) => moveDetailDown(index, detailIdx)}
             onCancelEdit={() => handleCancelEdit(index)}
