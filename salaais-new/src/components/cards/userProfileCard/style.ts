@@ -1,6 +1,44 @@
 import styled from "styled-components"
 import { Color } from "../../../global";
 
+export const AllContent = styled.div`
+  display: flex;
+  position: relative;  // <-- necessário para posicionar o ContentImage
+  width: 100%;
+  max-width: 320px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;  // espaço para a imagem flutuante
+
+  @media(max-width:768px){
+    max-width: 100%;
+  }
+`
+
+export const ImagePlan = styled.img`
+width: 100%;
+max-width:50px;
+height:auto;
+`
+
+export const ContentImage = styled.div`
+  display: flex;
+  justify-content: center;
+  background: ${Color.PlanBackgroundImageColor};
+  padding: 20px 20px 120px 20px;
+  border-radius: 20px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease;
+  cursor:pointer;
+
+  ${AllContent}:hover & {
+    transform: translateY(-10px);
+  }
+`
+
 export const Content = styled.div`
   position: relative; /* Necessário para que o ícone absoluto funcione */
   display: flex;
@@ -8,7 +46,6 @@ export const Content = styled.div`
   padding: 20px;
   border-radius: 15px;
   width: 100%;
-  max-width: 300px;
   flex-direction: column;
   box-shadow: ${Color.Shadow};
 `;
@@ -53,11 +90,23 @@ export const ImgPerfil = styled.img`
   top: 0;
 `;
 
+interface ImgProps {
+  dashed?: boolean;
+}
+
 // Estilo para a imagem de cima
-export const ImgPerfilFront = styled(ImgPerfil)`
+export const ImgPerfilFront = styled(ImgPerfil) <ImgProps>`
   right: 26px;
   z-index: 1;
-  `;
+
+  ${({ dashed }) =>
+    dashed &&
+    `
+      border: 2px dashed ${Color.TxtTertiary};
+    `
+  }
+`;
+
 
 export const InitialsPlaceholder = styled.div`
   left: 26px;

@@ -25,17 +25,24 @@ export function NotificationButton() {
 
       {notificationNumber !== 0 &&
         <Styled.NotificaionNumber>
-          <Text text={`${notificationNumber}`} size={Size.Xs} color={Color.BgSecondary} />
+          <Text
+            text={`${notificationNumber}`}
+            size={Size.Xs}
+            color={Color.BgSecondary}
+          />
         </Styled.NotificaionNumber>
       }
+
       <Icon
         iconType={IconType.Notification}
         size={Size.S}
         background={Color.BgSecondary}
-        startAnimation={StartAnimation.Hover}
-        animationType={AnimationType.Shake}
         shadow
+        startAnimation={notificationNumber !== 0 ? StartAnimation.Infinite : undefined}
+        animationType={notificationNumber !== 0 ? AnimationType.ShakeWithPause : undefined}
+        animationDuration={1.5}
       />
+
     </Styled.Content>
   );
 }

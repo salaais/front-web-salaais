@@ -9,11 +9,12 @@ export interface IconContentProps {
   size?: EnumType<typeof Size>
   startAnimation?: EnumType<typeof StartAnimation>
   animationType?: EnumType<typeof AnimationType>
-  interval?: number
+  animationDuration?: number
   background?: EnumType<typeof Color>
   color?: EnumType<typeof Color> | string
   padding?: string
   borderRadius?: string
+  border?: string
   onClick?: React.MouseEventHandler
   width?: string
   style?: React.CSSProperties
@@ -37,12 +38,14 @@ export const StartAnimation = makeEnum({
 })
 
 export const AnimationType = makeEnum({
-  Bounce: "bounce",
-  Float: "float",
-  Slide: "slide",
-  Shake: "shake",
-  RotateMiddle: "rotate_middle",
-  Rotate: "rotate",
+  Bounce: "Bounce",
+  Float: "Float",
+  Slide: "Slide",
+  Shake: "Shake",
+  ZoomInOutWithPause: "ZoomInOutWithPause",
+  ShakeWithPause: 'ShakeWithPause',
+  RotateMiddle: "RotateMiddle",
+  Rotate: "Rotate",
 })
 
 export const IconType = makeEnum({

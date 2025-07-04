@@ -15,14 +15,23 @@ interface PlanCardProps {
     isAdmin?: boolean
 }
 
-export function PlanCard({ plan, isExpanded, onExpandToggle, onEditToggle, isAdmin }: PlanCardProps) {
+export function PlanCard({
+    plan,
+    isExpanded,
+    onExpandToggle,
+    onEditToggle,
+    isAdmin 
+}: PlanCardProps){
+
     const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
 
     return (
         <Styled.AllContent opacity={(plan.publico && plan.compravel) || (plan.publico === null || plan.compravel === null)}>
+            
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
+            
             <Styled.Content>
                 <Styled.Top>
                     <Text text={plan.titulo} bold size={Size.Xl} color={Color.TxtPrimary} />

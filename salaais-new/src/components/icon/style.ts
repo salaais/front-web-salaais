@@ -70,6 +70,21 @@ const shake = keyframes`
   100% { transform: rotate(0); }
 `;
 
+const shakeWithPause = keyframes`
+  0% { transform: rotate(-15deg); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  25% { transform: rotate(0); }
+  100% { transform: rotate(0); } // 90% de pausa
+`;
+
+const zoomInOutWithPause = keyframes`
+  0% { transform: scale(1); }
+  10% { transform: scale(1.05); }
+  20% { transform: scale(1.1); }
+  25% { transform: scale(1.05); }
+  100% { transform: scale(1); } // pausa entre 25% e 100%
+`;
 
 // Function to get styled icon component
 export function getStyledIcon(iconType: EnumType<typeof IconType>) {
@@ -130,9 +145,10 @@ export const ContentIcon = styled.div<IconContentProps>`
   box-shadow: ${({ shadow }) => shadow ? Color.Shadow : 'none'};
   border-radius: ${({ borderRadius }) => borderRadius != null ? `${borderRadius}` : '100%'};
   margin: ${({ margin }) => margin || '0'};
+  border: ${({ border }) => border || 'none'};
   
-  ${({ startAnimation, animationType, interval }) => {
-    const animationDuration = interval ? `${interval}ms` : "1s"
+  ${({ startAnimation, animationType, animationDuration }) => {
+    const animationDurationSeconds = animationDuration ? `${animationDuration}s` : "1s"
 
     if (startAnimation === StartAnimation.Click) {
       return css`
@@ -149,8 +165,12 @@ export const ContentIcon = styled.div<IconContentProps>`
                   ? rotateMiddle
                   : animationType === AnimationType.Shake
                     ? shake
-                    : "none"}
-            ${animationDuration} linear alternate;//linear alternate
+                    : animationType === AnimationType.ShakeWithPause
+                      ? shakeWithPause
+                      : animationType === AnimationType.ZoomInOutWithPause
+                        ? zoomInOutWithPause
+                        : "none"}
+            ${animationDurationSeconds} linear alternate;//linear alternate
           animation-fill-mode: forwards;
         }
       `
@@ -171,8 +191,12 @@ export const ContentIcon = styled.div<IconContentProps>`
                   ? rotateMiddle
                   : animationType === AnimationType.Shake
                     ? shake
-                    : "none"}
-            ${animationDuration} ease-in-out;
+                    : animationType === AnimationType.ShakeWithPause
+                      ? shakeWithPause
+                      : animationType === AnimationType.ZoomInOutWithPause
+                        ? zoomInOutWithPause
+                        : "none"}
+            ${animationDurationSeconds} ease-in-out;
           animation-fill-mode: forwards;
         }
       `
@@ -193,8 +217,12 @@ export const ContentIcon = styled.div<IconContentProps>`
                   ? rotateMiddle
                   : animationType === AnimationType.Shake
                     ? shake
-                    : "none"}
-            ${animationDuration} infinite;
+                    : animationType === AnimationType.ShakeWithPause
+                      ? shakeWithPause
+                      : animationType === AnimationType.ZoomInOutWithPause
+                        ? zoomInOutWithPause
+                        : "none"}
+            ${animationDurationSeconds} infinite;
         }
       `
     }
@@ -214,8 +242,12 @@ export const ContentIcon = styled.div<IconContentProps>`
                   ? rotateMiddle
                   : animationType === AnimationType.Shake
                     ? shake
-                    : "none"}
-            ${animationDuration} infinite;
+                    : animationType === AnimationType.ShakeWithPause
+                      ? shakeWithPause
+                      : animationType === AnimationType.ZoomInOutWithPause
+                        ? zoomInOutWithPause
+                        : "none"}
+            ${animationDurationSeconds} infinite;
         }
       `
     }
@@ -235,8 +267,12 @@ export const ContentIcon = styled.div<IconContentProps>`
                   ? rotateMiddle
                   : animationType === AnimationType.Shake
                     ? shake
-                    : "none"}
-            ${animationDuration} linear infinite;
+                    : animationType === AnimationType.ShakeWithPause
+                      ? shakeWithPause
+                      : animationType === AnimationType.ZoomInOutWithPause
+                        ? zoomInOutWithPause
+                        : "none"}
+            ${animationDurationSeconds} linear infinite;
         }
       `
     }

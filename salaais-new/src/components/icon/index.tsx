@@ -8,17 +8,18 @@ export function Icon({
   iconType = IconType.ClockLoading,
   size = Size.S,
   startAnimation,
-  margin= "0",
+  margin = "0",
   animationType,
-  interval,
   color = Color.TxtPrimary,
+  animationDuration,
   background,
   padding,
   onClick,
   borderRadius = '100%',
-  width="fit-content",
+  border,
+  width = "fit-content",
   style,
-  shadow = false
+  shadow = false,
 }: IconContentProps) {
   const [animate, setAnimate] = useState(false)
   const StyledIcon = Styled.getStyledIcon(iconType)
@@ -28,23 +29,24 @@ export function Icon({
       setAnimate(true)
       const timer = setTimeout(() => {
         setAnimate(false)
-      }, interval) // Ensure animation class is removed after animation duration
+      }, animationDuration) // Ensure animation class is removed after animation duration
       return () => clearTimeout(timer) // Cleanup timer on component unmount or re-render
     }
-  }, [startAnimation, interval])
+  }, [startAnimation, animationDuration])
 
   return (
     <Styled.ContentIcon
       size={size}
       startAnimation={startAnimation}
       animationType={animationType}
-      interval={interval}
+      animationDuration={animationDuration}
       className={animate ? "animate" : ""}
       onMouseDown={handleMouseDown}
       background={background}
       padding={padding}
       onClick={onClick}
       borderRadius={borderRadius}
+      border={border}
       width={width}
       margin={margin}
       style={style}

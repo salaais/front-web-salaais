@@ -46,6 +46,9 @@ export const PageContentWithOutTitle = styled.div`
   flex-direction:column;
   padding: 50px 0px 10px 0px;
   gap:15px;
+  width: 100%;
+  justify-content:center;
+  align-items:center;
   
   @media (max-width: 767px) {
     margin-left: 0;

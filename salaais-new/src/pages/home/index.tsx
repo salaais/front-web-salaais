@@ -1,4 +1,5 @@
-import { IconsList, Menu, NotificationButton, UserProfileCard } from "../../components";
+import { CardProgressList, IconsList, Menu, NotificationButton, UserProfileCard } from "../../components";
+import * as Styled from './style'
 
 export function HomePage() {
 
@@ -8,9 +9,12 @@ export function HomePage() {
         <a href="/home" >Estamos ainda trabalhando nisso</a>
         <br />
         <br />
-        
-        <NotificationButton/>
-        <UserProfileCard/>
+
+        <NotificationButton />
+        <Styled.Cards>
+          <UserProfileCard />
+          <CardProgressList />
+        </Styled.Cards>
         <IconsList />
 
       </Menu >

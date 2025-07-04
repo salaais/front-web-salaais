@@ -8,7 +8,8 @@ import { AnimationType, IconType, StartAnimation } from "../../icon/models";
 import { InputInline } from "../../inputs/inputInline";
 
 export interface UserProfile {
-  url_image: string;
+  url_imagem_perfil: string;
+  planos_ativos: string[];
   nome: string;
   username: string;
   bio: string;
@@ -18,7 +19,11 @@ export interface UserProfile {
 }
 
 const initialProfile: UserProfile = {
-  url_image: "",
+  url_imagem_perfil: "",
+  planos_ativos: [
+    "https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Silver_1.png",
+    "https://static.wikia.nocookie.net/leagueoflegends/images/7/70/Season_2019_-_Silver_1.png"
+  ],
   nome: "Felipe Breno",
   username: "fe.felipe",
   bio: "bla, bla, bla, bla...",
@@ -46,107 +51,115 @@ export function UserProfileCard() {
   };
 
   return (
-    <Styled.Content>
-      <Styled.ContentIcons>
-        {!isEdit && (
-          <Icon
-            iconType={IconType.Edit}
-            size={Size.S}
-            padding="0"
-            animationType={AnimationType.Float}
-            startAnimation={StartAnimation.Hover}
-            onClick={toggleIsEdit}
-          />
-        )}
+    <Styled.AllContent>
+      <Styled.ContentImage>
+        {profile.planos_ativos.map((url, index) => (
+          <Styled.ImagePlan key={index} src={url} alt={`Plano ${index + 1}`} />
+        ))}
+      </Styled.ContentImage>
 
-        {isEdit && (
-          <>
+      <Styled.Content>
+        <Styled.ContentIcons>
+          {!isEdit && (
             <Icon
-              iconType={IconType.Close}
+              iconType={IconType.Edit}
               size={Size.S}
               padding="0"
-              color={Color.Red}
+              animationType={AnimationType.Float}
+              startAnimation={StartAnimation.Hover}
               onClick={toggleIsEdit}
             />
-            <Icon
-              iconType={IconType.Check}
-              size={Size.S}
-              padding="0"
-              color={Color.Green}
-              onClick={toggleIsEdit}
-            />
-          </>
-        )}
-      </Styled.ContentIcons>
+          )}
 
-      <Text
-        text={isEdit ? "Editar perfil" : "Meu perfil"}
-        size={Size.S}
-        margin="0 0 20px 0"
-        bold
-        center
-      />
+          {isEdit && (
+            <>
+              <Icon
+                iconType={IconType.Close}
+                size={Size.S}
+                padding="0"
+                color={Color.Red}
+                onClick={toggleIsEdit}
+              />
+              <Icon
+                iconType={IconType.Check}
+                size={Size.S}
+                padding="0"
+                color={Color.Green}
+                onClick={toggleIsEdit}
+              />
+            </>
+          )}
+        </Styled.ContentIcons>
 
-      <Styled.ContentImageProfile>
-        {profile.url_image ? (
-          <Styled.ImgPerfilFront src={profile.url_image} alt="Perfil" />
-        ) : (
-          <Styled.ImgPerfilFront src={DefaultImage} alt="Perfil" />
-        )}
-        <Styled.InitialsPlaceholder>
-          {getInitials(profile.nome)}
-        </Styled.InitialsPlaceholder>
-      </Styled.ContentImageProfile>
-
-      {isEdit && (
         <Text
-          text="Editar foto"
+          text={isEdit ? "Editar perfil" : "Meu perfil"}
           size={Size.S}
-          color={Color.Blue}
-          margin="6px 0 0 0"
+          margin="0 0 20px 0"
           bold
           center
         />
-      )}
 
-      <Styled.InputsContent>
-        <InputInline
-          label="Nome"
-          value={profile.nome}
-          onChange={handleChange("nome")}
-          disabled={!isEdit}
-        />
-        <InputInline
-          label="Username"
-          value={profile.username}
-          onChange={handleChange("username")}
-          disabled={!isEdit}
-        />
-        <InputInline
-          label="Bio"
-          value={profile.bio}
-          onChange={handleChange("bio")}
-          disabled={!isEdit}
-        />
-        <InputInline
-          label="Data Nascimento"
-          value={profile.data_nascimento}
-          onChange={handleChange("data_nascimento")}
-          disabled={!isEdit}
-        />
-        <InputInline
-          label="Link Instagram"
-          value={profile.link_instagram}
-          onChange={handleChange("link_instagram")}
-          disabled={!isEdit}
-        />
-        <InputInline
-          label="Link Facebook"
-          value={profile.link_facebook}
-          onChange={handleChange("link_facebook")}
-          disabled={!isEdit}
-        />
-      </Styled.InputsContent>
-    </Styled.Content>
+        <Styled.ContentImageProfile>
+          {profile.url_imagem_perfil ? (
+            <Styled.ImgPerfilFront src={profile.url_imagem_perfil} alt="Perfil" />
+          ) : (
+            <Styled.ImgPerfilFront src={DefaultImage} alt="Perfil" dashed />
+          )}
+          <Styled.InitialsPlaceholder>
+            {getInitials(profile.nome)}
+          </Styled.InitialsPlaceholder>
+        </Styled.ContentImageProfile>
+
+        {isEdit && (
+          <Text
+            text="Editar foto"
+            size={Size.S}
+            color={Color.Blue}
+            margin="6px 0 0 0"
+            bold
+            center
+          />
+        )}
+
+        <Styled.InputsContent>
+          <InputInline
+            label="Nome"
+            value={profile.nome}
+            onChange={handleChange("nome")}
+            disabled={!isEdit}
+          />
+          <InputInline
+            label="Username"
+            value={profile.username}
+            onChange={handleChange("username")}
+            disabled={!isEdit}
+          />
+          <InputInline
+            label="Bio"
+            value={profile.bio}
+            onChange={handleChange("bio")}
+            disabled={!isEdit}
+          />
+          <InputInline
+            label="Data Nascimento"
+            value={profile.data_nascimento}
+            onChange={handleChange("data_nascimento")}
+            disabled={!isEdit}
+          />
+          <InputInline
+            label="Link Instagram"
+            value={profile.link_instagram}
+            onChange={handleChange("link_instagram")}
+            disabled={!isEdit}
+          />
+          <InputInline
+            label="Link Facebook"
+            value={profile.link_facebook}
+            onChange={handleChange("link_facebook")}
+            disabled={!isEdit}
+          />
+        </Styled.InputsContent>
+      </Styled.Content>
+    </Styled.AllContent>
   );
 }
