@@ -81,8 +81,8 @@ const shakeWithPause = keyframes`
 const zoomInOutWithPause = keyframes`
   0% { transform: scale(1); }
   10% { transform: scale(1.05); }
-  20% { transform: scale(1.1); }
-  25% { transform: scale(1.05); }
+  20% { transform: scale(1.4); }
+  25% { transform: scale(1); }
   100% { transform: scale(1); } // pausa entre 25% e 100%
 `;
 

@@ -5,46 +5,81 @@ import { Icon } from '../icon'
 import { AnimationType, IconType, StartAnimation } from '../icon/models'
 import { Text } from '../text'
 import * as Styled from './style'
+import { useNavigate } from 'react-router-dom'
 
 interface IconItemProps {
   text: string
   icon: EnumType<typeof IconType>
+  navigate: string
 }
 
 const items: IconItemProps[] = [
   {
     text: "Prova ANAC",
-    icon: IconType.BookA
+    icon: IconType.BookA,
+    navigate: '/home/provas/anac'
   },
   {
     text: "Prova Blocos",
-    icon: IconType.Tests
+    icon: IconType.Tests,
+    navigate: '/home/provas/blocos'
   },
   {
     text: "Prova Matérias",
-    icon: IconType.Test
+    icon: IconType.Test,
+    navigate: '/home/provas/materia'
   },
   {
     text: "Provas Realizadas",
-    icon: IconType.TestCheck
+    icon: IconType.TestCheck,
+    navigate: '/home/provas/realizadas'
   },
   {
-    text: "Materias de Estudo",
-    icon: IconType.Formation
+    text: "Estudos",
+    icon: IconType.Formation,
+    navigate: '/home/estudos'
   },
   {
     text: "Pagamentos",
-    icon: IconType.Payment
+    icon: IconType.Payment,
+    navigate: '/home/pagamentos'
   },
   {
     text: "Planos",
-    icon: IconType.ShoppingCart
+    icon: IconType.ShoppingCart,
+    navigate: '/home/planos'
+  },
+  {
+    text: "Ranking",
+    icon: IconType.Trophy,
+    navigate: '/home/ranking'
+  },
+  {
+    text: "Configurações",
+    icon: IconType.Settings,
+    navigate: '/home/configuracoes'
+  },
+  {
+    text: "Conquistas",
+    icon: IconType.Checklist,
+    navigate: '/home/conquistas'
+  },
+  {
+    text: "Usuários",
+    icon: IconType.Users,
+    navigate: '/home/usuarios'
   }
 ]
 
-export function IconItem({ text, icon }: IconItemProps) {
+export function IconItem({ text, icon, navigate: to }: IconItemProps) {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(to)
+  }
+
   return (
-    <Styled.ContentItem>
+    <Styled.ContentItem onClick={handleClick}>
       <Icon
         iconType={icon}
         color={Color.TxtPrimary}
@@ -65,7 +100,12 @@ export function IconsList() {
   return (
     <Styled.ContentList>
       {items.map((item, index) => (
-        <IconItem key={index} text={item.text} icon={item.icon} />
+        <IconItem
+          key={index}
+          text={item.text}
+          icon={item.icon}
+          navigate={item.navigate}
+        />
       ))}
     </Styled.ContentList>
   )

@@ -119,6 +119,7 @@ export const IconType = makeEnum({
   ShoppingBag: "ShoppingBag",
   Add: "Add",
   TestCheck: "TestCheck",
+  Lines: "Lines",
 })
 
 export const iconMap = {
@@ -191,4 +192,5 @@ export const iconMap = {
   [IconType.ShoppingBag]: Icons.ShoppingBag,
   [IconType.Add]: Icons.Add,
   [IconType.TestCheck]: Icons.TestCheck,
+  [IconType.Lines]: Icons.Lines,
 }

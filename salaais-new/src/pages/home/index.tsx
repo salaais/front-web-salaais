@@ -1,4 +1,4 @@
-import { CardProgressList, IconsList, Menu, NotificationButton, UserProfileCard } from "../../components";
+import { CardProgressList, IconsList, Menu, NotificationButton } from "../../components";
 import * as Styled from './style'
 
 export function HomePage() {
@@ -12,7 +12,6 @@ export function HomePage() {
 
         <NotificationButton />
         <Styled.Cards>
-          <UserProfileCard />
           <CardProgressList />
         </Styled.Cards>
         <IconsList />

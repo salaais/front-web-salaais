@@ -41,9 +41,10 @@ export const A = styled.a<AProps>`
 `
 
 export const Text = styled.p<TextProps>`
+  white-space: normal;
+  word-break: normal;
   overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
+  hyphens: auto;
   margin: ${(props) => (props.margin ? props.margin : "0")};
 
   font-size: ${(props) => {

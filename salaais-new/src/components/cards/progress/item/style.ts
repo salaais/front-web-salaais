@@ -1,22 +1,17 @@
 import styled from "styled-components";
 import { Color } from "../../../../global";
 
-export const Content = styled.div`
+export const Content = styled.div<{inlineCard: boolean}>`
 display: flex;
-flex-direction:column;
+flex-direction: ${({ inlineCard }) => (inlineCard ? 'row' : 'column')};
 justify-content:space-between;
 padding: 10px 15px;
 width:100%;
-max-width:110px;
-height: auto;
+height: ${({ inlineCard }) => (inlineCard ? '120px' : 'auto')};
 background: ${Color.BgSecondary};
 box-shadow: ${Color.Shadow};
 border-radius:15px;
 align-items:center;
-
-@media(max-width:768px){
-    max-width: 100%;
-}
 `
 
 export const Top = styled.div`

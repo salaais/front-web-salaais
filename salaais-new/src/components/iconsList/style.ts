@@ -5,6 +5,7 @@ import styled from "styled-components"
 export const ContentItem = styled.div`
   display: flex;
   gap: 5px;
+  width:100%;
   max-width:65px;
   flex-direction: column;
   align-items: center;

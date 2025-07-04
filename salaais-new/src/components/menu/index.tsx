@@ -66,8 +66,8 @@ export function getActiveColor(isActive: boolean | undefined, color: string) {
 export function Menu(props: MenuProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const sizeIcons = useResponsiveIconSize();
   const menuRef = useRef<HTMLUListElement>(null);
+
 
   const [isOpen, setIsOpen] = useState(() => {
     const saved = getLocalStorage<boolean>(LocalStorage.isMenuOpen);
@@ -122,42 +122,42 @@ export function Menu(props: MenuProps) {
       },
       {
         nome: "Planos",
-        link: "/planos",
+        link: "/home/planos",
         icone: IconType.ShoppingCart,
         color: Color.TxtPrimary,
         is_handle: true,
       },
       {
         nome: "Ranking",
-        link: "/ranking",
+        link: "/home/ranking",
         icone: IconType.Trophy,
         color: Color.TxtPrimary,
         is_handle: true,
       },
       {
         nome: "Estudos",
-        link: "/estudos",
+        link: "/home/estudos",
         icone: IconType.Formation,
         color: Color.TxtPrimary,
         is_handle: true,
       },
       {
         nome: "Usuários",
-        link: "/usuarios",
+        link: "/home/usuarios",
         icone: IconType.Users,
         color: Color.TxtPrimary,
         is_handle: true,
       },
       {
         nome: "Conquistas",
-        link: "/conquistas",
+        link: "/home/conquistas",
         icone: IconType.Checklist,
         color: Color.TxtPrimary,
         is_handle: true,
       },
       {
         nome: "Configurações",
-        link: "/configuracoes",
+        link: "/home/configuracoes",
         icone: IconType.Settings,
         color: Color.TxtPrimary,
         is_handle: true,
@@ -182,12 +182,25 @@ export function Menu(props: MenuProps) {
     return isAdmin ? [admin, ...comuns] : comuns;
   }, [isAdmin]);
 
+  const activeItem = [...menuItems]
+    .sort((a, b) => b.link.length - a.link.length)
+    .find(item =>
+      location.pathname === item.link || location.pathname.startsWith(item.link + '/')
+    );
+
   return (
     <>
       <Styled.MenuContainer>
-        <Styled.MenuMobileButton id={isOpen ? "iMenuOpen" : "iMenuClose"} onClick={toggleIsOpen}>
+        <Styled.MenuMobileButton isOpen={isOpen} onClick={toggleIsOpen}>
           <Styled.MenuMobileButtonIcon isOpen={isOpen}>
-            <Icon iconType={IconType.ArrowRight} color={Color.TxtPrimary} size={Size.L} padding="10px" />
+            <Icon
+              iconType={IconType.Lines}
+              color={Color.BgSecondary}
+              background={Color.Primary}
+              size={Size.Xs}
+              padding="10px"
+              shadow
+            />
           </Styled.MenuMobileButtonIcon>
         </Styled.MenuMobileButton>
 
@@ -195,13 +208,20 @@ export function Menu(props: MenuProps) {
           <Styled.MenuItem key={'closeOpen'} color={Color.TxtPrimary} onClick={toggleIsOpen} isOpenMenu={isOpen}>
             <Styled.MenuLink>
               <Styled.IconWrapper>
-                <Icon iconType={IconType.ArrowRight} color={Color.TxtPrimary} size={sizeIcons} animationType={AnimationType.Float} startAnimation={StartAnimation.Hover} padding="5px" />
+                <Icon
+                  iconType={IconType.Lines}
+                  color={Color.TxtPrimary}
+                  size={Size.Xs}
+                  animationType={AnimationType.Float}
+                  startAnimation={StartAnimation.Hover}
+                  padding="5px"
+                />
               </Styled.IconWrapper>
             </Styled.MenuLink>
           </Styled.MenuItem>
 
           {menuItems.map((item, index) => {
-            const isActive = location.pathname.startsWith(item.link);
+            const isActive = item === activeItem;
 
             const handleClick = () => {
               if (item.nome === "Sair") {

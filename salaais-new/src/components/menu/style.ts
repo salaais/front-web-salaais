@@ -70,7 +70,7 @@ export const PageTitle = styled.div`
     margin: 0 0 0 60px;
   }
   & a, p{
-    text-decoration: none;
+      text-decoration: inline;
     font-size: 24px;
     font-weight: 700;
     color: var(--txt-primary);
@@ -90,10 +90,10 @@ export const MenuContainer = styled.div`
 `
 
 // Botão do menu mobile
-export const MenuMobileButton = styled.div`
+export const MenuMobileButton = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 15px;
-  left: 15px;
+  left: 20px;
   cursor: pointer;
   z-index: 999;
   border-radius: 50%;
@@ -106,7 +106,7 @@ export const MenuMobileButton = styled.div`
   color: var(--txt-primary);
   font-weight: 700;
   font-size: 15px;
-
+  display: ${({ isOpen }) => (isOpen ? 'none' : 'flex')};
   @media (min-width: 769px) {
     display: none;
   }
@@ -118,7 +118,6 @@ export const MenuLink = styled.div`
   display: flex;
   align-items: center;
   color: inherit;
-
   &.admin {
     color: var(--admin-color);
 
@@ -169,7 +168,7 @@ export const MenuList = styled.ul<{ isOpen: boolean }>`
     width: ${({ isOpen }) => (isOpen ? "220px" : "0")};
     height: 100%;
     border-radius: ${({ isOpen }) => (isOpen ? "0 20px 20px 0" : "0")};
-    padding: ${({ isOpen }) => (isOpen ? "0 10px 0 10px" : "0")};
+    padding: ${({ isOpen }) => (isOpen ? "12px 10px 0 10px" : "12px 0 0 0")};
     justify-content: flex-start;
     gap:2px;
   }
@@ -225,7 +224,6 @@ export const IconWrapper = styled.div`
 // Controla rotação do botão mobile
 export const MenuMobileButtonIcon = styled.div<{ isOpen: boolean }>`
   transition: 0.5s;
-  transform: rotate(${({ isOpen }) => (isOpen ? "180deg" : "0deg")});
 `
 
 // Para simular a classe active do NavLink (exemplo)

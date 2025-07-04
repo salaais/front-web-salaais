@@ -11,6 +11,7 @@ export const Color = makeEnum({
 
     Primary: "var(--primary-color)",
     Secondary: "var(--secondary-color)",
+    Tertiary: "var(--tertiary-color)",
     Success: "var(--success-color)",
     DangerPrimary: "var(--danger-primary)",
     DangerSecondary: "var(--danger-secondary)",

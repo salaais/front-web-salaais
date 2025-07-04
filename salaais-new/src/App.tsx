@@ -14,12 +14,12 @@ export default function App() {
 
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/planos" element={<PlansPage />} />
-          <Route path="/estudos" element={<StudyPage />} />
-          <Route path="/usuarios" element={<UsersPage />} />
-          <Route path="/configuracoes" element={<SettingsPage />} />
-          <Route path="/ranking" element={<RankingPage />} />
-          <Route path="/conquistas" element={<AchievementsPage />} />
+          <Route path="/home/planos" element={<PlansPage />} />
+          <Route path="/home/estudos" element={<StudyPage />} />
+          <Route path="/home/usuarios" element={<UsersPage />} />
+          <Route path="/home/configuracoes" element={<SettingsPage />} />
+          <Route path="/home/ranking" element={<RankingPage />} />
+          <Route path="/home/conquistas" element={<AchievementsPage />} />
         </Routes>
       </BrowserRouter>
     </>

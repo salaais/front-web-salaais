@@ -8,6 +8,7 @@ import * as Styled from './style'
 export interface CardProgressItemProps {
     number?: number
     numberSufix?: string
+    inlineCard?:boolean
     text?: string
     iconType?: EnumType<typeof IconType>
     iconColor?: EnumType<typeof Color>
@@ -18,6 +19,7 @@ export function CardProgressItem({
     number = 0,
     text,
     numberSufix = '',
+    inlineCard = false,
     iconType = IconType.Fire,
     iconColor,
     animationType,
@@ -44,7 +46,7 @@ export function CardProgressItem({
     }, [number])
 
     return (
-        <Styled.Content>
+        <Styled.Content inlineCard={inlineCard}>
             <Styled.Top>
                 <Text
                     text={`${displayedNumber}${numberSufix}`}

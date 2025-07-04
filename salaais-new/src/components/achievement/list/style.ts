@@ -4,7 +4,9 @@ export const Content = styled.div`
   display: flex;
   gap: 32px;
   flex-wrap: wrap;
-  flex-
+  flex-direction: column;
+  width: 100%;
+  max-width:400px;
 `
 
 export const Group = styled.div`
