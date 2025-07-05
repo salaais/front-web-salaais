@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputCheckBox } from "../../inputs/checkBox";
 import * as Styled from "./style";
+import { getLocalStorage, LocalStorage, setLocalStorage } from "../../../global";
 
 export function CardSettings() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() =>
+    getLocalStorage<boolean>(LocalStorage.isDarkMode) ?? false
+  );
+
   const [notificacaoApp, setNotificacaoApp] = useState(false);
   const [notificacaoEmail, setNotificacaoEmail] = useState(false);
+
+  useEffect(() => {
+    setLocalStorage<boolean>(LocalStorage.isDarkMode, darkMode);
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   return (
     <Styled.AllContent>

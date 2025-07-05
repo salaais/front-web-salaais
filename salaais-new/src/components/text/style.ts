@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { TextDecoration, type TextProps } from "."
 import { Color } from "../../global/types/color"
 import { Size } from "../../global/types/size"
-import type { EnumType } from "../../global"
+import { cssVarToRgba, type EnumType } from "../../global"
 
 interface TitleProps {
   center?: boolean
@@ -25,6 +25,7 @@ export const Title = styled.h3<TitleProps>`
   margin: ${(props) => (props.margin ? props.margin : "70px 0 70px 0")};
   text-align: ${(props) => (props.center ? "center" : "left")};
   color: ${(props) => (props.color ? `${props.color}` : Color.TxtPrimary)};
+  cursor: ${(props) => (props.onClick ? 'pointer' : "auto")};
 `
 
 interface AProps {
@@ -38,6 +39,7 @@ export const A = styled.a<AProps>`
   color: ${(props) => (props.color ? `${props.color}` : Color.Primary)};
   font-weight: 600;
   margin: ${(props) => (props.margin ? props.margin : "0")};
+  cursor: ${(props) => (props.onClick ? 'pointer' : "auto")};
 `
 
 export const Text = styled.p<TextProps>`
@@ -46,7 +48,14 @@ export const Text = styled.p<TextProps>`
   overflow-wrap: break-word;
   hyphens: auto;
   margin: ${(props) => (props.margin ? props.margin : "0")};
+  cursor: ${(props) => (props.onClick ? 'pointer' : "auto")};
+  cursor: ${(props) => (props.pointer ? 'pointer' : "auto")};
+  user-select: ${(props) => (props.pointer ? 'none' : "auto")};
 
+  ${(props) => (props.background ? `  border-radius: 999px; padding:0 5px;` : "")};
+  background: ${(props) => (props.background ? `${cssVarToRgba(props.color ?? '#000000', 0.3)}` : "")};
+
+  /*  */
   font-size: ${(props) => {
     switch (props.size) {
       case Size.Xs:
@@ -89,7 +98,7 @@ export const Text = styled.p<TextProps>`
         return 'none'; // valor padrão
     }
   }};
-  font-weight: ${(props) => (props.bold ? "600" : "400")};
+  font-weight: ${(props) => (props.bold ? "700" : "400")};
   color: ${(props) =>
     props.color
       ? `${props.color}`

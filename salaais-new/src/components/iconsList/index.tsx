@@ -86,7 +86,7 @@ export function IconItem({ text, icon, navigate: to }: IconItemProps) {
         size={Size.S}
         animationType={AnimationType.Float}
         startAnimation={StartAnimation.Hover}
-        padding="15px"
+        padding="20px"
         background={Color.BgSecondary}
         borderRadius='10px'
         shadow
@@ -98,15 +98,18 @@ export function IconItem({ text, icon, navigate: to }: IconItemProps) {
 
 export function IconsList() {
   return (
-    <Styled.ContentList>
-      {items.map((item, index) => (
-        <IconItem
-          key={index}
-          text={item.text}
-          icon={item.icon}
-          navigate={item.navigate}
-        />
-      ))}
-    </Styled.ContentList>
+    <>
+      <Text text='Acesso Rápido' bold margin='20px 0 0 0'/>
+      <Styled.ContentList>
+        {items.map((item, index) => (
+          <IconItem
+            key={index}
+            text={item.text}
+            icon={item.icon}
+            navigate={item.navigate}
+          />
+        ))}
+      </Styled.ContentList>
+    </>
   )
 }

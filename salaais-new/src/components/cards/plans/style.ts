@@ -96,7 +96,7 @@ width: 100%;
 font-size:14px;
 padding: 15px;
 height: 50px;
-color: white;
+color: ${Color.BgPrimary};
 border-radius: 40px;
 cursor: pointer;
 text-decoration:underline;

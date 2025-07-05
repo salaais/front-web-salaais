@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Logo } from "../../assets"
-import { Size, ThemeType } from "../../global"
-import { Align, Button, ButtonApple, ButtonGoogle, Hr, Input } from "../index"
+import { Color, Size, ThemeType } from "../../global"
+import { Align, Button, ButtonApple, ButtonGoogle, Hr, Input, Text } from "../index"
 import { InputType } from "../inputs/input/interfaces"
 import { loginAction } from "../../services"
 import * as Styled from "./style"
@@ -53,9 +53,14 @@ export function Login({ onSwitchForm }: LoginProps) {
 
       <Align justify={JustifyType.Center} column>
         <Styled.Text>Ainda não tem uma conta?</Styled.Text>
-        <Styled.TextBold onClick={onSwitchForm} style={{ cursor: "pointer" }}>
-          Cadastre-se
-        </Styled.TextBold>
+        <Text
+          text={'Cadastre-se'}
+          onClick={onSwitchForm}
+          center
+          bold
+          color={Color.Primary}
+        />
+
       </Align>
 
       <Align gap="10px" alignCenter column>

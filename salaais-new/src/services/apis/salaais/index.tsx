@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 import { getCookie, LocalStorage, setCookie, setLocalStorage } from "../../../global";
 import './google.d.ts';
 import { Cookie } from "../../../global/utils/cookie/index.tsx";
-import { Duration } from "../../../global/utils/time/index.ts";
+import { Time } from "../../../global/utils/time/index.ts";
 
 export function getApiSalaAis() {
 
@@ -58,7 +58,7 @@ export const paymentPlan = async (
 // login apple, login google, login normal
 export const finalizarLogin = async (access_token: string, navigate: (path: string) => void) => {
   toast.success("Bem-vindo!");
-  setCookie("access_token", access_token, '7d');
+  setCookie("access_token", access_token, Time["7d"]);
   await getPermissionsByToken();
   navigate("/home");
 };
@@ -215,6 +215,7 @@ export const loginWithAppleValidateAccessToken = async (
     });
 
     const { access_token } = response.data;
+    toast.error("O login apple falhou");
     if (!access_token) {
       toast.error("O login apple falhou");
       console.log("Token de acesso não retornado.");
@@ -441,7 +442,7 @@ export const adminLoginComUsuario = async (id_usuario: number): Promise<void> =>
       )
       .then(async ({ data }) => {
         if (data?.access_token) {
-          setCookie(Cookie.access_token, data.access_token, Duration["7d"]);
+          setCookie(Cookie.access_token, data.access_token, Time["7d"]);
           await getPermissionsByToken();
           setTimeout(() => { window.location.reload() }, 2000);
         } else {

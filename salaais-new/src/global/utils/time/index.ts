@@ -20,7 +20,7 @@ export function timeDuration(durationStr: string) {
   }
 }
 
-export const Duration = makeEnum({
+export const Time = makeEnum({
   // Segundos
   "5s": "5s",
   "10s": "10s",

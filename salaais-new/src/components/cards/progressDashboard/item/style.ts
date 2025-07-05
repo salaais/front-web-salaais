@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { Color } from "../../../../global";
 
-export const Content = styled.div<{inlineCard: boolean}>`
+export const Content = styled.div`
 display: flex;
-flex-direction: ${({ inlineCard }) => (inlineCard ? 'row' : 'column')};
+flex-direction: column;
 justify-content:space-between;
 padding: 10px 15px;
 width:100%;
-height: ${({ inlineCard }) => (inlineCard ? '140px' : 'auto')};
+height: 180px;
+max-width:130px;
 background: ${Color.BgSecondary};
 box-shadow: ${Color.Shadow};
 border-radius:15px;
@@ -17,6 +18,12 @@ align-items:center;
 export const Top = styled.div`
 display: flex;
 flex-direction:column;
+gap:5px;
 width: 100%;
-margin-bottom:15px;
+height: 100%;
+`
+
+export const TopSpaceBetween = styled.div`
+display: flex;
+justify-content:space-between;
 `

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Logo } from "../../assets"
-import { Size, ThemeType } from "../../global"
-import { Align, Button, ButtonApple, ButtonGoogle, Hr, Input, ToastInfo } from "../index"
+import { Color, Size, ThemeType } from "../../global"
+import { Align, Button, ButtonApple, ButtonGoogle, Hr, Input, Text, ToastInfo } from "../index"
 import { InputType } from "../inputs/input/interfaces"
 import { JustifyType } from "../align/interfaces"
 import * as Styled from "./style"
@@ -197,7 +197,7 @@ export function Register({ onSwitchForm }: RegisterProps) {
               termos de uso
             </Styled.A>{" "}
             e a nossa{" "}
-            <Styled.A as="span" onClick={showPolitics} style={{ cursor: "pointer" }}>
+            <Styled.A as="span" onClick={showPolitics} color={Color.Red} style={{ cursor: "pointer" }}>
               política de privacidade
             </Styled.A>
             .
@@ -207,9 +207,13 @@ export function Register({ onSwitchForm }: RegisterProps) {
 
         <Align justify={JustifyType.Center} column>
           <Styled.Text>Já tem uma conta?</Styled.Text>
-          <Styled.TextBold onClick={onSwitchForm} style={{ cursor: "pointer" }}>
-            Login
-          </Styled.TextBold>
+          <Text
+            text={'Login'}
+            onClick={onSwitchForm}
+            center
+            bold
+            color={Color.Primary}
+          />
         </Align>
 
 
@@ -217,7 +221,7 @@ export function Register({ onSwitchForm }: RegisterProps) {
           <Button
             text="Cadasdro"
             type={ThemeType.Primary}
-            onClick={() => registerAction(formData, onSwitchForm )}
+            onClick={() => registerAction(formData, onSwitchForm)}
           />
 
           <Hr bg="var(--bg-tartiary)" height="3px" width="100%" margin="10px 0" />

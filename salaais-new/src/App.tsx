@@ -3,11 +3,20 @@ import './App.css'
 import { AchievementsPage, AdminPage, HomePage, LoginPage, PlansPage, RankingPage, SettingsPage, StudyPage, UsersPage } from "./pages";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { getLocalStorage, LocalStorage } from "./global";
 
 export default function App() {
+
+  const isDark = getLocalStorage<boolean>(LocalStorage.isDarkMode);
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+
   return (
     <>
-      <ToastContainer theme="light"/>
+      <ToastContainer theme="light" />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />

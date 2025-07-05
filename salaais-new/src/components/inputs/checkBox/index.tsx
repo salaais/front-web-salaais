@@ -21,14 +21,14 @@ export function InputCheckBox({
     }
 
     return (
-        <Styled.Content as="label" style={{ cursor: 'pointer' }}>
+        <Styled.Content as="label">
             <input
                 type="checkbox"
                 checked={value}
                 onChange={handleChange}
                 style={{ marginRight: '8px', cursor: 'pointer' }}
             />
-            <Text text={text} size={size} />
+            <Text text={text} size={size} pointer/>
         </Styled.Content>
     )
 }

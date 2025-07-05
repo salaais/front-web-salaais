@@ -9,14 +9,18 @@ export const Content = styled.div`
 
 export const NotificaionNumber = styled.div`
   position: absolute;
-  top: 9px;
-  right: 6px;
+  top: 5px;
+  left: 50%; /* fixa o ponto inicial à direita do ícone */
+  transform: translateX(0); /* você pode usar -50% se quiser sobrepor um pouco */
   display: flex;
+  padding: 0 5px;
   justify-content: center;
-  align-items:flex-end;
-  width: 15px;
-  height: 15px;
+  align-items: center;
+  min-width: 16px;
+  height: 16px;
   background: ${Color.Orange};
-  border-radius: 50%;
+  border-radius: 999px;
   z-index: 1;
+  font-size: 10px;
 `;
+

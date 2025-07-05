@@ -35,7 +35,10 @@ export interface TextProps {
   showMore?: boolean,
   coloredParts?: { text: string; color: EnumType<typeof Color> }[]
   margin?: string
-  width?:string
+  width?: string
+  onClick?: () => void
+  pointer?: boolean
+  background?: boolean
 }
 
 export function Text({
@@ -56,6 +59,9 @@ export function Text({
   coloredParts = [],
   margin,
   width,
+  onClick,
+  pointer,
+  background
 }: TextProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -122,6 +128,7 @@ export function Text({
         center={center}
         color={color}
         margin={margin}
+        onClick={onClick}
       >
         {renderTextWithColors()}
       </Styled.Title>
@@ -138,6 +145,7 @@ export function Text({
         target="_blank"
         rel="noopener noreferrer"
         margin={margin}
+        onClick={onClick}
       >
         {renderTextWithColors()}
       </Styled.A>
@@ -156,6 +164,9 @@ export function Text({
       margin={margin}
       textDecoration={textDecoration}
       width={width}
+      onClick={onClick}
+      pointer={pointer}
+      background={background}
     >
       {renderTextWithColors()}
     </Styled.Text>

@@ -8,8 +8,6 @@
 
 html,
 html:hover {
-  background-color: var(--bg-primary);
-  color: #ffffffd7;
   font-family: system-ui, monospace, 'Gill Sans';
   transition: 1s;
 }
@@ -24,10 +22,9 @@ html:hover {
 img,
 a {
   cursor: pointer;
-  color: var(--txt-primary);
 }
 
-h1, h2, h3, h4, h5, h6, p {
+/* h1, h2, h3, h4, h5, h6, p {
   color: var(--txt-primary);
 }
 
@@ -37,7 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   font-size: 17px;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 16px;

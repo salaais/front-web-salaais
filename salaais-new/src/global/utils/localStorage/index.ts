@@ -2,8 +2,9 @@ import { Permission } from "../../types/permission"
 import { makeEnum } from "../enum"
 
 export const LocalStorage = makeEnum({
-  isMenuOpen: "isMenuOpen", //bool
-  permissions: "permissions"// striing[]
+  isMenuOpen: "isMenuOpen",   //bool
+  permissions: "permissions", // striing[]
+  isDarkMode: "isDarkMode",    //bool
 })
 
 // Armazena qualquer tipo de valor (T) no localStorage

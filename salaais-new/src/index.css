@@ -1,9 +1,9 @@
 :root {
   --primary-color: #FFCD00;
-  --secondary-color: #fff6bf; /* rgba(82, 112, 251, 0.39); */
+  --secondary-color: #fff6bf; /*darkmode rgba(82, 112, 251, 0.39); */
   --tertiary-color: #404040;
-  --bg-primary: #ECEFF7; /*#171717*/
-  --bg-secondary: #FFFFFF; /*#000000*/
+  --bg-primary: #ECEFF7; /*darkmode #171717*/
+  --bg-secondary: #FFFFFF; /*darkmode #000000*/
   --bg-tartiary: #cecece;
   --txt-primary: #8F8D98;
   --txt-secondary: #5a5a5aa1;
@@ -22,13 +22,13 @@
   --follow-button-color:#3a99f8;
 
   --green: #28a745;
-  --red: #F25E62;
+  --red: #f1363c;
   --blue: #3a99f8;
   --dark-green: #33A474;
   --purple: #88619A;
   --yellow: #E4AE3A;
   --pink: #CC09DC;
-  --orange: #F2925E;
+  --orange: #ff752b;
   
   
   --plan-primary-color: #000000;
@@ -39,7 +39,7 @@
 
   /**/
   --achievement-comum: #7CE57A;
-  --achievement-rare: #F2925E;
+  --achievement-rare: #e65d14;
 --achievement-rare-background: conic-gradient(
   from 0deg,
   #FF863A,
@@ -56,7 +56,7 @@
                               #EB6CFF
                             );
 
-  --achievement-disabled: rgb(216, 216, 216); /*rgb(51 51 51)*/
+  --achievement-disabled: rgb(110, 110, 110); /*rgb(51 51 51)*/
 
   --shadow: rgba(10, 10, 10, 0.4) 0px 0px 5px 0px;
   --msg-send: #353342;
@@ -65,6 +65,21 @@
 
   --instagram_color: #f185fe;
   --facebook_color: #5b97e6;
+}
+
+.dark {
+  --txt-primary: #bebebe;
+  --txt-secondary: #9b9b9ba1;
+
+  --bg-primary: #111111;
+  --bg-secondary: #000000;
+
+  --plan-background-image: #272727;
+  --plan-primary-color: #dadada;
+
+  --shadow: rgba(209, 209, 209, 0.4) 0px 0px 7px 0px;
+  
+  --achievement-disabled: rgb(34, 34, 34);
 }
 
 * {
@@ -77,7 +92,6 @@
 html,
 html:hover {
   background-color: var(--bg-primary);
-  color: #ffffffd7;
   font-family: system-ui, monospace, 'Gill Sans';
   transition: 1s;
 }
@@ -94,17 +108,17 @@ a {
   cursor: pointer;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+/* h1, h2, h3, h4, h5, h6, p {
   color: var(--txt-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
-}
+} */
 
-p {
+/* p {
   font-size: 17px;
-}
+} */
 
 ::-webkit-scrollbar {
   width: 16px;

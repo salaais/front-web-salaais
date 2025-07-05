@@ -41,7 +41,7 @@ const listInline: CardProgressItemProps[] = [
         text: 'Pontos',
         iconType: IconType.Trophy,
         iconColor: Color.Primary,
-        animationType: AnimationType.ZoomInOutWithPause
+        animationType: AnimationType.Float
     },
 ]
 

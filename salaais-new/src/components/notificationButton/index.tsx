@@ -13,7 +13,7 @@ export function NotificationButton() {
   const [notificationNumber, setNotificationNumber] = useState(0)
 
   function getNotification() {
-    setNotificationNumber(2)
+    setNotificationNumber(1)// 10, 100
   }
 
   useEffect(() => {
@@ -29,6 +29,8 @@ export function NotificationButton() {
             text={`${notificationNumber}`}
             size={Size.Xs}
             color={Color.BgSecondary}
+            bold
+            pointer
           />
         </Styled.NotificaionNumber>
       }

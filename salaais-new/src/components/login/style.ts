@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Color } from "../../global"
 
 export const All = styled.div`
   display: flex;
@@ -14,15 +15,6 @@ export const Text = styled.p`
   color: var(--txt-primary);
   text-align: center;
 `
-export const TextBold = styled.p`
-  font-weight: bold;
-  font-size: 18px;
-  text-align: center;
-
-  a {
-    color: var(--txt-title);
-  }
-`
 
 export const Img = styled.img`
   width: 50%;
@@ -37,7 +29,7 @@ export const ImgContent = styled.div`
 
 export const A = styled.a`
   text-decoration: none;
-  color: var(--primary-color);
+  color: ${Color.TxtPrimary};
   font-weight: bold;
 `
 
