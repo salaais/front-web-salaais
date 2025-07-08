@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react'
-import { Color, Size, type EnumType } from '../../../../global'
-import { Icon } from '../../../icon'
-import { AnimationType, IconType, StartAnimation } from '../../../icon/models'
-import { Text } from '../../../text'
+import { Color, Size, type EnumType } from '../../../global'
+import { Icon } from '../../icon'
+import { AnimationType, IconType, StartAnimation } from '../../icon/models'
+import { Text } from '../../text'
 import * as Styled from './style'
 
 export interface CardProgressItemProps {
     number?: number
     numberSufix?: string
-    inlineCard?:boolean
+    inlineCard?: boolean
     text?: string
     iconType?: EnumType<typeof IconType>
     iconColor?: EnumType<typeof Color>
     animationType?: EnumType<typeof AnimationType>
+    grid?: number
 }
 
-export function CardProgressItem({
+export function CardProgressRow({
     number = 0,
     text,
     numberSufix = '',
-    inlineCard = false,
     iconType = IconType.Fire,
     iconColor,
     animationType,
+    grid = 1
 }: CardProgressItemProps) {
     const [displayedNumber, setDisplayedNumber] = useState(0)
 
@@ -46,7 +47,7 @@ export function CardProgressItem({
     }, [number])
 
     return (
-        <Styled.Content inlineCard={inlineCard}>
+        <Styled.Content grid={grid}>
             <Styled.Top>
                 <Text
                     text={`${displayedNumber}${numberSufix}`}

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify"
 import { Achievement } from ".."
-import {Size } from "../../../global"
+import { Size } from "../../../global"
 import { Text } from "../../text"
 import { AchievementType } from "../models"
 import * as Styled from "./style"
@@ -160,7 +160,11 @@ function renderToast(item: typeof achievementList[0]) {
   )
 }
 
-export function AchievementList() {
+export interface AchievementListProps {
+  hideTitles?: boolean
+}
+
+export function AchievementList({ hideTitles = true }: AchievementListProps) {
   const mySet = new Set(myAchieviments)
 
   const grouped = {
@@ -173,7 +177,7 @@ export function AchievementList() {
     <Styled.Content>
       {Object.entries(grouped).map(([type, items]) => (
         <Styled.Group key={type}>
-          <Text text={type} bold size={Size.L} />
+          {!hideTitles && <Text text={type} bold size={Size.L} />}
           <Styled.GroupList>
             {items.map((item) => {
               const isAchieved = mySet.has(item.key)

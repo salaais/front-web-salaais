@@ -31,7 +31,7 @@ export function PlanCardEditable({
     onCancelEdit, 
     }: EditableProps) {
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
-    const [nextFocusIndex, setNextFocusIndex] = useState<number | null>(null)
+    const [, setNextFocusIndex] = useState<number | null>(null)
     const [localTopicos, setLocalTopicos] = useState<string[]>(plan.topicos_do_plano)
     const visibleDetails = isExpanded ? localTopicos : localTopicos.slice(0, 2)
     const [inputTitulo, setInputTitulo] = useState(plan.titulo)
@@ -128,12 +128,7 @@ export function PlanCardEditable({
         })
     }
 
-    useEffect(() => {
-        if (nextFocusIndex !== null && inputRefs.current[nextFocusIndex]) {
-            inputRefs.current[nextFocusIndex]?.focus()
-            setNextFocusIndex(null)
-        }
-    }, [nextFocusIndex, localTopicos])
+ 
 
     const handleEditPlan = async () => {
 
