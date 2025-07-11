@@ -20,18 +20,18 @@ export function PlanCard({
     isExpanded,
     onExpandToggle,
     onEditToggle,
-    isAdmin 
-}: PlanCardProps){
+    isAdmin
+}: PlanCardProps) {
 
     const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
 
     return (
         <Styled.AllContent opacity={(plan.publico && plan.compravel) || (plan.publico === null || plan.compravel === null)}>
-            
+
             <Styled.ContentImage>
                 <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
             </Styled.ContentImage>
-            
+
             <Styled.Content>
                 <Styled.Top>
                     <Text text={plan.titulo} bold size={Size.Xl} color={Color.TxtPrimary} />
@@ -69,9 +69,9 @@ export function PlanCard({
                 )}
 
                 <div>
-                    {plan.preco_antigo && plan.preco_antigo !== 0 && (
+                    {(plan.preco_antigo !== null && plan.preco_antigo !== 0) && (
                         <Text
-                            text={`R$${plan.preco_antigo.toFixed(2)}`}
+                            text={`R$${plan.preco_antigo?.toFixed(2)}`}
                             size={Size.S}
                             color={Color.TxtSecondary}
                             textDecoration={TextDecoration["line-through"]}
