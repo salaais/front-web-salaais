@@ -69,7 +69,7 @@ export function PlanCard({
                 )}
 
                 <div>
-                    {plan.preco_antigo && (
+                    {plan.preco_antigo && plan.preco_antigo !== 0 && (
                         <Text
                             text={`R$${plan.preco_antigo.toFixed(2)}`}
                             size={Size.S}
