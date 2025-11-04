@@ -303,7 +303,7 @@ export function PlanCardEditable({
                                 outline: 'none',
                                 width: '100%',
                                 pointerEvents: 'none', // impede clique
-                                opacity: 0.7,          // visual de "desativado"
+                                opacity: 0.3,          // visual de "desativado"'
                             }}
                         />
                         <input
