@@ -104,7 +104,7 @@ export function PlanCard({
               type="text"
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
-              placeholder="Tem um cupom? (opcional)"
+              placeholder="Cupom de desconto"
               style={{
                 width: "100%",
                 padding: "8px",

@@ -669,7 +669,7 @@ export const pagamentoWeb = async (id_permissao: number, coupon?: string): Promi
       const data = error.response?.data
 
       if (status === 422 && data?.error_code === "INVALID_DATA" && data?.errors_description?.includes("Cupom")) {
-        toast.error(`Erro ao aplicar cupom: ${data.errors_description}`)
+        toast.error(`Erro: ${data.errors_description}`)
         return
       }
 
