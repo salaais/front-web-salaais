@@ -632,9 +632,7 @@ export const editPlan = async (
   }
 }
 
-export const pagamentoWeb = async (
-  id_permissao: number
-): Promise<void> => {
+export const pagamentoWeb = async (id_permissao: number, coupon?: string): Promise<void> => {
   const apiSalaAis = getApiSalaAis()
   const access_token = getCookie<string>(Cookie.access_token)
 
@@ -644,24 +642,54 @@ export const pagamentoWeb = async (
   }
 
   try {
+    const queryParams = new URLSearchParams({
+      permission_id: id_permissao.toString(),
+    })
+
+    if (coupon && coupon.trim()) {
+      queryParams.append("coupon", coupon.trim())
+    }
+
     const response = await toast.promise(
-      apiSalaAis.get<{ url: string }>(
-        `stripe/pagamento-web?permission_id=${id_permissao}`,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      ),
+      apiSalaAis.get<{ url: string }>(`stripe/pagamento-web?${queryParams.toString()}`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      }),
       {
-        pending: 'Gerando pagamento...',
-        success: 'Sucesso! Redirecionando...',
-        error: 'Erro ao gerar link de pagamento.',
+        pending: "Gerando pagamento...",
+        success: "Sucesso! Redirecionando...",
       }
     )
-    window.open(response.data.url, '_blank')
 
+    window.open(response.data.url, "_blank")
   } catch (error) {
     console.error("Erro ao gerar link de pagamento:", error)
+
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status
+      const data = error.response?.data
+
+      if (status === 422 && data?.error_code === "INVALID_DATA" && data?.errors_description?.includes("Cupom")) {
+        toast.error(`Erro ao aplicar cupom: ${data.errors_description}`)
+        return
+      }
+
+      if (status === 401) {
+        toast.error("Sessão expirada. Faça login novamente.")
+        return
+      }
+
+      if (status && status >= 400 && status < 500) {
+        toast.error(data?.errors_description || "Erro ao processar o pagamento.")
+        return
+      }
+
+      if (status && status >= 500) {
+        toast.error("Falha no servidor. Tente novamente mais tarde.")
+        return
+      }
+    }
+
+    toast.error("Erro inesperado ao gerar pagamento. Tente novamente.")
   }
 }
+
