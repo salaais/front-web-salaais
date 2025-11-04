@@ -169,7 +169,6 @@ export interface EditPlanRequest {
     stripe_price_id: string | null
     topicos_do_plano: string[]
     preco_antigo: number | null
-    preco: number | null
     tipo_pagamento: string | null
     duracao_plano_em_dias: number | null
     publico: boolean

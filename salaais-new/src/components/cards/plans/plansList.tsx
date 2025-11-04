@@ -131,7 +131,6 @@ export function PlansList({ plans = [] }: { plans?: GetPlansResponse[] }) {
       stripe_price_id: planToSave.stripe_price_id || null,
       topicos_do_plano: planToSave.topicos_do_plano || [],
       preco_antigo: planToSave.preco_antigo || null,
-      preco: planToSave.preco || null,
       tipo_pagamento: planToSave.tipo_pagamento,
       duracao_plano_em_dias: planToSave.duracao_plano_em_dias || null,
       publico: planToSave.publico,

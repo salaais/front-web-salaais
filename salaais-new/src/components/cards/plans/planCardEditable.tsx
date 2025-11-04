@@ -21,15 +21,15 @@ interface EditableProps {
     onCancelEdit: () => void
 }
 
-export function PlanCardEditable({ 
-    plan, 
-    onFieldChange, 
-    isExpanded, 
-    onExpandToggle, 
-    onMoveDetailUp, 
-    onMoveDetailDown, 
-    onCancelEdit, 
-    }: EditableProps) {
+export function PlanCardEditable({
+    plan,
+    onFieldChange,
+    isExpanded,
+    onExpandToggle,
+    onMoveDetailUp,
+    onMoveDetailDown,
+    onCancelEdit,
+}: EditableProps) {
     const inputRefs = useRef<Array<HTMLInputElement | null>>([])
     const [, setNextFocusIndex] = useState<number | null>(null)
     const [localTopicos, setLocalTopicos] = useState<string[]>(plan.topicos_do_plano)
@@ -128,7 +128,7 @@ export function PlanCardEditable({
         })
     }
 
- 
+
 
     const handleEditPlan = async () => {
 
@@ -139,7 +139,6 @@ export function PlanCardEditable({
             preco_antigo: inputPrecoAntigo !== null && inputPrecoAntigo !== ""
                 ? parseFloat(inputPrecoAntigo)
                 : null,
-            preco: inputPreco || null,
             tipo_pagamento: inputTipoPagamento || null,
             duracao_plano_em_dias: inputDuracaoPlanoEmDias !== null && inputDuracaoPlanoEmDias !== ""
                 ? parseInt(inputDuracaoPlanoEmDias)
@@ -289,10 +288,11 @@ export function PlanCardEditable({
                             type="number"
                             placeholder="Preço"
                             value={inputPreco || ""}
-                            onChange={(e) => {
-                                const value = e.target.value
-                                setInputPreco(value === "" ? null : parseFloat(value))
-                            }}
+                            readOnly
+                            // onChange={(e) => {
+                            //     const value = e.target.value
+                            //     setInputPreco(value === "" ? null : parseFloat(value))
+                            // }}
                             style={{
                                 fontSize: '20px',
                                 fontWeight: 'bold',
@@ -302,6 +302,8 @@ export function PlanCardEditable({
                                 borderBottom: '1px solid #ccc',
                                 outline: 'none',
                                 width: '100%',
+                                pointerEvents: 'none', // impede clique
+                                opacity: 0.7,          // visual de "desativado"
                             }}
                         />
                         <input
