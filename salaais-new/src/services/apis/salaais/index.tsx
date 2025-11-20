@@ -645,10 +645,15 @@ export const pagamentoWeb = async (
   coupon?: string,
 ): Promise<void> => {
   const apiSalaAis = getApiSalaAis()
-  const access_token = getCookie<string>(Cookie.access_token)
+  // Tenta primeiro o access_token, depois o token-user-mobile como fallback
+  let access_token = getCookie<string>(Cookie.access_token)
+  
+  if (!access_token) {
+    access_token = getCookie<string>('token-user-mobile')
+  }
 
   if (!access_token) {
-    toast.error('Token de sessão ausente ou inválido.')
+    toast.error('Token de sessão ausente ou inválido. Faça login no app e tente novamente.')
     return
   }
 

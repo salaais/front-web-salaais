@@ -7,6 +7,8 @@ import { Color, Size } from "../../../global"
 import type { GetPlansResponse } from '../../../services/apis/salaais/models'
 import { pagamentoWeb } from '../../../services/apis/salaais'
 import { useState } from 'react'
+import { Align } from '../../align'
+import { JustifyType } from '../../align/interfaces'
 
 interface PlanCardProps {
     plan: GetPlansResponse
@@ -14,6 +16,20 @@ interface PlanCardProps {
     onExpandToggle: () => void
     onEditToggle?: () => void
     isAdmin?: boolean
+}
+
+// Cores específicas por tipo de plano
+const planColors: Record<string, string> = {
+  BRONZE: "#CD7F32",
+  PRATA: "#999B9B",
+  OURO: "#FFD700",
+  PREMIUM: "#FF5722",
+}
+
+// Função para obter a cor do plano baseado no título
+const getPlanColor = (titulo: string): string => {
+  const upperTitle = titulo.toUpperCase()
+  return planColors[upperTitle] || "#FFCD00" // Cor primária padrão
 }
 
 export function PlanCard({
@@ -26,9 +42,15 @@ export function PlanCard({
 
   const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
   const [coupon, setCoupon] = useState("")
+  const planColor = getPlanColor(plan.titulo)
 
   const handlePayment = async () => {
     await pagamentoWeb(plan.id, coupon)
+  }
+
+  // Formata o preço como R$XX,XX
+  const formatPrice = (price: number): string => {
+    return `R$${price.toFixed(2).replace(".", ",")}`
   }
 
   return (
@@ -39,7 +61,17 @@ export function PlanCard({
 
       <Styled.Content>
         <Styled.Top>
-          <Text text={plan.titulo} bold size={Size.Xl} color={Color.TxtPrimary} />
+          <Styled.TrophyRow>
+            <Icon
+              iconType={IconType.Trophy}
+              size={Size.L}
+              color={planColor}
+              padding="0"
+            />
+            <Styled.PlanTitle style={{ color: planColor }}>
+              {plan.titulo}
+            </Styled.PlanTitle>
+          </Styled.TrophyRow>
           {isAdmin && onEditToggle &&
             <Icon
               size={Size.Xs}
@@ -115,7 +147,15 @@ export function PlanCard({
               }}
             />
             <Styled.Button onClick={handlePayment}>
-              Assinar
+              <Align gap="8px" alignCenter justify={JustifyType.Center}>
+                <Icon
+                  iconType={IconType.Payment}
+                  size={Size.S}
+                  color={Color.BgPrimary}
+                  padding="0"
+                />
+                <span>{formatPrice(plan.preco)} - Contratar</span>
+              </Align>
             </Styled.Button>
           </div>
         )}
