@@ -1,9 +1,9 @@
 // components/PlanCard.tsx
 import * as Styled from './style'
-import { Text, TextDecoration } from "../../text"
-import { Icon } from "../../icon"
-import { IconType } from "../../icon/models"
-import { Color, Size } from "../../../global"
+import { Text, TextDecoration } from '../../text'
+import { Icon } from '../../icon'
+import { IconType } from '../../icon/models'
+import { Color, Size } from '../../../global'
 import type { GetPlansResponse } from '../../../services/apis/salaais/models'
 import { pagamentoWeb } from '../../../services/apis/salaais'
 import { useState } from 'react'
@@ -11,25 +11,25 @@ import { Align } from '../../align'
 import { JustifyType } from '../../align/interfaces'
 
 interface PlanCardProps {
-    plan: GetPlansResponse
-    isExpanded: boolean
-    onExpandToggle: () => void
-    onEditToggle?: () => void
-    isAdmin?: boolean
+  plan: GetPlansResponse
+  isExpanded: boolean
+  onExpandToggle: () => void
+  onEditToggle?: () => void
+  isAdmin?: boolean
 }
 
 // Cores específicas por tipo de plano
 const planColors: Record<string, string> = {
-  BRONZE: "#CD7F32",
-  PRATA: "#999B9B",
-  OURO: "#FFD700",
-  PREMIUM: "#FF5722",
+  BRONZE: '#CD7F32',
+  PRATA: '#999B9B',
+  OURO: '#FFD700',
+  PREMIUM: '#FF5722',
 }
 
 // Função para obter a cor do plano baseado no título
 const getPlanColor = (titulo: string): string => {
   const upperTitle = titulo.toUpperCase()
-  return planColors[upperTitle] || "#FFCD00" // Cor primária padrão
+  return planColors[upperTitle] || '#FFCD00' // Cor primária padrão
 }
 
 export function PlanCard({
@@ -37,11 +37,12 @@ export function PlanCard({
   isExpanded,
   onExpandToggle,
   onEditToggle,
-  isAdmin
+  isAdmin,
 }: PlanCardProps) {
-
-  const visibleDetails = isExpanded ? plan.topicos_do_plano : plan.topicos_do_plano.slice(0, 2)
-  const [coupon, setCoupon] = useState("")
+  const visibleDetails = isExpanded
+    ? plan.topicos_do_plano
+    : plan.topicos_do_plano.slice(0, 2)
+  const [coupon, setCoupon] = useState('')
   const planColor = getPlanColor(plan.titulo)
 
   const handlePayment = async () => {
@@ -50,15 +51,17 @@ export function PlanCard({
 
   // Formata o preço como R$XX,XX
   const formatPrice = (price: number): string => {
-    return `R$${price.toFixed(2).replace(".", ",")}`
+    return `R$${price.toFixed(2).replace('.', ',')}`
   }
 
   return (
-    <Styled.AllContent opacity={(plan.publico && plan.compravel) || (plan.publico === null || plan.compravel === null)}>
-      <Styled.ContentImage>
-        <Styled.Image src={plan.url_imagem} alt={plan.titulo} />
-      </Styled.ContentImage>
-
+    <Styled.AllContent
+      opacity={
+        (plan.publico && plan.compravel) ||
+        plan.publico === null ||
+        plan.compravel === null
+      }
+    >
       <Styled.Content>
         <Styled.Top>
           <Styled.TrophyRow>
@@ -72,14 +75,15 @@ export function PlanCard({
               {plan.titulo}
             </Styled.PlanTitle>
           </Styled.TrophyRow>
-          {isAdmin && onEditToggle &&
+          {isAdmin && onEditToggle && (
             <Icon
               size={Size.Xs}
               iconType={IconType.Edit}
               color={Color.Admin}
               padding="0"
               onClick={onEditToggle}
-            />}
+            />
+          )}
         </Styled.Top>
 
         <Styled.PlanDetailsContainer $expanded={isExpanded}>
@@ -106,17 +110,26 @@ export function PlanCard({
         )}
 
         <div>
-          {(plan.preco_antigo !== null && plan.preco_antigo !== 0) && (
+          {plan.preco_antigo !== null && plan.preco_antigo !== 0 && (
             <Text
               text={`R$${plan.preco_antigo?.toFixed(2)}`}
               size={Size.S}
               color={Color.TxtSecondary}
-              textDecoration={TextDecoration["line-through"]}
+              textDecoration={TextDecoration['line-through']}
             />
           )}
           <Styled.FlexPrices>
-            <Text text={`R$${plan.preco?.toFixed(2) || 0}`} size={Size.Xl} color={Color.PlanPrimaryColor} />
-            <Text text={plan.tipo_pagamento} size={Size.S} color={Color.PlanTextColor} bold />
+            <Text
+              text={`R$${plan.preco?.toFixed(2) || 0}`}
+              size={Size.Xl}
+              color={Color.PlanPrimaryColor}
+            />
+            <Text
+              text={plan.tipo_pagamento}
+              size={Size.S}
+              color={Color.PlanTextColor}
+              bold
+            />
           </Styled.FlexPrices>
         </div>
 
@@ -131,19 +144,19 @@ export function PlanCard({
 
         {/* 🔹 Campo de cupom opcional */}
         {plan.preco !== 0 && (
-          <div style={{ marginTop: "10px", width: "100%" }}>
+          <div style={{ marginTop: '10px', width: '100%' }}>
             <input
               type="text"
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Cupom de desconto"
               style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-                marginBottom: "10px",
-                outline: "none",
+                width: '100%',
+                padding: '8px',
+                borderRadius: '8px',
+                border: '1px solid #ccc',
+                marginBottom: '10px',
+                outline: 'none',
               }}
             />
             <Styled.Button onClick={handlePayment}>

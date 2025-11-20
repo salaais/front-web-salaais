@@ -17,40 +17,15 @@ interface ContentProps {
 
 export const AllContent = styled.div<ContentProps>`
   display: flex;
-  position: relative; // <-- necessário para posicionar o ContentImage
   width: 100%;
   max-width: 250px;
   flex-direction: column;
   align-items: center;
-  padding-top: 95px; // espaço para a imagem flutuante
 
   opacity: ${(props) => (props.opacity ? '1' : '.6')};
   @media (max-width: 768px) {
     max-width: 340px;
   }
-`
-
-export const ContentImage = styled.div`
-  display: flex;
-  justify-content: center;
-  background: ${Color.PlanBackgroundImageColor};
-  padding: 20px 20px 120px 20px;
-  border-radius: 20px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-  ${AllContent}:hover & {
-    transform: translateY(-20px);
-  }
-`
-
-export const Image = styled.img`
-  width: 100%;
-  max-width: 80px;
-  height: auto;
 `
 
 export const Content = styled.div`
